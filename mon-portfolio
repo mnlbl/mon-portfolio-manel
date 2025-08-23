@@ -1,0 +1,3299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio - Manel Baali</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: #2c2419;
+            color: #f5f5dc;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        body:active {
+            cursor: grabbing;
+        }
+
+        /* Avis desktop */
+        .desktop-notice {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(44, 36, 25, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .notice-content {
+            text-align: center;
+            padding: 50px;
+            background: #1a1611;
+            border-radius: 16px;
+            border: 2px solid #8b7355;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+        }
+
+        .notice-content h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .notice-content p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #f5f5dc;
+            font-size: 16px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            border: 2px solid #8b7355;
+            padding: 15px 30px;
+            color: #1a1611;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Times New Roman', serif;
+            transition: all 0.3s ease;
+            text-shadow: none;
+        }
+
+        .continue-btn:hover {
+            background: linear-gradient(135deg, #b8860b, #d4af37);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Interface utilisateur */
+        .ui-overlay {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            opacity: 0;
+            animation: slideIn 1s ease-out 2s forwards;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .instructions {
+            background: rgba(26, 22, 17, 0.95);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #8b7355;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+
+        .instructions h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .instructions p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            color: #f5f5dc;
+        }
+
+        /* Contrôles audio */
+        .audio-controls {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 150;
+            opacity: 0;
+            animation: slideIn 1s ease-out 2s forwards;
+        }
+
+        .audio-btn {
+            background: rgba(26, 22, 17, 0.95);
+            border: 2px solid #8b7355;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: #d4af37;
+        }
+
+        .audio-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Ordinateur overlay */
+        .computer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s ease;
+        }
+
+        .computer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .computer-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.3);
+            width: 1024px;
+            height: 768px;
+            background: #000;
+            border: 20px solid #c0c0c0;
+            border-radius: 15px;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .computer-overlay.active .computer-screen {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #008080, #20b2aa);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
+            border-top: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .start-button {
+            background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
+            border: 2px outset #c0c0c0;
+            padding: 5px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .window {
+            position: absolute;
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            min-width: 400px;
+            min-height: 300px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .window.active {
+            display: block;
+        }
+
+        .window-header {
+            background: linear-gradient(to right, #000080, #4169e1);
+            color: white;
+            padding: 2px 5px;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .window-control {
+            width: 16px;
+            height: 14px;
+            background: #c0c0c0;
+            border: 1px outset #c0c0c0;
+            cursor: pointer;
+            font-size: 9px;
+            text-align: center;
+            line-height: 12px;
+        }
+
+        .window-content {
+            padding: 10px;
+            height: calc(100% - 25px);
+            overflow-y: auto;
+            background: white;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .desktop-icon {
+            position: absolute;
+            width: 64px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .desktop-icon .icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .icon-text {
+            color: white;
+            font-size: 11px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .close-computer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #d4af37;
+            color: #1a1611;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 300;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .close-computer:hover {
+            background: #b8860b;
+            transform: translateY(-1px);
+        }
+
+        .experience-item {
+            background: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px inset #c0c0c0;
+        }
+
+        .experience-title {
+            font-weight: bold;
+            color: #000080;
+            margin-bottom: 3px;
+        }
+
+        .experience-company {
+            font-style: italic;
+            color: #666;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .linkedin-link {
+            color: #0000ee;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .linkedin-link:hover {
+            color: #ff0000;
+        }
+
+        /* TV Overlay */
+        .tv-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s ease;
+        }
+
+        .tv-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tv-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.3);
+            width: 900px;
+            height: 600px;
+            background: #000;
+            border: 30px solid #222;
+            border-radius: 20px;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .tv-overlay.active .tv-screen {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .tv-content {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tv-header {
+            background: linear-gradient(135deg, #d4af37 0%, #8b7355 100%);
+            padding: 20px;
+            color: #1a1611;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 40px;
+            height: calc(100% - 80px);
+        }
+
+        .app-item {
+            background: linear-gradient(135deg, #8b7355, #d4af37);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #1a1611;
+            font-weight: bold;
+            font-size: 18px;
+            font-family: 'Times New Roman', serif;
+            border: 2px solid #d4af37;
+        }
+
+        .app-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #d4af37, #8b7355);
+        }
+
+        .app-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .close-tv {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #d4af37;
+            color: #1a1611;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 300;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .close-tv:hover {
+            background: #b8860b;
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .computer-screen, .tv-screen {
+                width: 95vw;
+                height: 70vh;
+                max-width: 800px;
+                max-height: 600px;
+            }
+        }
+
+        /* Indicateurs visuels pour objets interactifs */
+        .interactive-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 22, 17, 0.9);
+            color: #d4af37;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 150;
+            border: 1px solid #8b7355;
+        }
+
+        .interactive-hint.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Avis ordinateur recommandé -->
+    <div class="desktop-notice" id="desktopNotice">
+        <div class="notice-content">
+            <h2>Bienvenue dans mon salon vintage</h2>
+            <p>Découvrez un espace vintage, me représentant, avec une expérience immersive optimisée pour ordinateur.</p>
+            <p>Explorez ce salon élégant et consultez mon portfolio sur l'ordinateur.</p>
+            <button class="continue-btn" onclick="hideNotice()">Entrer dans le salon</button>
+        </div>
+    </div>
+
+    <!-- Interface utilisateur -->
+    <div class="ui-overlay">
+        <div class="logo">Portfolio Vintage</div>
+        <div class="instructions">
+            <h3>Navigation Élégante</h3>
+            <p>• Clic + glisser pour explorer</p>
+            <p>• Molette pour zoomer</p>
+            <p>• Cliquez sur l'ordinateur ou la TV</p>
+            <p>• Découvrez les détails</p>
+        </div>
+    </div>
+
+    <!-- Contrôles audio -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">♪</button>
+    </div>
+
+    <!-- Indicateur d'interaction -->
+    <div class="interactive-hint" id="interactiveHint"></div>
+
+    <!-- Overlay de l'ordinateur -->
+    <div class="computer-overlay" id="computerOverlay">
+        <button class="close-computer" onclick="closeComputer()">✕ Fermer</button>
+        <div class="computer-screen">
+            <div class="screen-content">
+                <!-- Icônes du bureau -->
+                <div class="desktop-icon" style="top: 50px; left: 50px;" onclick="openWindow('about')">
+                    <div class="icon" style="background: #0080ff;">i</div>
+                    <div class="icon-text">À Propos</div>
+                </div>
+                <div class="desktop-icon" style="top: 50px; left: 150px;" onclick="openWindow('education')">
+                    <div class="icon" style="background: #ff8000;">📚</div>
+                    <div class="icon-text">Éducation</div>
+                </div>
+                <div class="desktop-icon" style="top: 150px; left: 50px;" onclick="openWindow('experience')">
+                    <div class="icon" style="background: #008000;">💼</div>
+                    <div class="icon-text">Expérience</div>
+                </div>
+                <div class="desktop-icon" style="top: 150px; left: 150px;" onclick="openWindow('volunteer')">
+                    <div class="icon" style="background: #800080;">❤️</div>
+                    <div class="icon-text">Bénévolat</div>
+                </div>
+                <div class="desktop-icon" style="top: 250px; left: 50px;" onclick="openWindow('awards')">
+                    <div class="icon" style="background: #ffd700;">🏆</div>
+                    <div class="icon-text">Prix</div>
+                </div>
+                <div class="desktop-icon" style="top: 250px; left: 150px;" onclick="openWindow('skills')">
+                    <div class="icon" style="background: #ff4500;">⚡</div>
+                    <div class="icon-text">Compétences</div>
+                </div>
+
+                <!-- Barre des tâches -->
+                <div class="taskbar">
+                    <div class="start-button">Démarrer</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay de la télévision -->
+    <div class="tv-overlay" id="tvOverlay">
+        <button class="close-tv" onclick="closeTV()">✕ Fermer</button>
+        <div class="tv-screen">
+            <div class="tv-content">
+                <div class="tv-header">
+                    📺 Entertainment Vintage
+                </div>
+                <div class="app-grid">
+                    <div class="app-item" onclick="openApp('netflix')">
+                        <div class="app-icon">🎬</div>
+                        <div>Netflix</div>
+                    </div>
+                    <div class="app-item" onclick="openApp('youtube')">
+                        <div class="app-icon">📺</div>
+                        <div>YouTube</div>
+                    </div>
+                    <div class="app-item" onclick="openApp('spotify')">
+                        <div class="app-icon">🎵</div>
+                        <div>Spotify</div>
+                    </div>
+                    <div class="app-item" onclick="openApp('prime')">
+                        <div class="app-icon">📦</div>
+                        <div>Prime Video</div>
+                    </div>
+                    <div class="app-item" onclick="openApp('disney')">
+                        <div class="app-icon">🏰</div>
+                        <div>Disney+</div>
+                    </div>
+                    <div class="app-item" onclick="openApp('games')">
+                        <div class="app-icon">🎮</div>
+                        <div>Jeux</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtres du portfolio -->
+    <div class="window" id="window-about" style="top: 100px; left: 300px; width: 500px; height: 400px;">
+        <div class="window-header">
+            À Propos
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('about')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <p><strong>Étudiante en TI passionnée de cybersécurité, programmation et UX design.</strong></p>
+            <br>
+            <p>J'adore les documentaires et tout ce qui touche aux données. Mon approche combine créativité et rigueur technique pour créer des solutions innovantes.</p>
+            <br>
+            <p>Actuellement en maîtrise en technologies de l'information à l'UQAM, je développe mes compétences dans un environnement académique stimulant tout en appliquant mes connaissances dans des projets concrets.</p>
+            <br>
+            <a href="https://www.linkedin.com/in/manelbaali/" target="_blank" class="linkedin-link">🔗 Mon profil Linkedin</a>
+            <br><br>
+            <p><strong>Mes passions :</strong></p>
+            <ul>
+                <li>Cybersécurité, gouvernance et protection des données</li>
+                <li>Développement et programmation</li>
+                <li>UX Design et expérience utilisateur</li>
+                <li>Analyse de données et documentaires</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Autres fenêtres (éducation, expérience, etc.) -->
+    <div class="window" id="window-education" style="top: 120px; left: 320px; width: 550px; height: 450px;">
+        <div class="window-header">
+            Éducation
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('education')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="experience-item">
+                <div class="experience-title">Maîtrise en technologies de l'information</div>
+                <div class="experience-company">UQAM - En cours</div>
+                <p>Approfondissement des connaissances en TI avec focus sur l'innovation et la recherche appliquée.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Baccalauréat en administration - TI</div>
+                <div class="experience-company">UQAM - Mention Honneur (Acquis)</div>
+                <p>Concentration technologies de l'information, alliance entre gestion et technique.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">DEC Affaires internationales</div>
+                <div class="experience-company">Collège Dawson (Acquis)</div>
+                <p>Formation polyvalente ouvrant sur le monde et les enjeux globaux.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">DES Sciences enrichi</div>
+                <div class="experience-company">École secondaire Henri-Bourassa (Acquis)</div>
+                <p>Formation scientifique solide comme base de mes études supérieures.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="window-experience" style="top: 80px; left: 280px; width: 600px; height: 500px;">
+        <div class="window-header">
+            Expérience professionnelle
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('experience')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="experience-item">
+                <div class="experience-title">Conseillère en gestion de l'information</div>
+                <div class="experience-company">MIFI - Juin 2025 à aujourd'hui</div>
+                <p>Appui stratégique au Secrétariat général. Conseil en gouvernance documentaire, développement du greffe numérique, programmation et automatisation (JSON, Python, tableaux de bord).</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Agente conseil, Expérience membre</div>
+                <div class="experience-company">Desjardins - Févr. 2022 à Mai 2025</div>
+                <p>Support polyvalent : accueil, services aux membres, dénombrement. Gestion d'opérations complexes, assistance fraude, gestion complète de caisse.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Agente services aux membres</div>
+                <div class="experience-company">Desjardins - Nov. 2021 à Févr. 2022</div>
+                <p>Accompagnement des membres, transactions monétaires, promotion de l'autonomie numérique et conseil personnalisé.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Agente de Réception</div>
+                <div class="experience-company">BravoTelecom-Vidéotron - Sept. à Nov. 2021</div>
+                <p>Accueil, gestion des dossiers et activation de services de télécommunication.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="window-volunteer" style="top: 100px; left: 300px; width: 580px; height: 480px;">
+        <div class="window-header">
+            Bénévolat & Engagement
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('volunteer')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="experience-item">
+                <div class="experience-title">Agente des impôts</div>
+                <div class="experience-company">Revenu Québec - Févr. 2020 à Avr. 2023</div>
+                <p>Réalisation de déclarations de revenus pour personnes en situation fiscale simple. Autonomisation économique.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Bénévole d'accueil</div>
+                <div class="experience-company">Dawson College - Nov. 2019 à Mars 2021</div>
+                <p>Assistance au coordonnateur, ressources pour étudiants internationaux, facilitation d'intégration.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Radio étudiante</div>
+                <div class="experience-company">Boscoville - Oct. 2014 à Mai 2019</div>
+                <p>Chroniques, articles, représentation des jeunes adultes auprès des instances municipales.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Développement communautaire</div>
+                <div class="experience-company">Coup de pouce jeunesse - Sept. 2015 à Mars 2016</div>
+                <p>Intervention auprès des familles défavorisées, conférences persévérance scolaire et prévention.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="window-awards" style="top: 120px; left: 320px; width: 520px; height: 420px;">
+        <div class="window-header">
+            Prix & Distinctions
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('awards')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="experience-item">
+                <div class="experience-title">Bourses Hélène et Jean-Louis-Tassé</div>
+                <div class="experience-company">Fondation de l'UQAM - Mai 2025</div>
+                <p>Excellence universitaire reconnue par l'École des sciences de la gestion.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Bourse Richard-Guay</div>
+                <div class="experience-company">Fondation de l'UQAM - Déc. 2024</div>
+                <p>Dossier académique soutenu avec moyenne supérieure à 3.5/4.3.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Bourse d'excellence académique</div>
+                <div class="experience-company">Fondation de l'UQAM - Janv. 2023</div>
+                <p>Reconnaissance du dossier académique soutenu pour les femmes en STEM.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="window-skills" style="top: 80px; left: 280px; width: 580px; height: 500px;">
+        <div class="window-header">
+            Compétences techniques
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('skills')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <p><strong>Analyse et données :</strong></p>
+            <ul>
+                <li>Big Data, SQL, NoSQL, Pandas</li>
+                <li>Python, SAS, MATLAB, R</li>
+                <li>Tableau Desktop & Prep Builder</li>
+                <li>Microsoft Power BI, Google Analytics</li>
+                <li>Tableaux croisés dynamiques</li>
+            </ul>
+            <br>
+            <p><strong>Développement et programmation :</strong></p>
+            <ul>
+                <li>HTML5, JavaScript</li>
+                <li>C++, Java</li>
+                <li>Node.js</li>
+                <li>Git, GitHub, DevOps</li>
+            </ul>
+            <br>
+            <p><strong>Design et UX :</strong></p>
+            <ul>
+                <li>Figma, Adobe Creative Suite</li>
+                <li>Prototypage, Wireframing</li>
+                <li>Tests utilisateurs, Personas</li>
+                <li>Design thinking, Accessibilité</li>
+            </ul>
+            <br>
+            <p><strong>Langues :</strong></p>
+            <ul>
+                <li><strong>Français :</strong> Bilingue</li>
+                <li><strong>Anglais :</strong> Bilingue</li>
+                <li><strong>Berbère :</strong> Bilingue</li>
+                <li><strong>Arabe :</strong> Compétence professionnelle limitée</li>
+            </ul>
+            <br>
+            <p><strong>Soft skills :</strong></p>
+            <ul>
+                <li>Résolution de problèmes</li>
+                <li>Gestion du temps</li>
+                <li>Adaptabilité</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let scene, camera, renderer;
+        let salon, computerMesh, tvMesh, chandelierMesh;
+        let mouse = new THREE.Vector2();
+        let raycaster = new THREE.Raycaster();
+        let isAudioPlaying = false;
+        let clickableObjects = []; // Array pour stocker les objets cliquables
+
+        // Contrôles de caméra
+        let cameraControls = {
+            isMouseDown: false,
+            mouseX: 0,
+            mouseY: 0,
+            targetRotationX: 0,
+            targetRotationY: 0,
+            rotationX: 0,
+            rotationY: 0,
+            distance: 25,
+            targetDistance: 25
+        };
+
+        function hideNotice() {
+            document.getElementById('desktopNotice').style.display = 'none';
+            init();
+            animate();
+        }
+
+        function toggleAudio() {
+            isAudioPlaying = !isAudioPlaying;
+            const btn = document.getElementById('audioToggle');
+            btn.textContent = isAudioPlaying ? '♫' : '♪';
+        }
+
+        function createClickSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.15);
+                
+                gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.15);
+            } catch (e) {
+                console.log('Audio non supporté');
+            }
+        }
+
+        function showHint(text) {
+            const hint = document.getElementById('interactiveHint');
+            hint.textContent = text;
+            hint.classList.add('show');
+        }
+
+        function hideHint() {
+            const hint = document.getElementById('interactiveHint');
+            hint.classList.remove('show');
+        }
+
+        function init() {
+            // Scène avec brouillard pour l'atmosphère
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x2c2419);
+            scene.fog = new THREE.Fog(0x2c2419, 30, 100);
+
+            // Caméra positionnée pour voir l'environnement urbain
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 12, 30);
+            camera.lookAt(0, 5, 0);
+
+            // Renderer avec ombres améliorées
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.setClearColor(0x2c2419);
+            document.body.appendChild(renderer.domElement);
+
+            // Éclairage vintage sophistiqué
+            setupVintageLighting();
+
+            // Créer l'environnement urbain old money
+            createUrbanEnvironment();
+
+            // Créer le salon vintage
+            createVintageSalon();
+
+            // Event listeners
+            setupEventListeners();
+        }
+
+        function setupVintageLighting() {
+            // Lumière ambiante chaude et tamisée
+            const ambientLight = new THREE.AmbientLight(0xffeaa7, 0.3);
+            scene.add(ambientLight);
+
+            // Lumière principale du lustre en cristal
+            const chandelierLight = new THREE.PointLight(0xffd700, 1.2, 35);
+            chandelierLight.position.set(0, 10, 0);
+            chandelierLight.castShadow = true;
+            chandelierLight.shadow.mapSize.width = 2048;
+            chandelierLight.shadow.mapSize.height = 2048;
+            chandelierLight.shadow.camera.near = 1;
+            chandelierLight.shadow.camera.far = 35;
+            scene.add(chandelierLight);
+
+            // Éclairage directionnel doux pour les détails
+            const mainLight = new THREE.DirectionalLight(0xffeaa7, 0.4);
+            mainLight.position.set(15, 20, 10);
+            mainLight.castShadow = true;
+            mainLight.shadow.mapSize.width = 2048;
+            mainLight.shadow.mapSize.height = 2048;
+            mainLight.shadow.camera.near = 1;
+            mainLight.shadow.camera.far = 60;
+            scene.add(mainLight);
+
+            // Lumières d'accentuation vintage
+            const warmLight1 = new THREE.PointLight(0xd4af37, 0.6, 25);
+            warmLight1.position.set(-12, 6, 5);
+            scene.add(warmLight1);
+
+            const warmLight2 = new THREE.PointLight(0xb8860b, 0.5, 20);
+            warmLight2.position.set(12, 5, -5);
+            scene.add(warmLight2);
+
+            // Éclairage des fenêtres
+            const windowLight = new THREE.PointLight(0xffa500, 0.8, 15);
+            windowLight.position.set(0, 8, -18);
+            scene.add(windowLight);
+        }
+
+        function createUrbanEnvironment() {
+            // Sol pavé old money
+            createCobblestoneStreet();
+            
+            // Bâtiments environnants
+            createSurroundingBuildings();
+            
+            // Éléments urbains vintage
+            createUrbanElements();
+        }
+
+        function createCobblestoneStreet() {
+            const streetGroup = new THREE.Group();
+            
+            // Base de rue pavée
+            const streetGeometry = new THREE.PlaneGeometry(150, 150);
+            const streetMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x4a4a4a,
+                transparent: true,
+                opacity: 0.8
+            });
+            const street = new THREE.Mesh(streetGeometry, streetMaterial);
+            street.rotation.x = -Math.PI / 2;
+            street.position.y = -0.5;
+            street.receiveShadow = true;
+            streetGroup.add(street);
+
+            // Texture de pavés
+            for (let i = 0; i < 200; i++) {
+                const cobbleGeometry = new THREE.BoxGeometry(
+                    0.8 + Math.random() * 0.4,
+                    0.1,
+                    0.8 + Math.random() * 0.4
+                );
+                const cobbleColor = 0x3a3a3a + Math.random() * 0x202020;
+                const cobbleMaterial = new THREE.MeshLambertMaterial({ color: cobbleColor });
+                const cobble = new THREE.Mesh(cobbleGeometry, cobbleMaterial);
+                
+                cobble.position.set(
+                    (Math.random() - 0.5) * 140,
+                    -0.4,
+                    (Math.random() - 0.5) * 140
+                );
+                cobble.rotation.y = Math.random() * Math.PI;
+                cobble.receiveShadow = true;
+                streetGroup.add(cobble);
+            }
+
+            scene.add(streetGroup);
+        }
+
+        function createSurroundingBuildings() {
+            // Maisons victoriennes à gauche
+            createVictorianHouse(-40, 0, -20, 0x8b7355);
+            createVictorianHouse(-40, 0, 20, 0x6b5b47);
+            
+            // Maisons géorgiennes à droite  
+            createGeorgianHouse(40, 0, -15, 0x9d8b73);
+            createGeorgianHouse(40, 0, 15, 0x7a6b5a);
+            
+            // Bâtiment institutional au fond
+            createInstitutionalBuilding(0, 0, -50);
+        }
+
+        function createVictorianHouse(x, y, z, color) {
+            const houseGroup = new THREE.Group();
+            
+            // Corps principal
+            const mainGeometry = new THREE.BoxGeometry(12, 15, 10);
+            const mainMaterial = new THREE.MeshLambertMaterial({ color: color });
+            const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
+            mainBuilding.position.y = 7.5;
+            mainBuilding.castShadow = true;
+            houseGroup.add(mainBuilding);
+
+            // Toit victorien avec pente
+            const roofGeometry = new THREE.ConeGeometry(8, 6, 4);
+            const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = 18;
+            roof.rotation.y = Math.PI / 4;
+            roof.castShadow = true;
+            houseGroup.add(roof);
+
+            // Cheminée élégante
+            const chimneyGeometry = new THREE.BoxGeometry(1.5, 4, 1.5);
+            const chimneyMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+            const chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial);
+            chimney.position.set(3, 19, 2);
+            chimney.castShadow = true;
+            houseGroup.add(chimney);
+
+            // Fenêtres à battants
+            createVictorianWindows(houseGroup);
+            
+            // Perron avec colonnes
+            createVictorianPorch(houseGroup);
+
+            houseGroup.position.set(x, y, z);
+            scene.add(houseGroup);
+        }
+
+        function createVictorianWindows(parent) {
+            const windowPositions = [
+                [-4, 5, 5.1], [0, 5, 5.1], [4, 5, 5.1],
+                [-4, 10, 5.1], [0, 10, 5.1], [4, 10, 5.1]
+            ];
+
+            windowPositions.forEach(pos => {
+                // Cadre de fenêtre
+                const frameGeometry = new THREE.BoxGeometry(2.5, 3, 0.2);
+                const frameMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                frame.position.set(...pos);
+                parent.add(frame);
+
+                // Vitre avec reflet
+                const glassGeometry = new THREE.BoxGeometry(2.2, 2.7, 0.05);
+                const glassMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0x87ceeb, 
+                    transparent: true, 
+                    opacity: 0.7,
+                    emissive: 0x111133,
+                    emissiveIntensity: 0.1
+                });
+                const glass = new THREE.Mesh(glassGeometry, glassMaterial);
+                glass.position.set(pos[0], pos[1], pos[2] + 0.1);
+                parent.add(glass);
+
+                // Lumière chaude derrière les fenêtres
+                const windowLight = new THREE.PointLight(0xffd700, 0.3, 8);
+                windowLight.position.set(pos[0], pos[1], pos[2] - 2);
+                parent.add(windowLight);
+            });
+        }
+
+        function createVictorianPorch(parent) {
+            // Plancher du perron
+            const porchGeometry = new THREE.BoxGeometry(10, 0.5, 4);
+            const porchMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+            const porch = new THREE.Mesh(porchGeometry, porchMaterial);
+            porch.position.set(0, 1, 7);
+            porch.castShadow = true;
+            parent.add(porch);
+
+            // Colonnes doriques
+            for (let i = 0; i < 3; i++) {
+                const columnGeometry = new THREE.CylinderGeometry(0.3, 0.4, 5, 12);
+                const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                const column = new THREE.Mesh(columnGeometry, columnMaterial);
+                column.position.set(-3 + i * 3, 4, 9);
+                column.castShadow = true;
+                parent.add(column);
+
+                // Chapiteau
+                const capitalGeometry = new THREE.CylinderGeometry(0.5, 0.3, 0.5, 8);
+                const capital = new THREE.Mesh(capitalGeometry, new THREE.MeshLambertMaterial({ color: 0xf5f5dc }));
+                capital.position.set(-3 + i * 3, 6.2, 9);
+                parent.add(capital);
+            }
+        }
+
+        function createGeorgianHouse(x, y, z, color) {
+            const houseGroup = new THREE.Group();
+            
+            // Architecture géorgienne symétrique
+            const mainGeometry = new THREE.BoxGeometry(16, 12, 8);
+            const mainMaterial = new THREE.MeshLambertMaterial({ color: color });
+            const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
+            mainBuilding.position.y = 6;
+            mainBuilding.castShadow = true;
+            houseGroup.add(mainBuilding);
+
+            // Toit en ardoise
+            const roofGeometry = new THREE.BoxGeometry(18, 1, 10);
+            const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f4f });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = 12.5;
+            roof.castShadow = true;
+            houseGroup.add(roof);
+
+            // Fenêtres géorgiennes symétriques
+            createGeorgianWindows(houseGroup);
+            
+            // Porte d'entrée élégante
+            createGeorgianDoor(houseGroup);
+
+            houseGroup.position.set(x, y, z);
+            scene.add(houseGroup);
+        }
+
+        function createGeorgianWindows(parent) {
+            // Fenêtres symétriques typiques géorgiennes
+            const windowPositions = [
+                [-6, 4, 4.1], [-2, 4, 4.1], [2, 4, 4.1], [6, 4, 4.1],
+                [-6, 8, 4.1], [-2, 8, 4.1], [2, 8, 4.1], [6, 8, 4.1]
+            ];
+
+            windowPositions.forEach(pos => {
+                const frameGeometry = new THREE.BoxGeometry(2, 2.5, 0.2);
+                const frameMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                frame.position.set(...pos);
+                parent.add(frame);
+
+                // Carreaux géorgiens
+                for (let row = 0; row < 2; row++) {
+                    for (let col = 0; col < 2; col++) {
+                        const paneGeometry = new THREE.BoxGeometry(0.8, 1, 0.05);
+                        const paneMaterial = new THREE.MeshLambertMaterial({ 
+                            color: 0x87ceeb, 
+                            transparent: true, 
+                            opacity: 0.8 
+                        });
+                        const pane = new THREE.Mesh(paneGeometry, paneMaterial);
+                        pane.position.set(
+                            pos[0] + (col - 0.5) * 0.9,
+                            pos[1] + (row - 0.5) * 1.1,
+                            pos[2] + 0.1
+                        );
+                        parent.add(pane);
+                    }
+                }
+            });
+        }
+
+        function createGeorgianDoor(parent) {
+            const doorGeometry = new THREE.BoxGeometry(2.5, 4, 0.3);
+            const doorMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+            const door = new THREE.Mesh(doorGeometry, doorMaterial);
+            door.position.set(0, 2, 4.2);
+            door.castShadow = true;
+            parent.add(door);
+
+            // Imposte au-dessus de la porte
+            const transom = new THREE.Mesh(
+                new THREE.BoxGeometry(2.5, 1, 0.2),
+                new THREE.MeshLambertMaterial({ color: 0x87ceeb, transparent: true, opacity: 0.8 })
+            );
+            transom.position.set(0, 4.5, 4.2);
+            parent.add(transom);
+        }
+
+        function createInstitutionalBuilding(x, y, z) {
+            const buildingGroup = new THREE.Group();
+            
+            // Bâtiment imposant style néo-classique
+            const mainGeometry = new THREE.BoxGeometry(30, 20, 8);
+            const mainMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
+            const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
+            mainBuilding.position.y = 10;
+            mainBuilding.castShadow = true;
+            buildingGroup.add(mainBuilding);
+
+            // Colonnade néo-classique
+            for (let i = 0; i < 7; i++) {
+                const columnGeometry = new THREE.CylinderGeometry(0.8, 1, 16, 16);
+                const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                const column = new THREE.Mesh(columnGeometry, columnMaterial);
+                column.position.set(-12 + i * 4, 8, 5);
+                column.castShadow = true;
+                buildingGroup.add(column);
+            }
+
+            // Fronton triangulaire
+            const pedimentGeometry = new THREE.ConeGeometry(18, 4, 3);
+            const pediment = new THREE.Mesh(pedimentGeometry, new THREE.MeshLambertMaterial({ color: 0xffffff }));
+            pediment.position.set(0, 22, 4);
+            pediment.rotation.z = Math.PI;
+            pediment.rotation.y = Math.PI / 2;
+            pediment.castShadow = true;
+            buildingGroup.add(pediment);
+
+            buildingGroup.position.set(x, y, z);
+            scene.add(buildingGroup);
+        }
+
+        function createUrbanElements() {
+            // Réverbères vintage
+            createVintageStreetLamps();
+            
+            // Fontaine élégante
+            createElegantFountain();
+            
+            // Bancs publics vintage
+            createVintageBenches();
+            
+            // Arbres matures
+            createMatureTrees();
+        }
+
+        function createVintageStreetLamps() {
+            const lampPositions = [
+                [-25, 0, -10], [-25, 0, 10], [25, 0, -10], [25, 0, 10]
+            ];
+
+            lampPositions.forEach(pos => {
+                const lampGroup = new THREE.Group();
+                
+                // Poteau en fonte
+                const poleGeometry = new THREE.CylinderGeometry(0.15, 0.2, 8, 12);
+                const poleMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f2f });
+                const pole = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole.position.y = 4;
+                pole.castShadow = true;
+                lampGroup.add(pole);
+
+                // Lanterne victorienne
+                const lanternGeometry = new THREE.SphereGeometry(0.8, 12, 8);
+                const lanternMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0xfffacd, 
+                    emissive: 0xffd700, 
+                    emissiveIntensity: 0.3,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const lantern = new THREE.Mesh(lanternGeometry, lanternMaterial);
+                lantern.position.y = 8.5;
+                lampGroup.add(lantern);
+
+                // Lumière du réverbère
+                const streetLight = new THREE.PointLight(0xffd700, 0.8, 20);
+                streetLight.position.y = 8.5;
+                lampGroup.add(streetLight);
+
+                lampGroup.position.set(...pos);
+                scene.add(lampGroup);
+            });
+        }
+
+        function createElegantFountain() {
+            const fountainGroup = new THREE.Group();
+            
+            // Bassin principal
+            const basinGeometry = new THREE.CylinderGeometry(8, 8, 1.5, 24);
+            const basinMaterial = new THREE.MeshLambertMaterial({ color: 0xd3d3d3 });
+            const basin = new THREE.Mesh(basinGeometry, basinMaterial);
+            basin.position.y = 0.75;
+            basin.castShadow = true;
+            fountainGroup.add(basin);
+
+            // Eau
+            const waterGeometry = new THREE.CylinderGeometry(7.5, 7.5, 0.8, 24);
+            const waterMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x4682b4, 
+                transparent: true, 
+                opacity: 0.7 
+            });
+            const water = new THREE.Mesh(waterGeometry, waterMaterial);
+            water.position.y = 1.1;
+            fountainGroup.add(water);
+
+            // Colonne centrale
+            const columnGeometry = new THREE.CylinderGeometry(1.5, 2, 6, 16);
+            const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+            const column = new THREE.Mesh(columnGeometry, columnMaterial);
+            column.position.y = 4.5;
+            column.castShadow = true;
+            fountainGroup.add(column);
+
+            // Statue au sommet
+            const statueGeometry = new THREE.CylinderGeometry(0.5, 0.8, 3, 12);
+            const statueMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
+            const statue = new THREE.Mesh(statueGeometry, statueMaterial);
+            statue.position.y = 9;
+            statue.castShadow = true;
+            fountainGroup.add(statue);
+
+            fountainGroup.position.set(0, 0, 25);
+            scene.add(fountainGroup);
+        }
+
+        function createVintageBenches() {
+            const benchPositions = [
+                [-15, 0, 15], [15, 0, 15], [-15, 0, -15], [15, 0, -15]
+            ];
+
+            benchPositions.forEach(pos => {
+                const benchGroup = new THREE.Group();
+                
+                // Assise
+                const seatGeometry = new THREE.BoxGeometry(4, 0.3, 1.5);
+                const seatMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+                const seat = new THREE.Mesh(seatGeometry, seatMaterial);
+                seat.position.y = 1.2;
+                seat.castShadow = true;
+                benchGroup.add(seat);
+
+                // Dossier
+                const backGeometry = new THREE.BoxGeometry(4, 2, 0.2);
+                const back = new THREE.Mesh(backGeometry, seatMaterial);
+                back.position.set(0, 2, -0.65);
+                back.castShadow = true;
+                benchGroup.add(back);
+
+                // Pieds en fonte
+                const legGeometry = new THREE.BoxGeometry(0.3, 1.2, 1.5);
+                const legMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f2f });
+                
+                [-1.5, 1.5].forEach(x => {
+                    const leg = new THREE.Mesh(legGeometry, legMaterial);
+                    leg.position.set(x, 0.6, 0);
+                    leg.castShadow = true;
+                    benchGroup.add(leg);
+                });
+
+                benchGroup.position.set(...pos);
+                scene.add(benchGroup);
+            });
+        }
+
+        function createMatureTrees() {
+            const treePositions = [
+                [-30, 0, 0], [30, 0, 0], [0, 0, 35], [-35, 0, -25], [35, 0, -25]
+            ];
+
+            treePositions.forEach(pos => {
+                const treeGroup = new THREE.Group();
+                
+                // Tronc mature
+                const trunkGeometry = new THREE.CylinderGeometry(1.5, 2.5, 12, 12);
+                const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+                const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+                trunk.position.y = 6;
+                trunk.castShadow = true;
+                treeGroup.add(trunk);
+
+                // Couronne feuillue
+                const foliageGeometry = new THREE.SphereGeometry(8, 16, 12);
+                const foliageMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
+                const foliage = new THREE.Mesh(foliageGeometry, foliageMaterial);
+                foliage.position.y = 16;
+                foliage.castShadow = true;
+                treeGroup.add(foliage);
+
+                // Branches visibles
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i / 8) * Math.PI * 2;
+                    const branchGeometry = new THREE.CylinderGeometry(0.2, 0.4, 4, 8);
+                    const branch = new THREE.Mesh(branchGeometry, trunkMaterial);
+                    branch.position.set(
+                        Math.cos(angle) * 3,
+                        14,
+                        Math.sin(angle) * 3
+                    );
+                    branch.rotation.z = angle + Math.PI/4;
+                    branch.castShadow = true;
+                    treeGroup.add(branch);
+                }
+
+                treeGroup.position.set(...pos);
+                scene.add(treeGroup);
+            });
+        }
+
+        function createVintageSalon() {
+            salon = new THREE.Group();
+
+            // Sol en parquet de chêne vintage
+            createVintageFloor();
+
+            // Murs avec boiseries
+            createWallsWithWainscoting();
+
+            // Lustre en cristal élégant
+            createCrystalChandelier();
+
+            // Mobilier old money redistribué
+            createChesterfieldSofa();
+            createMahoganyTable();
+            createAntiqueSideTable();
+
+            // Bureau exécutif vintage avec ordinateur
+            createExecutiveDesk();
+
+            // Bibliothèque avec livres anciens
+            createAntiqueBookshelf();
+
+            // TV cachée dans meuble vintage
+            createVintageEntertainmentCenter();
+
+            // Décorations old money
+            createOldMoneyDecorations();
+
+            // Éléments d'ambiance
+            createAmbientElements();
+
+            scene.add(salon);
+        }
+
+        function createVintageFloor() {
+            const floorGroup = new THREE.Group();
+            
+            // Parquet en chevrons
+            const plankWidth = 0.15;
+            const plankLength = 1.2;
+            
+            for (let row = 0; row < 40; row++) {
+                for (let col = 0; col < 50; col++) {
+                    const plankGeometry = new THREE.BoxGeometry(plankLength, 0.05, plankWidth);
+                    const woodVariation = Math.random() * 0.1;
+                    const baseColor = 0x8b4513;
+                    const r = Math.max(0, Math.min(1, ((baseColor >> 16) & 0xFF) / 255 + woodVariation));
+                    const g = Math.max(0, Math.min(1, ((baseColor >> 8) & 0xFF) / 255 + woodVariation));
+                    const b = Math.max(0, Math.min(1, (baseColor & 0xFF) / 255 + woodVariation));
+                    
+                    const plankMaterial = new THREE.MeshLambertMaterial({
+                        color: new THREE.Color(r, g, b)
+                    });
+                    const plank = new THREE.Mesh(plankGeometry, plankMaterial);
+                    
+                    // Pattern chevrons
+                    const isEven = (row + col) % 2 === 0;
+                    plank.rotation.y = isEven ? Math.PI / 4 : -Math.PI / 4;
+                    plank.position.set(
+                        -25 + col * 1,
+                        0,
+                        -20 + row * 1
+                    );
+                    plank.receiveShadow = true;
+                    floorGroup.add(plank);
+                }
+            }
+            
+            salon.add(floorGroup);
+        }
+
+        function createWallsWithWainscoting() {
+            const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+            const wainscotMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
+
+            // Mur arrière avec boiseries
+            const wallGeometry = new THREE.PlaneGeometry(40, 14);
+            const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
+            backWall.position.set(0, 7, -20);
+            backWall.receiveShadow = true;
+            salon.add(backWall);
+
+            // Boiseries (wainscoting)
+            const wainscotGeometry = new THREE.PlaneGeometry(40, 4);
+            const backWainscot = new THREE.Mesh(wainscotGeometry, wainscotMaterial);
+            backWainscot.position.set(0, 2, -19.9);
+            salon.add(backWainscot);
+
+            // Murs latéraux
+            const sideWallGeometry = new THREE.PlaneGeometry(40, 14);
+            
+            const leftWall = new THREE.Mesh(sideWallGeometry, wallMaterial);
+            leftWall.position.set(-20, 7, 0);
+            leftWall.rotation.y = Math.PI / 2;
+            leftWall.receiveShadow = true;
+            salon.add(leftWall);
+
+            const leftWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMaterial);
+            leftWainscot.position.set(-19.9, 2, 0);
+            leftWainscot.rotation.y = Math.PI / 2;
+            salon.add(leftWainscot);
+
+            const rightWall = new THREE.Mesh(sideWallGeometry, wallMaterial);
+            rightWall.position.set(20, 7, 0);
+            rightWall.rotation.y = -Math.PI / 2;
+            rightWall.receiveShadow = true;
+            salon.add(rightWall);
+
+            const rightWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMaterial);
+            rightWainscot.position.set(19.9, 2, 0);
+            rightWainscot.rotation.y = -Math.PI / 2;
+            salon.add(rightWainscot);
+
+            // Plafond avec moulures
+            const ceilingGeometry = new THREE.PlaneGeometry(40, 40);
+            const ceilingMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+            const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+            ceiling.position.set(0, 14, 0);
+            ceiling.rotation.x = Math.PI / 2;
+            ceiling.receiveShadow = true;
+            salon.add(ceiling);
+
+            // Moulures décoratives
+            createCrownMolding();
+        }
+
+        function createCrownMolding() {
+            const moldingMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+            
+            // Moulures horizontales
+            const moldingGeometry = new THREE.BoxGeometry(40, 0.5, 0.5);
+            
+            const topMolding1 = new THREE.Mesh(moldingGeometry, moldingMaterial);
+            topMolding1.position.set(0, 13.5, -20);
+            salon.add(topMolding1);
+
+            const topMolding2 = new THREE.Mesh(moldingGeometry, moldingMaterial);
+            topMolding2.position.set(0, 13.5, 20);
+            salon.add(topMolding2);
+
+            // Moulures verticales
+            const verticalMoldingGeometry = new THREE.BoxGeometry(0.5, 0.5, 40);
+            
+            const sideMolding1 = new THREE.Mesh(verticalMoldingGeometry, moldingMaterial);
+            sideMolding1.position.set(-20, 13.5, 0);
+            salon.add(sideMolding1);
+
+            const sideMolding2 = new THREE.Mesh(verticalMoldingGeometry, moldingMaterial);
+            sideMolding2.position.set(20, 13.5, 0);
+            salon.add(sideMolding2);
+        }
+
+        function createCrystalChandelier() {
+            chandelierMesh = new THREE.Group();
+
+            // Chaîne dorée
+            const chainGeometry = new THREE.CylinderGeometry(0.03, 0.03, 3, 12);
+            const chainMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xd4af37,
+                emissive: 0x333311,
+                emissiveIntensity: 0.1
+            });
+            const chain = new THREE.Mesh(chainGeometry, chainMaterial);
+            chain.position.y = 11.5;
+            chandelierMesh.add(chain);
+
+            // Corps principal en bronze
+            const bodyGeometry = new THREE.SphereGeometry(1.2, 16, 12);
+            const bodyMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xb8860b,
+                emissive: 0x2a1f05,
+                emissiveIntensity: 0.2
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 9;
+            chandelierMesh.add(body);
+
+            // Bras en bronze avec cristaux
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                
+                // Bras courbé
+                const armGeometry = new THREE.TorusGeometry(1.5, 0.08, 6, 16, Math.PI/2);
+                const armMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                const arm = new THREE.Mesh(armGeometry, armMaterial);
+                arm.position.set(
+                    Math.cos(angle) * 0.8,
+                    8.5,
+                    Math.sin(angle) * 0.8
+                );
+                arm.rotation.y = angle;
+                arm.rotation.z = Math.PI;
+                chandelierMesh.add(arm);
+
+                // Bobèche (support de bougie)
+                const bobeche = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.2, 0.15, 0.1, 12),
+                    new THREE.MeshLambertMaterial({ color: 0xd4af37 })
+                );
+                bobeche.position.set(
+                    Math.cos(angle) * 2.3,
+                    8.5,
+                    Math.sin(angle) * 2.3
+                );
+                chandelierMesh.add(bobeche);
+
+                // Bougie
+                const candleGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.8, 12);
+                const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+                const candle = new THREE.Mesh(candleGeometry, candleMaterial);
+                candle.position.set(
+                    Math.cos(angle) * 2.3,
+                    8.9,
+                    Math.sin(angle) * 2.3
+                );
+                chandelierMesh.add(candle);
+
+                // Flamme de bougie
+                const flameGeometry = new THREE.SphereGeometry(0.04, 6, 4);
+                const flameMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0xffd700, 
+                    emissive: 0xffd700, 
+                    emissiveIntensity: 0.6 
+                });
+                const flame = new THREE.Mesh(flameGeometry, flameMaterial);
+                flame.position.set(
+                    Math.cos(angle) * 2.3,
+                    9.3,
+                    Math.sin(angle) * 2.3
+                );
+                flame.scale.set(0.8, 1.5, 0.8);
+                chandelierMesh.add(flame);
+
+                // Cristaux suspendus
+                for (let j = 0; j < 5; j++) {
+                    const crystalGeometry = new THREE.OctahedronGeometry(0.1);
+                    const crystalMaterial = new THREE.MeshLambertMaterial({ 
+                        color: 0xffffff, 
+                        transparent: true, 
+                        opacity: 0.9,
+                        emissive: 0x333333,
+                        emissiveIntensity: 0.1
+                    });
+                    const crystal = new THREE.Mesh(crystalGeometry, crystalMaterial);
+                    crystal.position.set(
+                        Math.cos(angle + j * 0.2) * (2 + j * 0.1),
+                        8 - j * 0.3,
+                        Math.sin(angle + j * 0.2) * (2 + j * 0.1)
+                    );
+                    chandelierMesh.add(crystal);
+                }
+            }
+
+            chandelierMesh.position.set(0, 0, 0);
+            salon.add(chandelierMesh);
+        }
+
+        function createChesterfieldSofa() {
+            const sofaGroup = new THREE.Group();
+            const leatherMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x8b4513,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.1
+            });
+
+            // Base capitonnée
+            const baseGeometry = new THREE.BoxGeometry(8, 1, 3.5);
+            const base = new THREE.Mesh(baseGeometry, leatherMaterial);
+            base.position.y = 0.5;
+            base.castShadow = true;
+            sofaGroup.add(base);
+
+            // Dossier capitonné haut
+            const backGeometry = new THREE.BoxGeometry(8, 3.5, 0.6);
+            const back = new THREE.Mesh(backGeometry, leatherMaterial);
+            back.position.set(0, 2.2, 1.45);
+            back.castShadow = true;
+            sofaGroup.add(back);
+
+            // Accoudoirs sculptés
+            const armGeometry = new THREE.BoxGeometry(0.6, 2.5, 3.5);
+            
+            const leftArm = new THREE.Mesh(armGeometry, leatherMaterial);
+            leftArm.position.set(-3.7, 1.7, 0);
+            leftArm.castShadow = true;
+            sofaGroup.add(leftArm);
+
+            const rightArm = new THREE.Mesh(armGeometry, leatherMaterial);
+            rightArm.position.set(3.7, 1.7, 0);
+            rightArm.castShadow = true;
+            sofaGroup.add(rightArm);
+
+            // Pieds en acajou tournés
+            const legGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.8, 12);
+            const legMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+            
+            const legPositions = [
+                [-3.2, 0.4, -1.5], [3.2, 0.4, -1.5],
+                [-3.2, 0.4, 1.5], [3.2, 0.4, 1.5]
+            ];
+
+            legPositions.forEach(pos => {
+                const leg = new THREE.Mesh(legGeometry, legMaterial);
+                leg.position.set(...pos);
+                leg.castShadow = true;
+                sofaGroup.add(leg);
+            });
+
+            // Coussins de luxe
+            for (let i = 0; i < 3; i++) {
+                const cushionGeometry = new THREE.BoxGeometry(2.2, 0.4, 2.8);
+                const cushionMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0x228b22,
+                    emissive: 0x0a2f0a,
+                    emissiveIntensity: 0.05
+                });
+                const cushion = new THREE.Mesh(cushionGeometry, cushionMaterial);
+                cushion.position.set(-2.5 + i * 2.5, 1.2, -0.3);
+                cushion.castShadow = true;
+                sofaGroup.add(cushion);
+            }
+
+            // Position face à la cheminée
+            sofaGroup.position.set(0, 0, -8);
+            salon.add(sofaGroup);
+        }
+
+        function createMahoganyTable() {
+            const tableGroup = new THREE.Group();
+            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x654321,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.1
+            });
+
+            // Plateau en acajou massif
+            const topGeometry = new THREE.CylinderGeometry(2.5, 2.5, 0.2, 24);
+            const top = new THREE.Mesh(topGeometry, mahoganyMaterial);
+            top.position.y = 1.5;
+            top.castShadow = true;
+            tableGroup.add(top);
+
+            // Base sculptée
+            const baseGeometry = new THREE.CylinderGeometry(0.8, 1.5, 1.5, 16);
+            const base = new THREE.Mesh(baseGeometry, mahoganyMaterial);
+            base.position.y = 0.75;
+            base.castShadow = true;
+            tableGroup.add(base);
+
+            // Pieds griffes (claw feet)
+            for (let i = 0; i < 4; i++) {
+                const angle = (i / 4) * Math.PI * 2;
+                const footGeometry = new THREE.SphereGeometry(0.2, 8, 6);
+                const foot = new THREE.Mesh(footGeometry, mahoganyMaterial);
+                foot.position.set(
+                    Math.cos(angle) * 1.2,
+                    0.1,
+                    Math.sin(angle) * 1.2
+                );
+                foot.castShadow = true;
+                tableGroup.add(foot);
+            }
+
+            // Service à thé en argent
+            createTeaService(tableGroup);
+
+            // Position entre sofa et cheminée
+            tableGroup.position.set(0, 0, -12);
+            salon.add(tableGroup);
+        }
+
+        function createTeaService(parent) {
+            const silverMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xc0c0c0,
+                emissive: 0x333333,
+                emissiveIntensity: 0.2
+            });
+
+            // Théière
+            const teapotBody = new THREE.Mesh(
+                new THREE.SphereGeometry(0.3, 12, 8),
+                silverMaterial
+            );
+            teapotBody.position.set(0, 1.8, 0);
+            teapotBody.castShadow = true;
+            parent.add(teapotBody);
+
+            // Bec de théière
+            const spoutGeometry = new THREE.CylinderGeometry(0.05, 0.08, 0.4, 8);
+            const spout = new THREE.Mesh(spoutGeometry, silverMaterial);
+            spout.position.set(0.35, 1.8, 0);
+            spout.rotation.z = Math.PI / 6;
+            parent.add(spout);
+
+            // Tasses et soucoupes
+            for (let i = 0; i < 2; i++) {
+                const angle = (i / 2) * Math.PI + Math.PI/4;
+                
+                // Soucoupe
+                const saucerGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.02, 16);
+                const saucer = new THREE.Mesh(saucerGeometry, silverMaterial);
+                saucer.position.set(
+                    Math.cos(angle) * 0.8,
+                    1.71,
+                    Math.sin(angle) * 0.8
+                );
+                parent.add(saucer);
+
+                // Tasse
+                const cupGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.12, 12);
+                const cup = new THREE.Mesh(cupGeometry, silverMaterial);
+                cup.position.set(
+                    Math.cos(angle) * 0.8,
+                    1.77,
+                    Math.sin(angle) * 0.8
+                );
+                cup.castShadow = true;
+                parent.add(cup);
+            }
+        }
+
+        function createAntiqueSideTable() {
+            const tableGroup = new THREE.Group();
+            const antiqueMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+
+            // Plateau marqueterie
+            const topGeometry = new THREE.BoxGeometry(1.8, 0.15, 1.2);
+            const top = new THREE.Mesh(topGeometry, antiqueMaterial);
+            top.position.y = 2;
+            top.castShadow = true;
+            tableGroup.add(top);
+
+            // Tiroir décoratif
+            const drawerGeometry = new THREE.BoxGeometry(1.6, 0.3, 1);
+            const drawer = new THREE.Mesh(drawerGeometry, new THREE.MeshLambertMaterial({ color: 0x654321 }));
+            drawer.position.y = 1.5;
+            drawer.castShadow = true;
+            tableGroup.add(drawer);
+
+            // Pieds Louis XVI
+            const legGeometry = new THREE.CylinderGeometry(0.06, 0.08, 2, 12);
+            const legMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+            
+            const legPositions = [
+                [-0.7, 1, -0.5], [0.7, 1, -0.5],
+                [-0.7, 1, 0.5], [0.7, 1, 0.5]
+            ];
+
+            legPositions.forEach(pos => {
+                const leg = new THREE.Mesh(legGeometry, legMaterial);
+                leg.position.set(...pos);
+                leg.castShadow = true;
+                tableGroup.add(leg);
+            });
+
+            // Lampe Tiffany
+            createTiffanyLamp(tableGroup);
+
+            // Position à côté du sofa
+            tableGroup.position.set(-8, 0, -8);
+            salon.add(tableGroup);
+        }
+
+        function createTiffanyLamp(parent) {
+            // Pied en bronze
+            const baseGeometry = new THREE.CylinderGeometry(0.15, 0.2, 1.2, 12);
+            const baseMaterial = new THREE.MeshLambertMaterial({ color: 0xb8860b });
+            const base = new THREE.Mesh(baseGeometry, baseMaterial);
+            base.position.y = 2.8;
+            base.castShadow = true;
+            parent.add(base);
+
+            // Abat-jour Tiffany multicolore
+            const shadeGeometry = new THREE.CylinderGeometry(0.8, 1.2, 0.8, 12);
+            const shadeMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xff6347, 
+                transparent: true, 
+                opacity: 0.7,
+                emissive: 0xff2211,
+                emissiveIntensity: 0.2
+            });
+            const shade = new THREE.Mesh(shadeGeometry, shadeMaterial);
+            shade.position.y = 3.8;
+            parent.add(shade);
+
+            // Motifs vitrail
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const colors = [0xff6b35, 0xf7931e, 0x06ffa5, 0x1fb3d3];
+                
+                const panelGeometry = new THREE.BoxGeometry(0.3, 0.6, 0.02);
+                const panelMaterial = new THREE.MeshLambertMaterial({ 
+                    color: colors[i % colors.length], 
+                    transparent: true, 
+                    opacity: 0.8 
+                });
+                const panel = new THREE.Mesh(panelGeometry, panelMaterial);
+                panel.position.set(
+                    Math.cos(angle) * 1,
+                    3.8,
+                    Math.sin(angle) * 1
+                );
+                panel.rotation.y = angle;
+                parent.add(panel);
+            }
+        }
+
+        function createExecutiveDesk() {
+            const deskGroup = new THREE.Group();
+            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x654321,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.1
+            });
+
+            // Bureau exécutif imposant
+            const deskTopGeometry = new THREE.BoxGeometry(10, 0.2, 4);
+            const deskTop = new THREE.Mesh(deskTopGeometry, mahoganyMaterial);
+            deskTop.position.y = 2.5;
+            deskTop.castShadow = true;
+            deskGroup.add(deskTop);
+
+            // Caissons avec tiroirs
+            const cabinetGeometry = new THREE.BoxGeometry(2, 2.3, 3.5);
+            
+            const leftCabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
+            leftCabinet.position.set(-3.5, 1.35, 0);
+            leftCabinet.castShadow = true;
+            deskGroup.add(leftCabinet);
+
+            const rightCabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
+            rightCabinet.position.set(3.5, 1.35, 0);
+            rightCabinet.castShadow = true;
+            deskGroup.add(rightCabinet);
+
+            // Détails dorés (poignées, etc.)
+            createBrassDetails(deskGroup);
+
+            // Ordinateur vintage moderne
+            const monitorGeometry = new THREE.BoxGeometry(3, 2.2, 0.4);
+            const monitorMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
+            const monitor = new THREE.Mesh(monitorGeometry, monitorMaterial);
+            monitor.position.set(-1, 3.8, -1);
+            monitor.castShadow = true;
+            deskGroup.add(monitor);
+
+            // Écran cliquable avec interface vintage - VERSION CORRIGÉE
+            const screenGeometry = new THREE.BoxGeometry(2.8, 2, 0.1);
+            const screenMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x001100, 
+                emissive: 0x002200, 
+                emissiveIntensity: 0.3 
+            });
+            computerMesh = new THREE.Mesh(screenGeometry, screenMaterial);
+            computerMesh.position.set(-1, 3.8, -0.65);
+            computerMesh.userData = { clickable: true, type: 'computer' };
+            deskGroup.add(computerMesh);
+            clickableObjects.push(computerMesh); // Ajouter à la liste des objets cliquables
+
+            // Accessoires de bureau vintage
+            createDeskAccessories(deskGroup);
+
+            // Position contre le mur droit
+            deskGroup.position.set(12, 0, -8);
+            salon.add(deskGroup);
+        }
+
+        function createBrassDetails(parent) {
+            const brassMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xd4af37,
+                emissive: 0x333311,
+                emissiveIntensity: 0.2
+            });
+
+            // Poignées des tiroirs
+            const handleGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.3, 8);
+            
+            // Poignées caisson gauche
+            for (let i = 0; i < 3; i++) {
+                const handle = new THREE.Mesh(handleGeometry, brassMaterial);
+                handle.position.set(-2.5, 0.8 + i * 0.6, 1.8);
+                handle.rotation.z = Math.PI / 2;
+                parent.add(handle);
+            }
+
+            // Poignées caisson droit
+            for (let i = 0; i < 3; i++) {
+                const handle = new THREE.Mesh(handleGeometry, brassMaterial);
+                handle.position.set(4.5, 0.8 + i * 0.6, 1.8);
+                handle.rotation.z = Math.PI / 2;
+                parent.add(handle);
+            }
+
+            // Ornements de coins
+            const ornamentGeometry = new THREE.SphereGeometry(0.08, 8, 6);
+            const corners = [
+                [-4.8, 2.6, -1.8], [4.8, 2.6, -1.8],
+                [-4.8, 2.6, 1.8], [4.8, 2.6, 1.8]
+            ];
+
+            corners.forEach(pos => {
+                const ornament = new THREE.Mesh(ornamentGeometry, brassMaterial);
+                ornament.position.set(...pos);
+                parent.add(ornament);
+            });
+        }
+
+        function createDeskAccessories(parent) {
+            // Encrier en cristal
+            const inkwellGeometry = new THREE.CylinderGeometry(0.15, 0.2, 0.2, 12);
+            const inkwellMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x4682b4, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const inkwell = new THREE.Mesh(inkwellGeometry, inkwellMaterial);
+            inkwell.position.set(2, 2.7, 1);
+            inkwell.castShadow = true;
+            parent.add(inkwell);
+
+            // Plume d'écriture
+            const quillGeometry = new THREE.CylinderGeometry(0.01, 0.02, 0.8, 8);
+            const quillMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+            const quill = new THREE.Mesh(quillGeometry, quillMaterial);
+            quill.position.set(2.3, 2.9, 1);
+            quill.rotation.z = Math.PI / 6;
+            parent.add(quill);
+
+            // Bascule-lettre en bronze
+            const letterHolderGeometry = new THREE.BoxGeometry(0.5, 0.6, 0.1);
+            const letterHolderMaterial = new THREE.MeshLambertMaterial({ color: 0xb8860b });
+            const letterHolder = new THREE.Mesh(letterHolderGeometry, letterHolderMaterial);
+            letterHolder.position.set(3.5, 2.8, -0.5);
+            letterHolder.rotation.x = -Math.PI / 8;
+            parent.add(letterHolder);
+
+            // Livres anciens empilés
+            const bookColors = [0x8b0000, 0x000080, 0x006400];
+            for (let i = 0; i < 3; i++) {
+                const bookGeometry = new THREE.BoxGeometry(0.8, 0.08, 1.2);
+                const bookMaterial = new THREE.MeshLambertMaterial({ color: bookColors[i] });
+                const book = new THREE.Mesh(bookGeometry, bookMaterial);
+                book.position.set(1, 2.7 + i * 0.08, -1.5);
+                book.rotation.y = i * 0.1;
+                book.castShadow = true;
+                parent.add(book);
+            }
+
+            // Clavier vintage
+            const keyboardGeometry = new THREE.BoxGeometry(2.2, 0.1, 0.8);
+            const keyboardMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+            const keyboard = new THREE.Mesh(keyboardGeometry, keyboardMaterial);
+            keyboard.position.set(-1, 2.65, 0.8);
+            keyboard.castShadow = true;
+            parent.add(keyboard);
+        }
+
+        function createAntiqueBookshelf() {
+            const shelfGroup = new THREE.Group();
+            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x654321,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.1
+            });
+
+            // Structure bibliothèque victorienne
+            const frameWidth = 0.4;
+            const shelfHeight = 10;
+            const shelfDepth = 3;
+
+            // Montants sculptés
+            const pillarGeometry = new THREE.BoxGeometry(frameWidth, shelfHeight, shelfDepth);
+            
+            const leftPillar = new THREE.Mesh(pillarGeometry, mahoganyMaterial);
+            leftPillar.position.set(-3.8, 5, 0);
+            leftPillar.castShadow = true;
+            shelfGroup.add(leftPillar);
+
+            const rightPillar = new THREE.Mesh(pillarGeometry, mahoganyMaterial);
+            rightPillar.position.set(3.8, 5, 0);
+            rightPillar.castShadow = true;
+            shelfGroup.add(rightPillar);
+
+            // Panneau arrière sculpté
+            const backPanelGeometry = new THREE.BoxGeometry(8, shelfHeight, 0.3);
+            const backPanel = new THREE.Mesh(backPanelGeometry, mahoganyMaterial);
+            backPanel.position.set(0, 5, -1.35);
+            backPanel.castShadow = true;
+            shelfGroup.add(backPanel);
+
+            // Étagères avec bords moulurés
+            const shelfGeometry = new THREE.BoxGeometry(8, 0.3, shelfDepth);
+            for (let i = 0; i <= 6; i++) {
+                const shelf = new THREE.Mesh(shelfGeometry, mahoganyMaterial);
+                shelf.position.set(0, i * 1.5 + 0.3, 0);
+                shelf.castShadow = true;
+                shelfGroup.add(shelf);
+            }
+
+            // Fronton décoratif
+            const pedimentGeometry = new THREE.ConeGeometry(2.5, 1.5, 3);
+            const pediment = new THREE.Mesh(pedimentGeometry, mahoganyMaterial);
+            pediment.position.set(0, 11, -1);
+            pediment.rotation.z = Math.PI;
+            pediment.rotation.y = Math.PI / 2;
+            pediment.castShadow = true;
+            shelfGroup.add(pediment);
+
+            // Collection de livres anciens et objets d'art
+            createAntiqueBookCollection(shelfGroup);
+
+            // Position contre le mur gauche
+            shelfGroup.position.set(-15, 0, -8);
+            salon.add(shelfGroup);
+        }
+
+        function createAntiqueBookCollection(parent) {
+            const bookCollections = [
+                { colors: [0x8b0000, 0xa0522d, 0x800000], shelf: 0, theme: 'Classiques' },
+                { colors: [0x000080, 0x191970, 0x4169e1], shelf: 1, theme: 'Philosophie' },
+                { colors: [0x006400, 0x228b22, 0x32cd32], shelf: 2, theme: 'Histoire' },
+                { colors: [0x8b4513, 0xa0522d, 0xd2b48c], shelf: 3, theme: 'Littérature' },
+                { colors: [0x4b0082, 0x663399, 0x9932cc], shelf: 4, theme: 'Sciences' },
+                { colors: [0xb8860b, 0xdaa520, 0xffd700], shelf: 5, theme: 'Art' }
+            ];
+
+            bookCollections.forEach(collection => {
+                const shelfY = collection.shelf * 1.5 + 1.1;
+                
+                // Livres de la collection
+                for (let i = 0; i < 12; i++) {
+                    const bookGeometry = new THREE.BoxGeometry(0.4, 1.4, 0.2);
+                    const bookMaterial = new THREE.MeshLambertMaterial({ 
+                        color: collection.colors[Math.floor(Math.random() * collection.colors.length)]
+                    });
+                    const book = new THREE.Mesh(bookGeometry, bookMaterial);
+                    book.position.set(-3.5 + (i * 0.6), shelfY, 1.3);
+                    book.rotation.y = (Math.random() - 0.5) * 0.2;
+                    book.castShadow = true;
+                    parent.add(book);
+                }
+
+                // Objets décoratifs sur certaines étagères
+                if (collection.shelf % 2 === 0) {
+                    if (collection.shelf === 0) {
+                        // Buste en marbre
+                        const bustGeometry = new THREE.CylinderGeometry(0.3, 0.4, 0.8, 12);
+                        const bustMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+                        const bust = new THREE.Mesh(bustGeometry, bustMaterial);
+                        bust.position.set(2.5, shelfY, 1);
+                        bust.castShadow = true;
+                        parent.add(bust);
+                    } else if (collection.shelf === 2) {
+                        // Globe terrestre
+                        const globeStandGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.4, 12);
+                        const standMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                        const stand = new THREE.Mesh(globeStandGeometry, standMaterial);
+                        stand.position.set(2.5, shelfY - 0.2, 1);
+                        parent.add(stand);
+
+                        const globeGeometry = new THREE.SphereGeometry(0.25, 16, 12);
+                        const globeMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
+                        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+                        globe.position.set(2.5, shelfY + 0.1, 1);
+                        globe.castShadow = true;
+                        parent.add(globe);
+                    } else {
+                        // Chandelier miniature
+                        const candlestickGeometry = new THREE.CylinderGeometry(0.08, 0.12, 0.6, 12);
+                        const candlestickMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                        const candlestick = new THREE.Mesh(candlestickGeometry, candlestickMaterial);
+                        candlestick.position.set(2.5, shelfY, 1);
+                        candlestick.castShadow = true;
+                        parent.add(candlestick);
+                    }
+                }
+            });
+        }
+
+        function createVintageEntertainmentCenter() {
+            const centerGroup = new THREE.Group();
+            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x654321,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.1
+            });
+
+            // Meuble TV intégré style vintage
+            const cabinetGeometry = new THREE.BoxGeometry(12, 3, 2.5);
+            const cabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
+            cabinet.position.y = 1.5;
+            cabinet.castShadow = true;
+            centerGroup.add(cabinet);
+
+            // Socle surélevé
+            const baseGeometry = new THREE.BoxGeometry(13, 0.5, 3);
+            const base = new THREE.Mesh(baseGeometry, new THREE.MeshLambertMaterial({ color: 0x8b4513 }));
+            base.position.y = 0.25;
+            base.castShadow = true;
+            centerGroup.add(base);
+
+            // TV moderne intégrée dans style vintage
+            const tvFrameGeometry = new THREE.BoxGeometry(8, 2.8, 0.3);
+            const tvFrameMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
+            const tvFrame = new THREE.Mesh(tvFrameGeometry, tvFrameMaterial);
+            tvFrame.position.set(0, 4.5, 1.4);
+            tvFrame.castShadow = true;
+            centerGroup.add(tvFrame);
+
+            // Écran TV avec ambiance vintage - VERSION CORRIGÉE
+            const screenGeometry = new THREE.BoxGeometry(7.5, 2.5, 0.1);
+            const screenTexture = new THREE.CanvasTexture(createVintageScreenCanvas());
+            const screenMaterial = new THREE.MeshLambertMaterial({ 
+                map: screenTexture, 
+                emissive: 0x221100, 
+                emissiveIntensity: 0.2 
+            });
+            tvMesh = new THREE.Mesh(screenGeometry, screenMaterial);
+            tvMesh.position.set(0, 4.5, 1.75);
+            tvMesh.userData = { clickable: true, type: 'tv' };
+            centerGroup.add(tvMesh);
+            clickableObjects.push(tvMesh); // Ajouter à la liste des objets cliquables
+
+            // Portes du meuble avec vitrail
+            createCabinetDoors(centerGroup);
+
+            // Position contre le mur du fond
+            centerGroup.position.set(0, 0, -18);
+            salon.add(centerGroup);
+        }
+
+        function createVintageScreenCanvas() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 750;
+            canvas.height = 250;
+            const ctx = canvas.getContext('2d');
+
+            // Fond sépia vintage
+            const gradient = ctx.createLinearGradient(0, 0, 750, 250);
+            gradient.addColorStop(0, '#8b4513');
+            gradient.addColorStop(0.3, '#deb887');
+            gradient.addColorStop(0.7, '#f4a460');
+            gradient.addColorStop(1, '#daa520');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 750, 250);
+
+            // Motif vintage
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.3)';
+            for (let i = 0; i < 20; i++) {
+                ctx.beginPath();
+                ctx.arc(
+                    Math.random() * 750, 
+                    Math.random() * 250, 
+                    Math.random() * 30 + 10, 
+                    0, 
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+
+            // Bordure décorative
+            ctx.strokeStyle = '#654321';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(0, 0, 750, 250);
+
+            // Texte vintage
+            ctx.fillStyle = '#654321';
+            ctx.font = 'bold 32px Times New Roman';
+            ctx.textAlign = 'center';
+            ctx.fillText('Entertainment Vintage', 375, 130);
+
+            return canvas;
+        }
+
+        function createCabinetDoors(parent) {
+            const doorMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            
+            // Portes latérales
+            for (let side = 0; side < 2; side++) {
+                const doorGeometry = new THREE.BoxGeometry(2, 2.8, 0.1);
+                const door = new THREE.Mesh(doorGeometry, doorMaterial);
+                door.position.set(side === 0 ? -4.5 : 4.5, 1.5, 1.3);
+                door.castShadow = true;
+                parent.add(door);
+
+                // Panneaux de verre teinté
+                const glassGeometry = new THREE.BoxGeometry(1.5, 2, 0.05);
+                const glassColors = [0x8b0000, 0x000080, 0x006400, 0x8b4513];
+                const glassMaterial = new THREE.MeshLambertMaterial({ 
+                    color: glassColors[side], 
+                    transparent: true, 
+                    opacity: 0.6 
+                });
+                const glass = new THREE.Mesh(glassGeometry, glassMaterial);
+                glass.position.set(side === 0 ? -4.5 : 4.5, 1.5, 1.35);
+                parent.add(glass);
+
+                // Poignées en bronze
+                const handleGeometry = new THREE.SphereGeometry(0.08, 8, 6);
+                const handleMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                const handle = new THREE.Mesh(handleGeometry, handleMaterial);
+                handle.position.set(
+                    side === 0 ? -3.7 : 3.7, 
+                    1.5, 
+                    1.4
+                );
+                parent.add(handle);
+            }
+        }
+
+        function createOldMoneyDecorations() {
+            // Cheminée élégante
+            createElegantFireplace();
+            
+            // Portraits de famille
+            createFamilyPortraits();
+            
+            // Tapis persan authentique
+            createAuthenticPersianRug();
+            
+            // Objets d'art et antiquités
+            createArtObjects();
+            
+            // Plantes d'intérieur sophistiquées
+            createSophisticatedPlants();
+        }
+
+        function createElegantFireplace() {
+            const fireplaceGroup = new THREE.Group();
+            
+            // Manteau en marbre
+            const mantleGeometry = new THREE.BoxGeometry(8, 1, 2);
+            const mantleMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+            const mantle = new THREE.Mesh(mantleGeometry, mantleMaterial);
+            mantle.position.set(0, 4, -19.5);
+            mantle.castShadow = true;
+            fireplaceGroup.add(mantle);
+
+            // Foyer
+            const fireboxGeometry = new THREE.BoxGeometry(6, 3, 1.5);
+            const fireboxMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f4f });
+            const firebox = new THREE.Mesh(fireboxGeometry, fireboxMaterial);
+            firebox.position.set(0, 2.5, -19);
+            firebox.castShadow = true;
+            fireplaceGroup.add(firebox);
+
+            // Feu de cheminée
+            const fireGeometry = new THREE.ConeGeometry(1, 2, 8);
+            const fireMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xff4500, 
+                emissive: 0xff4500, 
+                emissiveIntensity: 0.5,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            for (let i = 0; i < 5; i++) {
+                const flame = new THREE.Mesh(fireGeometry, fireMaterial);
+                flame.position.set(
+                    -2 + i * 1,
+                    1.5 + Math.random() * 0.5,
+                    -18.5
+                );
+                flame.scale.set(0.5 + Math.random() * 0.5, 1 + Math.random() * 0.5, 0.5);
+                fireplaceGroup.add(flame);
+            }
+
+            // Bûches
+            const logGeometry = new THREE.CylinderGeometry(0.15, 0.2, 2, 8);
+            const logMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            
+            for (let i = 0; i < 3; i++) {
+                const log = new THREE.Mesh(logGeometry, logMaterial);
+                log.position.set(-1 + i * 1, 1.2, -18.5);
+                log.rotation.z = (Math.random() - 0.5) * 0.5;
+                log.castShadow = true;
+                fireplaceGroup.add(log);
+            }
+
+            // Chenets en bronze
+            for (let side = 0; side < 2; side++) {
+                const andironGeometry = new THREE.CylinderGeometry(0.1, 0.15, 1.5, 12);
+                const andironMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                const andiron = new THREE.Mesh(andironGeometry, andironMaterial);
+                andiron.position.set(side === 0 ? -2.5 : 2.5, 1.75, -18.5);
+                andiron.castShadow = true;
+                fireplaceGroup.add(andiron);
+            }
+
+            // Lumière du feu
+            const fireLight = new THREE.PointLight(0xff4500, 1, 15);
+            fireLight.position.set(0, 2, -18);
+            fireplaceGroup.add(fireLight);
+
+            salon.add(fireplaceGroup);
+        }
+
+        function createFamilyPortraits() {
+            const portraitPositions = [
+                { pos: [-10, 6, -19.8], size: [2, 2.5] },
+                { pos: [10, 6, -19.8], size: [2, 2.5] },
+                { pos: [-18, 6, -5], size: [1.5, 2] },
+                { pos: [18, 6, 5], size: [1.5, 2] }
+            ];
+
+            portraitPositions.forEach((portrait, index) => {
+                // Cadre doré
+                const frameGeometry = new THREE.BoxGeometry(portrait.size[0] + 0.2, portrait.size[1] + 0.2, 0.1);
+                const frameMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0xd4af37,
+                    emissive: 0x333311,
+                    emissiveIntensity: 0.1
+                });
+                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                frame.position.set(...portrait.pos);
+                frame.castShadow = true;
+                salon.add(frame);
+
+                // Portrait peint
+                const paintingGeometry = new THREE.PlaneGeometry(portrait.size[0], portrait.size[1]);
+                const paintingTexture = new THREE.CanvasTexture(createPortraitCanvas(index));
+                const paintingMaterial = new THREE.MeshLambertMaterial({ map: paintingTexture });
+                const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
+                painting.position.set(portrait.pos[0], portrait.pos[1], portrait.pos[2] + 0.02);
+                salon.add(painting);
+            });
+        }
+
+        function createPortraitCanvas(index) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 200;
+            canvas.height = 250;
+            const ctx = canvas.getContext('2d');
+
+            // Fond vintage
+            const bgColors = ['#8b4513', '#654321', '#2f4f4f', '#556b2f'];
+            ctx.fillStyle = bgColors[index % bgColors.length];
+            ctx.fillRect(0, 0, 200, 250);
+
+            // Silhouette de portrait
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.7)';
+            ctx.beginPath();
+            ctx.arc(100, 100, 60, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Détails du visage (stylisés)
+            ctx.fillStyle = 'rgba(101, 67, 33, 0.8)';
+            ctx.fillRect(85, 85, 30, 15); // Front
+            ctx.fillRect(90, 110, 20, 10); // Nez
+            
+            // Vêtements d'époque
+            ctx.fillStyle = 'rgba(47, 79, 79, 0.8)';
+            ctx.fillRect(70, 160, 60, 90);
+
+            // Texte signature
+            ctx.fillStyle = '#f5f5dc';
+            ctx.font = '12px Times New Roman';
+            ctx.textAlign = 'center';
+            const names = ['Lord Winchester', 'Lady Margaret', 'Sir Edmund', 'Duchess Claire'];
+            ctx.fillText(names[index], 100, 240);
+
+            return canvas;
+        }
+
+        function createAuthenticPersianRug() {
+            const rugGeometry = new THREE.PlaneGeometry(16, 12);
+            const rugTexture = new THREE.CanvasTexture(createPersianRugPattern());
+            const rugMaterial = new THREE.MeshLambertMaterial({ 
+                map: rugTexture,
+                transparent: true,
+                opacity: 0.95
+            });
+            const rug = new THREE.Mesh(rugGeometry, rugMaterial);
+            rug.rotation.x = -Math.PI / 2;
+            rug.position.set(0, 0.02, -8);
+            rug.receiveShadow = true;
+            salon.add(rug);
+        }
+
+        function createPersianRugPattern() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 450;
+            const ctx = canvas.getContext('2d');
+
+            // Fond bordeaux profond
+            ctx.fillStyle = '#800020';
+            ctx.fillRect(0, 0, 600, 450);
+
+            // Bordure principale dorée
+            ctx.strokeStyle = '#d4af37';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(20, 20, 560, 410);
+            
+            // Bordure secondaire
+            ctx.strokeStyle = '#8b4513';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(40, 40, 520, 370);
+
+            // Motif central (médaillon)
+            ctx.strokeStyle = '#d4af37';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(300, 225, 100, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Motifs floraux dans le médaillon
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(
+                    300 + Math.cos(angle) * 60,
+                    225 + Math.sin(angle) * 60,
+                    15,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.stroke();
+            }
+
+            // Motifs dans les coins
+            const cornerPositions = [[100, 100], [500, 100], [100, 350], [500, 350]];
+            cornerPositions.forEach(pos => {
+                ctx.strokeStyle = '#b8860b';
+                ctx.lineWidth = 2;
+                
+                // Rosace de coin
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i / 6) * Math.PI * 2;
+                    ctx.beginPath();
+                    ctx.moveTo(pos[0], pos[1]);
+                    ctx.lineTo(
+                        pos[0] + Math.cos(angle) * 30,
+                        pos[1] + Math.sin(angle) * 30
+                    );
+                    ctx.stroke();
+                }
+            });
+
+            // Motifs répétitifs sur les côtés
+            for (let i = 0; i < 10; i++) {
+                ctx.strokeStyle = '#654321';
+                ctx.lineWidth = 2;
+                
+                // Motifs latéraux
+                ctx.beginPath();
+                ctx.arc(80, 80 + i * 30, 8, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.arc(520, 80 + i * 30, 8, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            return canvas;
+        }
+
+        function createArtObjects() {
+            // Sculpture en bronze
+            const sculptureGroup = new THREE.Group();
+            
+            const pedestalGeometry = new THREE.CylinderGeometry(0.6, 0.8, 1.2, 16);
+            const pedestalMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+            const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
+            pedestal.position.y = 0.6;
+            pedestal.castShadow = true;
+            sculptureGroup.add(pedestal);
+
+            const sculptureGeometry = new THREE.ConeGeometry(0.4, 1.5, 12);
+            const sculptureMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xb8860b,
+                emissive: 0x2a1f05,
+                emissiveIntensity: 0.1
+            });
+            const sculpture = new THREE.Mesh(sculptureGeometry, sculptureMaterial);
+            sculpture.position.y = 2;
+            sculpture.castShadow = true;
+            sculptureGroup.add(sculpture);
+
+            sculptureGroup.position.set(8, 0, -15);
+            salon.add(sculptureGroup);
+
+            // Vases décoratifs
+            const vasePositions = [
+                { pos: [-8, 0, -15], height: 1.5 },
+                { pos: [6, 0, 8], height: 1.2 }
+            ];
+
+            vasePositions.forEach(vaseData => {
+                const vaseGeometry = new THREE.CylinderGeometry(0.3, 0.5, vaseData.height, 16);
+                const vaseMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0x2f4f4f,
+                    emissive: 0x0a0f0f,
+                    emissiveIntensity: 0.1
+                });
+                const vase = new THREE.Mesh(vaseGeometry, vaseMaterial);
+                vase.position.set(vaseData.pos[0], vaseData.height / 2, vaseData.pos[1]);
+                vase.castShadow = true;
+                salon.add(vase);
+
+                // Fleurs dans les vases
+                const flowerColors = [0xdc143c, 0xff69b4, 0xdaa520];
+                for (let i = 0; i < 5; i++) {
+                    const flowerGeometry = new THREE.SphereGeometry(0.08, 8, 6);
+                    const flowerMaterial = new THREE.MeshLambertMaterial({
+                        color: flowerColors[Math.floor(Math.random() * flowerColors.length)]
+                    });
+                    const flower = new THREE.Mesh(flowerGeometry, flowerMaterial);
+                    const angle = (i / 5) * Math.PI * 2;
+                    flower.position.set(
+                        vaseData.pos[0] + Math.cos(angle) * 0.15,
+                        vaseData.height + 0.3 + Math.random() * 0.2,
+                        vaseData.pos[1] + Math.sin(angle) * 0.15
+                    );
+                    salon.add(flower);
+                }
+            });
+        }
+
+        function createSophisticatedPlants() {
+            // Ficus dans pot en céramique
+            const ficusGroup = new THREE.Group();
+            
+            const potGeometry = new THREE.CylinderGeometry(1, 1.3, 1.5, 16);
+            const potMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x8b4513,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.05
+            });
+            const pot = new THREE.Mesh(potGeometry, potMaterial);
+            pot.position.y = 0.75;
+            pot.castShadow = true;
+            ficusGroup.add(pot);
+
+            // Tronc du ficus
+            const trunkGeometry = new THREE.CylinderGeometry(0.15, 0.25, 4, 12);
+            const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+            trunk.position.y = 3.5;
+            trunk.castShadow = true;
+            ficusGroup.add(trunk);
+
+            // Feuillage dense
+            const foliageMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
+            for (let i = 0; i < 20; i++) {
+                const leafGeometry = new THREE.SphereGeometry(0.4, 8, 6);
+                const leaf = new THREE.Mesh(leafGeometry, foliageMaterial);
+                const angle = Math.random() * Math.PI * 2;
+                const radius = 1 + Math.random() * 0.8;
+                leaf.position.set(
+                    Math.cos(angle) * radius,
+                    4.5 + Math.random() * 2,
+                    Math.sin(angle) * radius
+                );
+                leaf.scale.set(1.2, 0.4, 0.8);
+                leaf.castShadow = true;
+                ficusGroup.add(leaf);
+            }
+
+            ficusGroup.position.set(-14, 0, 8);
+            salon.add(ficusGroup);
+
+            // Palmier d'intérieur
+            const palmGroup = new THREE.Group();
+            
+            const palmPotGeometry = new THREE.CylinderGeometry(0.8, 1, 1.2, 12);
+            const palmPot = new THREE.Mesh(palmPotGeometry, new THREE.MeshLambertMaterial({ color: 0x2f4f4f }));
+            palmPot.position.y = 0.6;
+            palmPot.castShadow = true;
+            palmGroup.add(palmPot);
+
+            // Troncs de palmier
+            for (let i = 0; i < 3; i++) {
+                const palmTrunkGeometry = new THREE.CylinderGeometry(0.08, 0.12, 3 + i * 0.5, 10);
+                const palmTrunk = new THREE.Mesh(palmTrunkGeometry, new THREE.MeshLambertMaterial({ color: 0x8b7355 }));
+                palmTrunk.position.set(
+                    (i - 1) * 0.3,
+                    2.7 + i * 0.25,
+                    0
+                );
+                palmTrunk.rotation.z = (i - 1) * 0.2;
+                palmTrunk.castShadow = true;
+                palmGroup.add(palmTrunk);
+
+                // Palmes
+                for (let j = 0; j < 6; j++) {
+                    const frondGeometry = new THREE.BoxGeometry(0.1, 1.5, 0.05);
+                    const frondMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
+                    const frond = new THREE.Mesh(frondGeometry, frondMaterial);
+                    const angle = (j / 6) * Math.PI * 2;
+                    frond.position.set(
+                        (i - 1) * 0.3 + Math.cos(angle) * 0.5,
+                        4.2 + i * 0.25,
+                        Math.sin(angle) * 0.5
+                    );
+                    frond.rotation.y = angle;
+                    frond.rotation.z = -Math.PI / 6;
+                    frond.castShadow = true;
+                    palmGroup.add(frond);
+                }
+            }
+
+            palmGroup.position.set(14, 0, 8);
+            salon.add(palmGroup);
+        }
+
+        function createAmbientElements() {
+            // Horloges grand-père
+            createGrandfatherClock();
+            
+            // Miroirs dorés
+            createGildedMirrors();
+            
+            // Candélabres
+            createCandelabras();
+            
+            // Objets de collection
+            createCollectibles();
+        }
+
+        function createGrandfatherClock() {
+            const clockGroup = new THREE.Group();
+            
+            // Corps principal
+            const bodyGeometry = new THREE.BoxGeometry(1, 7, 1);
+            const bodyMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x654321,
+                emissive: 0x1a0e07,
+                emissiveIntensity: 0.1
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 3.5;
+            body.castShadow = true;
+            clockGroup.add(body);
+
+            // Cadran
+            const faceGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.1, 24);
+            const faceMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+            const face = new THREE.Mesh(faceGeometry, faceMaterial);
+            face.position.set(0, 5.5, 0.6);
+            face.rotation.x = Math.PI / 2;
+            face.castShadow = true;
+            clockGroup.add(face);
+
+            // Aiguilles
+            const hourHandGeometry = new THREE.BoxGeometry(0.02, 0.4, 0.01);
+            const minuteHandGeometry = new THREE.BoxGeometry(0.01, 0.5, 0.01);
+            const handMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+            
+            const hourHand = new THREE.Mesh(hourHandGeometry, handMaterial);
+            hourHand.position.set(0, 5.5, 0.65);
+            hourHand.rotation.z = Math.PI / 4;
+            clockGroup.add(hourHand);
+
+            const minuteHand = new THREE.Mesh(minuteHandGeometry, handMaterial);
+            minuteHand.position.set(0, 5.5, 0.66);
+            minuteHand.rotation.z = Math.PI / 6;
+            clockGroup.add(minuteHand);
+
+            // Base
+            const baseGeometry = new THREE.BoxGeometry(1.4, 1, 1.4);
+            const base = new THREE.Mesh(baseGeometry, bodyMaterial);
+            base.position.y = 0.5;
+            base.castShadow = true;
+            clockGroup.add(base);
+
+            // Pendule (visible à travers une fenêtre)
+            const pendulumGeometry = new THREE.SphereGeometry(0.1, 12, 8);
+            const pendulumMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+            const pendulum = new THREE.Mesh(pendulumGeometry, pendulumMaterial);
+            pendulum.position.set(0, 3, 0.6);
+            clockGroup.add(pendulum);
+
+            clockGroup.position.set(-16, 0, 5);
+            salon.add(clockGroup);
+        }
+
+        function createGildedMirrors() {
+            // Grand miroir doré
+            const mirrorGroup = new THREE.Group();
+            
+            // Cadre baroque doré
+            const frameGeometry = new THREE.CylinderGeometry(2.2, 2.2, 0.3, 32);
+            const frameMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xd4af37,
+                emissive: 0x333311,
+                emissiveIntensity: 0.2
+            });
+            const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+            frame.position.y = 6;
+            frame.rotation.x = Math.PI / 2;
+            frame.castShadow = true;
+            mirrorGroup.add(frame);
+
+            // Surface réfléchissante
+            const mirrorGeometry = new THREE.CylinderGeometry(1.8, 1.8, 0.05, 32);
+            const mirrorMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0xb0c4de,
+                emissive: 0x444455,
+                emissiveIntensity: 0.3
+            });
+            const mirror = new THREE.Mesh(mirrorGeometry, mirrorMaterial);
+            mirror.position.y = 6;
+            mirror.rotation.x = Math.PI / 2;
+            mirrorGroup.add(mirror);
+
+            // Ornements dorés autour du cadre
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const ornamentGeometry = new THREE.SphereGeometry(0.15, 8, 6);
+                const ornament = new THREE.Mesh(ornamentGeometry, frameMaterial);
+                ornament.position.set(
+                    Math.cos(angle) * 2.5,
+                    6,
+                    Math.sin(angle) * 2.5
+                );
+                mirrorGroup.add(ornament);
+            }
+
+            mirrorGroup.position.set(16, 0, -12);
+            salon.add(mirrorGroup);
+        }
+
+        function createCandelabras() {
+            const candelabraPositions = [
+                { pos: [-6, 2.1, -12], candles: 5 },
+                { pos: [6, 2.1, -12], candles: 3 },
+                { pos: [0, 4.5, -19.5], candles: 7 } // Sur la cheminée
+            ];
+
+            candelabraPositions.forEach(data => {
+                const candelabraGroup = new THREE.Group();
+                
+                // Base en bronze
+                const baseGeometry = new THREE.CylinderGeometry(0.3, 0.4, 0.2, 16);
+                const baseMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0xb8860b,
+                    emissive: 0x2a1f05,
+                    emissiveIntensity: 0.1
+                });
+                const base = new THREE.Mesh(baseGeometry, baseMaterial);
+                base.position.y = 0.1;
+                base.castShadow = true;
+                candelabraGroup.add(base);
+
+                // Bras et bougies
+                for (let i = 0; i < data.candles; i++) {
+                    const angle = (i / data.candles) * Math.PI * 2;
+                    const radius = i === Math.floor(data.candles / 2) ? 0 : 0.8; // Centre + couronne
+                    const height = i === Math.floor(data.candles / 2) ? 1.2 : 1;
+
+                    // Bras
+                    if (radius > 0) {
+                        const armGeometry = new THREE.CylinderGeometry(0.02, 0.03, 0.6, 8);
+                        const arm = new THREE.Mesh(armGeometry, baseMaterial);
+                        arm.position.set(
+                            Math.cos(angle) * radius / 2,
+                            0.5,
+                            Math.sin(angle) * radius / 2
+                        );
+                        arm.rotation.z = angle;
+                        candelabraGroup.add(arm);
+                    }
+
+                    // Bobèche
+                    const bobeche = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.08, 0.06, 0.05, 12),
+                        baseMaterial
+                    );
+                    bobeche.position.set(
+                        Math.cos(angle) * radius,
+                        height,
+                        Math.sin(angle) * radius
+                    );
+                    candelabraGroup.add(bobeche);
+
+                    // Bougie
+                    const candleGeometry = new THREE.CylinderGeometry(0.04, 0.05, 0.6, 12);
+                    const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+                    const candle = new THREE.Mesh(candleGeometry, candleMaterial);
+                    candle.position.set(
+                        Math.cos(angle) * radius,
+                        height + 0.3,
+                        Math.sin(angle) * radius
+                    );
+                    candle.castShadow = true;
+                    candelabraGroup.add(candle);
+
+                    // Flamme
+                    const flameGeometry = new THREE.SphereGeometry(0.025, 6, 4);
+                    const flameMaterial = new THREE.MeshLambertMaterial({ 
+                        color: 0xffd700, 
+                        emissive: 0xffd700, 
+                        emissiveIntensity: 0.4 
+                    });
+                    const flame = new THREE.Mesh(flameGeometry, flameMaterial);
+                    flame.position.set(
+                        Math.cos(angle) * radius,
+                        height + 0.65,
+                        Math.sin(angle) * radius
+                    );
+                    flame.scale.set(0.6, 1.2, 0.6);
+                    candelabraGroup.add(flame);
+
+                    // Lumière de bougie
+                    const candleLight = new THREE.PointLight(0xffd700, 0.2, 8);
+                    candleLight.position.set(
+                        Math.cos(angle) * radius,
+                        height + 0.65,
+                        Math.sin(angle) * radius
+                    );
+                    candelabraGroup.add(candleLight);
+                }
+
+                candelabraGroup.position.set(...data.pos);
+                salon.add(candelabraGroup);
+            });
+        }
+
+        function createCollectibles() {
+            // Collection de livres rares sur présentoir
+            const displayGroup = new THREE.Group();
+            
+            // Présentoir en acajou
+            const standGeometry = new THREE.CylinderGeometry(0.8, 1, 0.8, 12);
+            const standMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+            const stand = new THREE.Mesh(standGeometry, standMaterial);
+            stand.position.y = 0.4;
+            stand.castShadow = true;
+            displayGroup.add(stand);
+
+            // Livre ouvert précieux
+            const openBookGeometry = new THREE.BoxGeometry(1.2, 0.05, 0.8);
+            const bookMaterial = new THREE.MeshLambertMaterial({ color: 0x8b0000 });
+            const openBook = new THREE.Mesh(openBookGeometry, bookMaterial);
+            openBook.position.y = 0.83;
+            openBook.rotation.y = Math.PI / 6;
+            openBook.castShadow = true;
+            displayGroup.add(openBook);
+
+            // Pages
+            const pageGeometry = new THREE.BoxGeometry(1.1, 0.01, 0.7);
+            const pageMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+            const pages = new THREE.Mesh(pageGeometry, pageMaterial);
+            pages.position.y = 0.85;
+            pages.rotation.y = Math.PI / 6;
+            displayGroup.add(pages);
+
+            displayGroup.position.set(4, 0, 4);
+            salon.add(displayGroup);
+
+            // Objets de curiosité
+            const curiosityPositions = [
+                { pos: [-4, 2.2, 4], type: 'compass' },
+                { pos: [8, 1.8, -2], type: 'telescope' },
+                { pos: [-10, 2.5, 2], type: 'globe' }
+            ];
+
+            curiosityPositions.forEach(item => {
+                const itemGroup = new THREE.Group();
+
+                switch(item.type) {
+                    case 'compass':
+                        // Boussole ancienne
+                        const compassGeometry = new THREE.CylinderGeometry(0.2, 0.2, 0.08, 16);
+                        const compassMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                        const compass = new THREE.Mesh(compassGeometry, compassMaterial);
+                        compass.castShadow = true;
+                        itemGroup.add(compass);
+                        break;
+
+                    case 'telescope':
+                        // Lunette astronomique
+                        const telescopeGeometry = new THREE.CylinderGeometry(0.1, 0.15, 1.5, 12);
+                        const telescopeMaterial = new THREE.MeshLambertMaterial({ color: 0xb8860b });
+                        const telescope = new THREE.Mesh(telescopeGeometry, telescopeMaterial);
+                        telescope.rotation.x = Math.PI / 4;
+                        telescope.castShadow = true;
+                        itemGroup.add(telescope);
+                        break;
+
+                    case 'globe':
+                        // Globe céleste
+                        const globeGeometry = new THREE.SphereGeometry(0.3, 16, 12);
+                        const globeMaterial = new THREE.MeshLambertMaterial({ color: 0x191970 });
+                        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+                        globe.castShadow = true;
+                        itemGroup.add(globe);
+
+                        // Support
+                        const supportGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.6, 12);
+                        const supportMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                        const support = new THREE.Mesh(supportGeometry, supportMaterial);
+                        support.position.y = -0.5;
+                        itemGroup.add(support);
+                        break;
+                }
+
+                itemGroup.position.set(...item.pos);
+                salon.add(itemGroup);
+            });
+        }
+
+        function setupEventListeners() {
+            window.addEventListener('resize', onWindowResize);
+            renderer.domElement.addEventListener('click', onMouseClick);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            renderer.domElement.addEventListener('mousedown', onMouseDown);
+            renderer.domElement.addEventListener('mouseup', onMouseUp);
+            renderer.domElement.addEventListener('wheel', onMouseWheel);
+        }
+
+        function onMouseDown(event) {
+            cameraControls.isMouseDown = true;
+            cameraControls.mouseX = event.clientX;
+            cameraControls.mouseY = event.clientY;
+            document.body.style.cursor = 'grabbing';
+        }
+
+        function onMouseUp(event) {
+            cameraControls.isMouseDown = false;
+            document.body.style.cursor = 'grab';
+        }
+
+        function onMouseMove(event) {
+            if (cameraControls.isMouseDown) {
+                const deltaX = event.clientX - cameraControls.mouseX;
+                const deltaY = event.clientY - cameraControls.mouseY;
+
+                cameraControls.targetRotationX += deltaX * 0.008;
+                cameraControls.targetRotationY += deltaY * 0.008;
+
+                cameraControls.targetRotationY = Math.max(-Math.PI/4, Math.min(Math.PI/4, cameraControls.targetRotationY));
+
+                cameraControls.mouseX = event.clientX;
+                cameraControls.mouseY = event.clientY;
+            }
+
+            // Détection objets cliquables AMÉLIORÉE
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Utiliser la liste des objets cliquables directement
+            const intersects = raycaster.intersectObjects(clickableObjects);
+            
+            document.body.style.cursor = cameraControls.isMouseDown ? 'grabbing' : 'grab';
+            hideHint();
+
+            if (intersects.length > 0) {
+                const intersectedObject = intersects[0].object;
+                document.body.style.cursor = 'pointer';
+                
+                if (intersectedObject.userData.type === 'computer') {
+                    showHint('Cliquez pour ouvrir l\'ordinateur vintage');
+                } else if (intersectedObject.userData.type === 'tv') {
+                    showHint('Cliquez pour ouvrir la télévision vintage');
+                }
+            }
+        }
+
+        function onMouseWheel(event) {
+            cameraControls.targetDistance += event.deltaY * 0.02;
+            cameraControls.targetDistance = Math.max(8, Math.min(50, cameraControls.targetDistance));
+        }
+
+        function onMouseClick(event) {
+            if (cameraControls.isMouseDown) return;
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Utiliser la liste des objets cliquables directement
+            const intersects = raycaster.intersectObjects(clickableObjects);
+
+            if (intersects.length > 0) {
+                const intersectedObject = intersects[0].object;
+                
+                if (intersectedObject.userData.type === 'computer') {
+                    openComputer();
+                    createClickSound();
+                } else if (intersectedObject.userData.type === 'tv') {
+                    openTV();
+                    createClickSound();
+                }
+            }
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Gestion de l'ordinateur
+        function openComputer() {
+            document.getElementById('computerOverlay').classList.add('active');
+        }
+
+        function closeComputer() {
+            document.getElementById('computerOverlay').classList.remove('active');
+            document.querySelectorAll('.window').forEach(window => {
+                window.classList.remove('active');
+            });
+        }
+
+        // Gestion de la TV
+        function openTV() {
+            document.getElementById('tvOverlay').classList.add('active');
+        }
+
+        function closeTV() {
+            document.getElementById('tvOverlay').classList.remove('active');
+        }
+
+        function openApp(appName) {
+            createClickSound();
+            let url = '';
+            switch(appName) {
+                case 'netflix':
+                    url = 'https://www.netflix.com';
+                    break;
+                case 'youtube':
+                    url = 'https://www.youtube.com';
+                    break;
+                case 'spotify':
+                    url = 'https://www.spotify.com';
+                    break;
+                case 'prime':
+                    url = 'https://www.primevideo.com';
+                    break;
+                case 'disney':
+                    url = 'https://www.disneyplus.com';
+                    break;
+                case 'games':
+                    url = 'https://play.google.com/store';
+                    break;
+            }
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        function openWindow(windowName) {
+            createClickSound();
+            
+            document.querySelectorAll('.window').forEach(window => {
+                window.classList.remove('active');
+            });
+
+            const targetWindow = document.getElementById(`window-${windowName}`);
+            if (targetWindow) {
+                targetWindow.classList.add('active');
+                
+                const randomX = Math.random() * 100 - 50;
+                const randomY = Math.random() * 50 - 25;
+                targetWindow.style.left = `${300 + randomX}px`;
+                targetWindow.style.top = `${100 + randomY}px`;
+            }
+        }
+
+        function closeWindow(windowName) {
+            createClickSound();
+            const targetWindow = document.getElementById(`window-${windowName}`);
+            if (targetWindow) {
+                targetWindow.classList.remove('active');
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Animation caméra fluide
+            cameraControls.rotationX += (cameraControls.targetRotationX - cameraControls.rotationX) * 0.08;
+            cameraControls.rotationY += (cameraControls.targetRotationY - cameraControls.rotationY) * 0.08;
+            cameraControls.distance += (cameraControls.targetDistance - cameraControls.distance) * 0.08;
+
+            camera.position.x = Math.cos(cameraControls.rotationX) * cameraControls.distance * Math.cos(cameraControls.rotationY);
+            camera.position.y = Math.sin(cameraControls.rotationY) * cameraControls.distance + 12;
+            camera.position.z = Math.sin(cameraControls.rotationX) * cameraControls.distance * Math.cos(cameraControls.rotationY) + 20;
+
+            camera.lookAt(0, 5, 0);
+
+            // Animations vintage
+            const time = Date.now() * 0.0003;
+
+            // Rotation lente du lustre
+            if (chandelierMesh) {
+                chandelierMesh.rotation.y = time * 0.5;
+                
+                // Scintillement des cristaux
+                chandelierMesh.children.forEach(child => {
+                    if (child.material && child.material.emissiveIntensity !== undefined) {
+                        child.material.emissiveIntensity = 0.1 + Math.sin(time * 3 + child.position.x) * 0.05;
+                    }
+                });
+            }
+
+            // Pulsation de l'écran ordinateur
+            if (computerMesh) {
+                computerMesh.material.emissiveIntensity = 0.2 + Math.sin(time * 2) * 0.1;
+            }
+
+            // Effet de scintillement TV
+            if (tvMesh) {
+                tvMesh.material.emissiveIntensity = 0.15 + Math.sin(time * 1.5) * 0.08;
+            }
+
+            // Animation des flammes de cheminée
+            salon.children.forEach(child => {
+                if (child.isGroup) {
+                    child.children.forEach(subChild => {
+                        if (subChild.material && subChild.material.color && subChild.material.color.r > 0.8) {
+                            if (subChild.material.emissiveIntensity !== undefined) {
+                                subChild.material.emissiveIntensity = 0.4 + Math.sin(time * 8 + subChild.position.x) * 0.2;
+                                subChild.scale.y = 1 + Math.sin(time * 6 + subChild.position.z) * 0.1;
+                            }
+                        }
+                    });
+                }
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Gestion du glisser-déposer des fenêtres
+        let draggedWindow = null;
+        let dragOffset = { x: 0, y: 0 };
+
+        document.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('window-header')) {
+                draggedWindow = e.target.closest('.window');
+                const rect = draggedWindow.getBoundingClientRect();
+                dragOffset.x = e.clientX - rect.left;
+                dragOffset.y = e.clientY - rect.top;
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (draggedWindow) {
+                draggedWindow.style.left = `${e.clientX - dragOffset.x}px`;
+                draggedWindow.style.top = `${e.clientY - dragOffset.y}px`;
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            draggedWindow = null;
+        });
+
+        // Navigation clavier
+        document.addEventListener('keydown', (event) => {
+            const computerOverlay = document.getElementById('computerOverlay');
+            const tvOverlay = document.getElementById('tvOverlay');
+
+            if (computerOverlay.classList.contains('active')) {
+                if (event.key === 'Escape') {
+                    closeComputer();
+                }
+            }
+
+            if (tvOverlay.classList.contains('active')) {
+                if (event.key === 'Escape') {
+                    closeTV();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
