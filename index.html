@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Portfolio - Salon Old Money</title>
+    <title>Mon Portfolio - Salon Élégant</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * {
@@ -14,8 +14,8 @@
 
         body {
             font-family: 'Times New Roman', serif;
-            background: #2c2419;
-            color: #f5f5dc;
+            background: #59372b;
+            color: #f7e7ce;
             overflow: hidden;
             cursor: grab;
         }
@@ -24,14 +24,14 @@
             cursor: grabbing;
         }
 
-        /* Avis desktop */
-        .desktop-notice {
+        /* Avis pour tous appareils */
+        .device-notice {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(44, 36, 25, 0.98);
+            background: rgba(89, 55, 43, 0.98);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -41,118 +41,124 @@
 
         .notice-content {
             text-align: center;
-            padding: 50px;
-            background: #1a1611;
+            padding: 40px;
+            background: #59372b;
             border-radius: 16px;
-            border: 2px solid #8b7355;
+            border: 2px solid #9f624f;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
         }
 
         .notice-content h2 {
-            color: #d4af37;
+            color: #cca98d;
             margin-bottom: 20px;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             font-family: 'Times New Roman', serif;
         }
 
         .notice-content p {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.6;
-            color: #f5f5dc;
-            font-size: 16px;
+            color: #f7e7ce;
+            font-size: 14px;
         }
 
         .continue-btn {
-            background: linear-gradient(135deg, #d4af37, #b8860b);
-            border: 2px solid #8b7355;
-            padding: 15px 30px;
-            color: #1a1611;
+            background: linear-gradient(135deg, #cca98d, #9f624f);
+            border: 2px solid #ae9e8f;
+            padding: 12px 24px;
+            color: #59372b;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             font-family: 'Times New Roman', serif;
             transition: all 0.3s ease;
             text-shadow: none;
         }
 
         .continue-btn:hover {
-            background: linear-gradient(135deg, #b8860b, #d4af37);
+            background: linear-gradient(135deg, #9f624f, #cca98d);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 12px rgba(204, 169, 141, 0.3);
         }
 
         /* Interface utilisateur */
         .ui-overlay {
             position: fixed;
-            top: 30px;
-            left: 30px;
+            top: 20px;
+            left: 20px;
             z-index: 100;
             opacity: 0;
             animation: slideIn 1s ease-out 2s forwards;
         }
 
         .logo {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
-            color: #d4af37;
-            margin-bottom: 20px;
+            color: #cca98d;
+            margin-bottom: 15px;
             font-family: 'Times New Roman', serif;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .instructions {
-            background: rgba(26, 22, 17, 0.95);
-            padding: 25px;
+            background: rgba(89, 55, 43, 0.95);
+            padding: 20px;
             border-radius: 12px;
-            border: 2px solid #8b7355;
-            max-width: 300px;
+            border: 2px solid #9f624f;
+            max-width: 250px;
             backdrop-filter: blur(10px);
         }
 
         .instructions h3 {
-            color: #d4af37;
-            margin-bottom: 15px;
-            font-size: 18px;
+            color: #cca98d;
+            margin-bottom: 12px;
+            font-size: 16px;
             font-weight: bold;
             font-family: 'Times New Roman', serif;
         }
 
         .instructions p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 8px;
-            color: #f5f5dc;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 6px;
+            color: #f7e7ce;
         }
 
-        /* Contrôles audio */
-        .audio-controls {
+        /* Contrôles mobile */
+        .mobile-controls {
             position: fixed;
-            top: 30px;
-            right: 30px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 150;
+            display: flex;
+            gap: 10px;
             opacity: 0;
             animation: slideIn 1s ease-out 2s forwards;
         }
 
-        .audio-btn {
-            background: rgba(26, 22, 17, 0.95);
-            border: 2px solid #8b7355;
-            padding: 15px;
-            border-radius: 50%;
+        .mobile-btn {
+            background: rgba(89, 55, 43, 0.95);
+            border: 2px solid #9f624f;
+            padding: 12px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 12px;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            color: #d4af37;
+            color: #f7e7ce;
+            font-family: 'Times New Roman', serif;
         }
 
-        .audio-btn:hover {
-            background: rgba(212, 175, 55, 0.2);
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        .mobile-btn:hover {
+            background: rgba(204, 169, 141, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(204, 169, 141, 0.3);
         }
 
         /* Ordinateur overlay */
@@ -179,8 +185,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.3);
-            width: 1024px;
-            height: 768px;
+            width: min(95vw, 1024px);
+            height: min(80vh, 768px);
             background: #000;
             border: 20px solid #c0c0c0;
             border-radius: 15px;
@@ -227,8 +233,8 @@
             position: absolute;
             background: #c0c0c0;
             border: 2px outset #c0c0c0;
-            min-width: 400px;
-            min-height: 300px;
+            min-width: 300px;
+            min-height: 200px;
             display: none;
             z-index: 1000;
         }
@@ -314,8 +320,8 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: #d4af37;
-            color: #1a1611;
+            background: #cca98d;
+            color: #59372b;
             border: none;
             padding: 12px 20px;
             border-radius: 6px;
@@ -328,7 +334,7 @@
         }
 
         .close-computer:hover {
-            background: #b8860b;
+            background: #9f624f;
             transform: translateY(-1px);
         }
 
@@ -386,8 +392,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.3);
-            width: 900px;
-            height: 600px;
+            width: min(90vw, 900px);
+            height: min(75vh, 600px);
             background: #000;
             border: 30px solid #222;
             border-radius: 20px;
@@ -409,9 +415,9 @@
         }
 
         .tv-header {
-            background: linear-gradient(135deg, #d4af37 0%, #8b7355 100%);
+            background: linear-gradient(135deg, #cca98d 0%, #9f624f 100%);
             padding: 20px;
-            color: #1a1611;
+            color: #59372b;
             text-align: center;
             font-size: 24px;
             font-weight: bold;
@@ -420,14 +426,14 @@
 
         .app-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            padding: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
             height: calc(100% - 80px);
         }
 
         .app-item {
-            background: linear-gradient(135deg, #8b7355, #d4af37);
+            background: linear-gradient(135deg, #9f624f, #cca98d);
             border-radius: 15px;
             display: flex;
             flex-direction: column;
@@ -435,21 +441,22 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            color: #1a1611;
+            color: #59372b;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
             font-family: 'Times New Roman', serif;
-            border: 2px solid #d4af37;
+            border: 2px solid #cca98d;
+            min-height: 120px;
         }
 
         .app-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
-            background: linear-gradient(135deg, #d4af37, #8b7355);
+            box-shadow: 0 10px 20px rgba(204, 169, 141, 0.4);
+            background: linear-gradient(135deg, #cca98d, #9f624f);
         }
 
         .app-icon {
-            font-size: 48px;
+            font-size: 36px;
             margin-bottom: 10px;
         }
 
@@ -457,8 +464,8 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: #d4af37;
-            color: #1a1611;
+            background: #cca98d;
+            color: #59372b;
             border: none;
             padding: 12px 20px;
             border-radius: 6px;
@@ -471,8 +478,29 @@
         }
 
         .close-tv:hover {
-            background: #b8860b;
+            background: #9f624f;
             transform: translateY(-1px);
+        }
+
+        /* Indicateurs visuels pour objets interactifs */
+        .interactive-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(89, 55, 43, 0.9);
+            color: #cca98d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 150;
+            border: 1px solid #9f624f;
+        }
+
+        .interactive-hint.show {
+            opacity: 1;
         }
 
         @keyframes fadeIn {
@@ -491,45 +519,81 @@
             }
         }
 
-        /* Responsive */
+        /* Mobile responsive */
         @media (max-width: 768px) {
             .computer-screen, .tv-screen {
                 width: 95vw;
-                height: 70vh;
-                max-width: 800px;
-                max-height: 600px;
+                height: 80vh;
+                border-width: 10px;
+            }
+
+            .ui-overlay {
+                top: 10px;
+                left: 10px;
+            }
+
+            .instructions {
+                max-width: 200px;
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .notice-content {
+                padding: 30px 20px;
+            }
+
+            .notice-content h2 {
+                font-size: 20px;
+            }
+
+            .window {
+                min-width: 280px;
+                width: 90vw !important;
+                height: 70vh !important;
+            }
+
+            .app-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .mobile-controls {
+                flex-wrap: wrap;
+                max-width: 90%;
+            }
+
+            .mobile-btn {
+                padding: 10px 12px;
+                font-size: 11px;
             }
         }
 
-        /* Indicateurs visuels pour objets interactifs */
-        .interactive-hint {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(26, 22, 17, 0.9);
-            color: #d4af37;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 150;
-            border: 1px solid #8b7355;
+        @media (max-width: 480px) {
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .interactive-hint.show {
-            opacity: 1;
+        /* Touch-friendly controls */
+        @media (hover: none) {
+            .interactive-hint {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Avis ordinateur recommandé -->
-    <div class="desktop-notice" id="desktopNotice">
+    <!-- Avis pour tous appareils -->
+    <div class="device-notice" id="deviceNotice">
         <div class="notice-content">
             <h2>Bienvenue dans mon salon</h2>
-            <p>Découvrez un espace vintage avec une expérience immersive optimisée pour ordinateur.</p>
-            <p>Explorez ce salon et consultez mon portfolio sur l'ordinateur.</p>
+            <p>Découvrez un espace élégant avec une expérience immersive.</p>
+            <p>Navigation : Glissez pour explorer, pincez pour zoomer sur mobile, ou utilisez les boutons de contrôle.</p>
+            <p>Cliquez sur l'ordinateur ou la télévision pour découvrir mon portfolio.</p>
             <button class="continue-btn" onclick="hideNotice()">Entrer dans le salon</button>
         </div>
     </div>
@@ -539,16 +603,19 @@
         <div class="logo">Portfolio</div>
         <div class="instructions">
             <h3>Navigation</h3>
-            <p>• Clic + glisser pour explorer</p>
-            <p>• Molette pour zoomer</p>
+            <p>• Glisser pour explorer</p>
+            <p>• Pincer/molette pour zoomer</p>
             <p>• Cliquez sur l'ordinateur ou la TV</p>
-            <p>• Découvrez les détails</p>
+            <p>• Utilisez les boutons mobiles</p>
         </div>
     </div>
 
-    <!-- Contrôles audio -->
-    <div class="audio-controls">
-        <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">♪</button>
+    <!-- Contrôles mobiles -->
+    <div class="mobile-controls">
+        <button class="mobile-btn" onclick="resetCamera()">Vue d'ensemble</button>
+        <button class="mobile-btn" onclick="focusComputer()">Ordinateur</button>
+        <button class="mobile-btn" onclick="focusTV()">Télévision</button>
+        <button class="mobile-btn" onclick="autoRotate()">Rotation auto</button>
     </div>
 
     <!-- Indicateur d'interaction -->
@@ -639,14 +706,14 @@
                 <div class="window-control" onclick="closeWindow('about')">×</div>
             </div>
         </div>
-        <div class="window-content" style="color: #1a1611;">
+        <div class="window-content" style="color: #59372b;">
             <p><strong>Étudiante en TI passionnée de cybersécurité, programmation, donnée et gouvernance.</strong></p>
             <br>
             <p>J'adore les documentaires et tout ce qui touche aux données. Mon approche combine créativité et rigueur technique pour créer des solutions innovantes.</p>
             <br>
             <p>Actuellement en maîtrise en technologies de l'information à l'UQAM, je développe mes compétences dans un environnement académique stimulant tout en appliquant mes connaissances dans des projets concrets.</p>
             <br>
-            <a href="https://www.linkedin.com/in/manelbaali/" target="_blank" class="linkedin-link">🔗 Mon profil Linkedin</a>
+            <a href="https://www.linkedin.com/" target="_blank" class="linkedin-link">🔗 Mon profil Linkedin</a>
             <br><br>
             <p><strong>Mes passions :</strong></p>
             <ul>
@@ -785,7 +852,7 @@
                 <div class="window-control" onclick="closeWindow('skills')">×</div>
             </div>
         </div>
-        <div class="window-content" style="color: #1a1611;">
+        <div class="window-content" style="color: #59372b;">
             <p><strong>Analyse et données :</strong></p>
             <ul>
                 <li>Big Data, SQL, NoSQL, Pandas</li>
@@ -835,10 +902,10 @@
         let salon, computerMesh, tvMesh, chandelierMesh;
         let mouse = new THREE.Vector2();
         let raycaster = new THREE.Raycaster();
-        let isAudioPlaying = false;
-        let clickableObjects = []; // Array pour stocker les objets cliquables
+        let clickableObjects = [];
+        let autoRotateEnabled = false;
 
-        // Contrôles de caméra
+        // Contrôles de caméra améliorés pour mobile
         let cameraControls = {
             isMouseDown: false,
             mouseX: 0,
@@ -848,19 +915,18 @@
             rotationX: 0,
             rotationY: 0,
             distance: 25,
-            targetDistance: 25
+            targetDistance: 25,
+            autoRotate: false
         };
 
+        // Variables pour les contrôles tactiles
+        let touches = [];
+        let lastPinchDistance = 0;
+
         function hideNotice() {
-            document.getElementById('desktopNotice').style.display = 'none';
+            document.getElementById('deviceNotice').style.display = 'none';
             init();
             animate();
-        }
-
-        function toggleAudio() {
-            isAudioPlaying = !isAudioPlaying;
-            const btn = document.getElementById('audioToggle');
-            btn.textContent = isAudioPlaying ? '♫' : '♪';
         }
 
         function createClickSound() {
@@ -896,11 +962,45 @@
             hint.classList.remove('show');
         }
 
+        // Fonctions de contrôle mobile
+        function resetCamera() {
+            cameraControls.targetRotationX = 0;
+            cameraControls.targetRotationY = 0;
+            cameraControls.targetDistance = 25;
+            cameraControls.autoRotate = false;
+            autoRotateEnabled = false;
+            createClickSound();
+        }
+
+        function focusComputer() {
+            cameraControls.targetRotationX = Math.PI / 6;
+            cameraControls.targetRotationY = 0;
+            cameraControls.targetDistance = 15;
+            cameraControls.autoRotate = false;
+            autoRotateEnabled = false;
+            createClickSound();
+        }
+
+        function focusTV() {
+            cameraControls.targetRotationX = Math.PI;
+            cameraControls.targetRotationY = 0;
+            cameraControls.targetDistance = 18;
+            cameraControls.autoRotate = false;
+            autoRotateEnabled = false;
+            createClickSound();
+        }
+
+        function autoRotate() {
+            autoRotateEnabled = !autoRotateEnabled;
+            cameraControls.autoRotate = autoRotateEnabled;
+            createClickSound();
+        }
+
         function init() {
             // Scène avec brouillard pour l'atmosphère
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x2c2419);
-            scene.fog = new THREE.Fog(0x2c2419, 30, 100);
+            scene.background = new THREE.Color(0x59372b);
+            scene.fog = new THREE.Fog(0x59372b, 30, 100);
 
             // Caméra positionnée pour voir l'environnement urbain
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -912,29 +1012,29 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            renderer.setClearColor(0x2c2419);
+            renderer.setClearColor(0x59372b);
             document.body.appendChild(renderer.domElement);
 
-            // Éclairage vintage sophistiqué
-            setupVintageLighting();
+            // Éclairage avec nouveau thème beige
+            setupElegantLighting();
 
-            // Créer l'environnement urbain old money
+            // Créer l'environnement urbain réorganisé
             createUrbanEnvironment();
 
-            // Créer le salon vintage
-            createVintageSalon();
+            // Créer le salon avec nouveau thème
+            createElegantSalon();
 
-            // Event listeners
+            // Event listeners améliorés pour mobile
             setupEventListeners();
         }
 
-        function setupVintageLighting() {
-            // Lumière ambiante chaude et tamisée
-            const ambientLight = new THREE.AmbientLight(0xffeaa7, 0.3);
+        function setupElegantLighting() {
+            // Lumière ambiante chaude dans les tons beige
+            const ambientLight = new THREE.AmbientLight(0xf7e7ce, 0.4);
             scene.add(ambientLight);
 
-            // Lumière principale du lustre en cristal
-            const chandelierLight = new THREE.PointLight(0xffd700, 1.2, 35);
+            // Lumière principale du lustre
+            const chandelierLight = new THREE.PointLight(0xcca98d, 1.5, 35);
             chandelierLight.position.set(0, 10, 0);
             chandelierLight.castShadow = true;
             chandelierLight.shadow.mapSize.width = 2048;
@@ -943,8 +1043,8 @@
             chandelierLight.shadow.camera.far = 35;
             scene.add(chandelierLight);
 
-            // Éclairage directionnel doux pour les détails
-            const mainLight = new THREE.DirectionalLight(0xffeaa7, 0.4);
+            // Éclairage directionnel doux
+            const mainLight = new THREE.DirectionalLight(0xf7e7ce, 0.5);
             mainLight.position.set(15, 20, 10);
             mainLight.castShadow = true;
             mainLight.shadow.mapSize.width = 2048;
@@ -953,39 +1053,39 @@
             mainLight.shadow.camera.far = 60;
             scene.add(mainLight);
 
-            // Lumières d'accentuation vintage
-            const warmLight1 = new THREE.PointLight(0xd4af37, 0.6, 25);
+            // Lumières d'accentuation dans les tons beige
+            const warmLight1 = new THREE.PointLight(0xae9e8f, 0.8, 25);
             warmLight1.position.set(-12, 6, 5);
             scene.add(warmLight1);
 
-            const warmLight2 = new THREE.PointLight(0xb8860b, 0.5, 20);
+            const warmLight2 = new THREE.PointLight(0x9f624f, 0.7, 20);
             warmLight2.position.set(12, 5, -5);
             scene.add(warmLight2);
 
             // Éclairage des fenêtres
-            const windowLight = new THREE.PointLight(0xffa500, 0.8, 15);
+            const windowLight = new THREE.PointLight(0xcca98d, 1, 15);
             windowLight.position.set(0, 8, -18);
             scene.add(windowLight);
         }
 
         function createUrbanEnvironment() {
-            // Sol pavé old money
-            createCobblestoneStreet();
+            // Sol pavé avec nouveau thème
+            createStylishStreet();
             
-            // Bâtiments environnants
+            // Bâtiments environnants repositionnés
             createSurroundingBuildings();
             
-            // Éléments urbains vintage
+            // Éléments urbains repositionnés
             createUrbanElements();
         }
 
-        function createCobblestoneStreet() {
+        function createStylishStreet() {
             const streetGroup = new THREE.Group();
             
-            // Base de rue pavée
+            // Base de rue avec couleurs beige
             const streetGeometry = new THREE.PlaneGeometry(150, 150);
             const streetMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x4a4a4a,
+                color: 0x9f624f,
                 transparent: true,
                 opacity: 0.8
             });
@@ -995,14 +1095,16 @@
             street.receiveShadow = true;
             streetGroup.add(street);
 
-            // Texture de pavés
+            // Texture de pavés dans les tons beige
             for (let i = 0; i < 200; i++) {
                 const cobbleGeometry = new THREE.BoxGeometry(
                     0.8 + Math.random() * 0.4,
                     0.1,
                     0.8 + Math.random() * 0.4
                 );
-                const cobbleColor = 0x3a3a3a + Math.random() * 0x202020;
+                const baseColor = Math.random() > 0.5 ? 0xae9e8f : 0xcca98d;
+                const variation = Math.random() * 0x202020;
+                const cobbleColor = baseColor + variation;
                 const cobbleMaterial = new THREE.MeshLambertMaterial({ color: cobbleColor });
                 const cobble = new THREE.Mesh(cobbleGeometry, cobbleMaterial);
                 
@@ -1020,22 +1122,21 @@
         }
 
         function createSurroundingBuildings() {
-            // Maisons victoriennes à gauche
-            createVictorianHouse(-40, 0, -20, 0x8b7355);
-            createVictorianHouse(-40, 0, 20, 0x6b5b47);
+            // Repositionner les bâtiments pour un meilleur équilibre esthétique
+            createStylishHouse(-45, 0, -30, 0x9f624f);
+            createStylishHouse(-45, 0, 30, 0xae9e8f);
             
-            // Maisons géorgiennes à droite  
-            createGeorgianHouse(40, 0, -15, 0x9d8b73);
-            createGeorgianHouse(40, 0, 15, 0x7a6b5a);
+            createStylishHouse(45, 0, -25, 0xcca98d);
+            createStylishHouse(45, 0, 25, 0x9f624f);
             
-            // Bâtiment institutional au fond
-            createInstitutionalBuilding(0, 0, -50);
+            // Bâtiment au fond repositionné
+            createInstitutionalBuilding(-25, 0, -60);
         }
 
-        function createVictorianHouse(x, y, z, color) {
+        function createStylishHouse(x, y, z, color) {
             const houseGroup = new THREE.Group();
             
-            // Corps principal
+            // Corps principal avec couleurs beige
             const mainGeometry = new THREE.BoxGeometry(12, 15, 10);
             const mainMaterial = new THREE.MeshLambertMaterial({ color: color });
             const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
@@ -1043,54 +1144,51 @@
             mainBuilding.castShadow = true;
             houseGroup.add(mainBuilding);
 
-            // Toit victorien avec pente
+            // Toit dans les tons beige foncé
             const roofGeometry = new THREE.ConeGeometry(8, 6, 4);
-            const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+            const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
             const roof = new THREE.Mesh(roofGeometry, roofMaterial);
             roof.position.y = 18;
             roof.rotation.y = Math.PI / 4;
             roof.castShadow = true;
             houseGroup.add(roof);
 
-            // Cheminée élégante
+            // Cheminée
             const chimneyGeometry = new THREE.BoxGeometry(1.5, 4, 1.5);
-            const chimneyMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+            const chimneyMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
             const chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial);
             chimney.position.set(3, 19, 2);
             chimney.castShadow = true;
             houseGroup.add(chimney);
 
-            // Fenêtres à battants
-            createVictorianWindows(houseGroup);
-            
-            // Perron avec colonnes
-            createVictorianPorch(houseGroup);
+            // Fenêtres avec cadres beige clair
+            createStylishWindows(houseGroup);
 
             houseGroup.position.set(x, y, z);
             scene.add(houseGroup);
         }
 
-        function createVictorianWindows(parent) {
+        function createStylishWindows(parent) {
             const windowPositions = [
                 [-4, 5, 5.1], [0, 5, 5.1], [4, 5, 5.1],
                 [-4, 10, 5.1], [0, 10, 5.1], [4, 10, 5.1]
             ];
 
             windowPositions.forEach(pos => {
-                // Cadre de fenêtre
+                // Cadre de fenêtre beige clair
                 const frameGeometry = new THREE.BoxGeometry(2.5, 3, 0.2);
-                const frameMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                const frameMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
                 const frame = new THREE.Mesh(frameGeometry, frameMaterial);
                 frame.position.set(...pos);
                 parent.add(frame);
 
-                // Vitre avec reflet
+                // Vitre avec reflet doré
                 const glassGeometry = new THREE.BoxGeometry(2.2, 2.7, 0.05);
                 const glassMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0x87ceeb, 
+                    color: 0xcca98d, 
                     transparent: true, 
                     opacity: 0.7,
-                    emissive: 0x111133,
+                    emissive: 0x443322,
                     emissiveIntensity: 0.1
                 });
                 const glass = new THREE.Mesh(glassGeometry, glassMaterial);
@@ -1098,221 +1196,63 @@
                 parent.add(glass);
 
                 // Lumière chaude derrière les fenêtres
-                const windowLight = new THREE.PointLight(0xffd700, 0.3, 8);
+                const windowLight = new THREE.PointLight(0xcca98d, 0.4, 8);
                 windowLight.position.set(pos[0], pos[1], pos[2] - 2);
                 parent.add(windowLight);
             });
         }
 
-        function createVictorianPorch(parent) {
-            // Plancher du perron
-            const porchGeometry = new THREE.BoxGeometry(10, 0.5, 4);
-            const porchMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-            const porch = new THREE.Mesh(porchGeometry, porchMaterial);
-            porch.position.set(0, 1, 7);
-            porch.castShadow = true;
-            parent.add(porch);
-
-            // Colonnes doriques
-            for (let i = 0; i < 3; i++) {
-                const columnGeometry = new THREE.CylinderGeometry(0.3, 0.4, 5, 12);
-                const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-                const column = new THREE.Mesh(columnGeometry, columnMaterial);
-                column.position.set(-3 + i * 3, 4, 9);
-                column.castShadow = true;
-                parent.add(column);
-
-                // Chapiteau
-                const capitalGeometry = new THREE.CylinderGeometry(0.5, 0.3, 0.5, 8);
-                const capital = new THREE.Mesh(capitalGeometry, new THREE.MeshLambertMaterial({ color: 0xf5f5dc }));
-                capital.position.set(-3 + i * 3, 6.2, 9);
-                parent.add(capital);
-            }
-        }
-
-        function createGeorgianHouse(x, y, z, color) {
-            const houseGroup = new THREE.Group();
-            
-            // Architecture géorgienne symétrique
-            const mainGeometry = new THREE.BoxGeometry(16, 12, 8);
-            const mainMaterial = new THREE.MeshLambertMaterial({ color: color });
-            const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
-            mainBuilding.position.y = 6;
-            mainBuilding.castShadow = true;
-            houseGroup.add(mainBuilding);
-
-            // Toit en ardoise
-            const roofGeometry = new THREE.BoxGeometry(18, 1, 10);
-            const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f4f });
-            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-            roof.position.y = 12.5;
-            roof.castShadow = true;
-            houseGroup.add(roof);
-
-            // Fenêtres géorgiennes symétriques
-            createGeorgianWindows(houseGroup);
-            
-            // Porte d'entrée élégante
-            createGeorgianDoor(houseGroup);
-
-            houseGroup.position.set(x, y, z);
-            scene.add(houseGroup);
-        }
-
-        function createGeorgianWindows(parent) {
-            // Fenêtres symétriques typiques géorgiennes
-            const windowPositions = [
-                [-6, 4, 4.1], [-2, 4, 4.1], [2, 4, 4.1], [6, 4, 4.1],
-                [-6, 8, 4.1], [-2, 8, 4.1], [2, 8, 4.1], [6, 8, 4.1]
-            ];
-
-            windowPositions.forEach(pos => {
-                const frameGeometry = new THREE.BoxGeometry(2, 2.5, 0.2);
-                const frameMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
-                frame.position.set(...pos);
-                parent.add(frame);
-
-                // Carreaux géorgiens
-                for (let row = 0; row < 2; row++) {
-                    for (let col = 0; col < 2; col++) {
-                        const paneGeometry = new THREE.BoxGeometry(0.8, 1, 0.05);
-                        const paneMaterial = new THREE.MeshLambertMaterial({ 
-                            color: 0x87ceeb, 
-                            transparent: true, 
-                            opacity: 0.8 
-                        });
-                        const pane = new THREE.Mesh(paneGeometry, paneMaterial);
-                        pane.position.set(
-                            pos[0] + (col - 0.5) * 0.9,
-                            pos[1] + (row - 0.5) * 1.1,
-                            pos[2] + 0.1
-                        );
-                        parent.add(pane);
-                    }
-                }
-            });
-        }
-
-        function createGeorgianDoor(parent) {
-            const doorGeometry = new THREE.BoxGeometry(2.5, 4, 0.3);
-            const doorMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
-            const door = new THREE.Mesh(doorGeometry, doorMaterial);
-            door.position.set(0, 2, 4.2);
-            door.castShadow = true;
-            parent.add(door);
-
-            // Imposte au-dessus de la porte
-            const transom = new THREE.Mesh(
-                new THREE.BoxGeometry(2.5, 1, 0.2),
-                new THREE.MeshLambertMaterial({ color: 0x87ceeb, transparent: true, opacity: 0.8 })
-            );
-            transom.position.set(0, 4.5, 4.2);
-            parent.add(transom);
-        }
-
         function createInstitutionalBuilding(x, y, z) {
             const buildingGroup = new THREE.Group();
             
-            // Bâtiment imposant style néo-classique
+            // Bâtiment dans les tons beige
             const mainGeometry = new THREE.BoxGeometry(30, 20, 8);
-            const mainMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
+            const mainMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
             const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
             mainBuilding.position.y = 10;
             mainBuilding.castShadow = true;
             buildingGroup.add(mainBuilding);
 
-            // Colonnade néo-classique
+            // Colonnade beige clair
             for (let i = 0; i < 7; i++) {
                 const columnGeometry = new THREE.CylinderGeometry(0.8, 1, 16, 16);
-                const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
                 const column = new THREE.Mesh(columnGeometry, columnMaterial);
                 column.position.set(-12 + i * 4, 8, 5);
                 column.castShadow = true;
                 buildingGroup.add(column);
             }
 
-            // Fronton triangulaire
-            const pedimentGeometry = new THREE.ConeGeometry(18, 4, 3);
-            const pediment = new THREE.Mesh(pedimentGeometry, new THREE.MeshLambertMaterial({ color: 0xffffff }));
-            pediment.position.set(0, 22, 4);
-            pediment.rotation.z = Math.PI;
-            pediment.rotation.y = Math.PI / 2;
-            pediment.castShadow = true;
-            buildingGroup.add(pediment);
-
             buildingGroup.position.set(x, y, z);
             scene.add(buildingGroup);
         }
 
         function createUrbanElements() {
-            // Réverbères vintage
-            createVintageStreetLamps();
+            // Fontaine repositionnée loin du salon
+            createElegantFountain(-40, 0, -40);
             
-            // Fontaine élégante
-            createElegantFountain();
+            // Réverbères repositionnés
+            createStylishStreetLamps();
             
-            // Bancs publics vintage
-            createVintageBenches();
-            
-            // Arbres matures
-            createMatureTrees();
+            // Arbres repositionnés esthétiquement
+            createBeautifulTrees();
         }
 
-        function createVintageStreetLamps() {
-            const lampPositions = [
-                [-25, 0, -10], [-25, 0, 10], [25, 0, -10], [25, 0, 10]
-            ];
-
-            lampPositions.forEach(pos => {
-                const lampGroup = new THREE.Group();
-                
-                // Poteau en fonte
-                const poleGeometry = new THREE.CylinderGeometry(0.15, 0.2, 8, 12);
-                const poleMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f2f });
-                const pole = new THREE.Mesh(poleGeometry, poleMaterial);
-                pole.position.y = 4;
-                pole.castShadow = true;
-                lampGroup.add(pole);
-
-                // Lanterne victorienne
-                const lanternGeometry = new THREE.SphereGeometry(0.8, 12, 8);
-                const lanternMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xfffacd, 
-                    emissive: 0xffd700, 
-                    emissiveIntensity: 0.3,
-                    transparent: true,
-                    opacity: 0.9
-                });
-                const lantern = new THREE.Mesh(lanternGeometry, lanternMaterial);
-                lantern.position.y = 8.5;
-                lampGroup.add(lantern);
-
-                // Lumière du réverbère
-                const streetLight = new THREE.PointLight(0xffd700, 0.8, 20);
-                streetLight.position.y = 8.5;
-                lampGroup.add(streetLight);
-
-                lampGroup.position.set(...pos);
-                scene.add(lampGroup);
-            });
-        }
-
-        function createElegantFountain() {
+        function createElegantFountain(x, y, z) {
             const fountainGroup = new THREE.Group();
             
-            // Bassin principal
-            const basinGeometry = new THREE.CylinderGeometry(8, 8, 1.5, 24);
-            const basinMaterial = new THREE.MeshLambertMaterial({ color: 0xd3d3d3 });
+            // Bassin dans les tons beige
+            const basinGeometry = new THREE.CylinderGeometry(6, 6, 1.5, 24);
+            const basinMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
             const basin = new THREE.Mesh(basinGeometry, basinMaterial);
             basin.position.y = 0.75;
             basin.castShadow = true;
             fountainGroup.add(basin);
 
             // Eau
-            const waterGeometry = new THREE.CylinderGeometry(7.5, 7.5, 0.8, 24);
+            const waterGeometry = new THREE.CylinderGeometry(5.5, 5.5, 0.8, 24);
             const waterMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x4682b4, 
+                color: 0x9f624f, 
                 transparent: true, 
                 opacity: 0.7 
             });
@@ -1322,157 +1262,142 @@
 
             // Colonne centrale
             const columnGeometry = new THREE.CylinderGeometry(1.5, 2, 6, 16);
-            const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+            const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             const column = new THREE.Mesh(columnGeometry, columnMaterial);
             column.position.y = 4.5;
             column.castShadow = true;
             fountainGroup.add(column);
 
-            // Statue au sommet
-            const statueGeometry = new THREE.CylinderGeometry(0.5, 0.8, 3, 12);
-            const statueMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
-            const statue = new THREE.Mesh(statueGeometry, statueMaterial);
-            statue.position.y = 9;
-            statue.castShadow = true;
-            fountainGroup.add(statue);
-
-            fountainGroup.position.set(0, 0, 25);
+            fountainGroup.position.set(x, y, z);
             scene.add(fountainGroup);
         }
 
-        function createVintageBenches() {
-            const benchPositions = [
-                [-15, 0, 15], [15, 0, 15], [-15, 0, -15], [15, 0, -15]
+        function createStylishStreetLamps() {
+            const lampPositions = [
+                [-30, 0, -15], [-30, 0, 15], [30, 0, -15], [30, 0, 15]
             ];
 
-            benchPositions.forEach(pos => {
-                const benchGroup = new THREE.Group();
+            lampPositions.forEach(pos => {
+                const lampGroup = new THREE.Group();
                 
-                // Assise
-                const seatGeometry = new THREE.BoxGeometry(4, 0.3, 1.5);
-                const seatMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
-                const seat = new THREE.Mesh(seatGeometry, seatMaterial);
-                seat.position.y = 1.2;
-                seat.castShadow = true;
-                benchGroup.add(seat);
+                // Poteau dans les tons beige foncé
+                const poleGeometry = new THREE.CylinderGeometry(0.15, 0.2, 8, 12);
+                const poleMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
+                const pole = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole.position.y = 4;
+                pole.castShadow = true;
+                lampGroup.add(pole);
 
-                // Dossier
-                const backGeometry = new THREE.BoxGeometry(4, 2, 0.2);
-                const back = new THREE.Mesh(backGeometry, seatMaterial);
-                back.position.set(0, 2, -0.65);
-                back.castShadow = true;
-                benchGroup.add(back);
-
-                // Pieds en fonte
-                const legGeometry = new THREE.BoxGeometry(0.3, 1.2, 1.5);
-                const legMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f2f });
-                
-                [-1.5, 1.5].forEach(x => {
-                    const leg = new THREE.Mesh(legGeometry, legMaterial);
-                    leg.position.set(x, 0.6, 0);
-                    leg.castShadow = true;
-                    benchGroup.add(leg);
+                // Lanterne beige clair
+                const lanternGeometry = new THREE.SphereGeometry(0.8, 12, 8);
+                const lanternMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0xf7e7ce, 
+                    emissive: 0xcca98d, 
+                    emissiveIntensity: 0.3,
+                    transparent: true,
+                    opacity: 0.9
                 });
+                const lantern = new THREE.Mesh(lanternGeometry, lanternMaterial);
+                lantern.position.y = 8.5;
+                lampGroup.add(lantern);
 
-                benchGroup.position.set(...pos);
-                scene.add(benchGroup);
+                // Lumière du réverbère
+                const streetLight = new THREE.PointLight(0xcca98d, 0.8, 20);
+                streetLight.position.y = 8.5;
+                lampGroup.add(streetLight);
+
+                lampGroup.position.set(...pos);
+                scene.add(lampGroup);
             });
         }
 
-        function createMatureTrees() {
+        function createBeautifulTrees() {
+            // Arbres repositionnés pour une meilleure esthétique
             const treePositions = [
-                [-30, 0, 0], [30, 0, 0], [0, 0, 35], [-35, 0, -25], [35, 0, -25]
+                [-35, 0, -10], [35, 0, -10],  // Côtés symétriques
+                [-25, 0, 40], [25, 0, 40],    // Fond symétriques  
+                [0, 0, 45]                    // Centre fond
             ];
 
             treePositions.forEach(pos => {
                 const treeGroup = new THREE.Group();
                 
-                // Tronc mature
-                const trunkGeometry = new THREE.CylinderGeometry(1.5, 2.5, 12, 12);
-                const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+                // Tronc dans les tons beige foncé
+                const trunkGeometry = new THREE.CylinderGeometry(1.2, 2, 12, 12);
+                const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
                 const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
                 trunk.position.y = 6;
                 trunk.castShadow = true;
                 treeGroup.add(trunk);
 
-                // Couronne feuillue
-                const foliageGeometry = new THREE.SphereGeometry(8, 16, 12);
+                // Couronne feuillue verte naturelle
+                const foliageGeometry = new THREE.SphereGeometry(7, 16, 12);
                 const foliageMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
                 const foliage = new THREE.Mesh(foliageGeometry, foliageMaterial);
-                foliage.position.y = 16;
+                foliage.position.y = 15;
                 foliage.castShadow = true;
                 treeGroup.add(foliage);
-
-                // Branches visibles
-                for (let i = 0; i < 8; i++) {
-                    const angle = (i / 8) * Math.PI * 2;
-                    const branchGeometry = new THREE.CylinderGeometry(0.2, 0.4, 4, 8);
-                    const branch = new THREE.Mesh(branchGeometry, trunkMaterial);
-                    branch.position.set(
-                        Math.cos(angle) * 3,
-                        14,
-                        Math.sin(angle) * 3
-                    );
-                    branch.rotation.z = angle + Math.PI/4;
-                    branch.castShadow = true;
-                    treeGroup.add(branch);
-                }
 
                 treeGroup.position.set(...pos);
                 scene.add(treeGroup);
             });
         }
 
-        function createVintageSalon() {
+        function createElegantSalon() {
             salon = new THREE.Group();
 
-            // Sol en parquet de chêne vintage
-            createVintageFloor();
+            // Sol avec nouveau thème beige
+            createBeautifulFloor();
 
-            // Murs avec boiseries
-            createWallsWithWainscoting();
+            // Murs avec couleurs beige
+            createStylishWalls();
 
-            // Lustre en cristal élégant
-            createCrystalChandelier();
+            // Lustre élégant
+            createElegantChandelier();
 
-            // Mobilier old money redistribué
+            // Mobilier repositionné esthétiquement
             createChesterfieldSofa();
             createMahoganyTable();
             createAntiqueSideTable();
 
-            // Bureau exécutif vintage avec ordinateur
+            // Bureau avec ordinateur repositionné
             createExecutiveDesk();
 
-            // Bibliothèque avec livres anciens
+            // Bibliothèque repositionnée
             createAntiqueBookshelf();
 
-            // TV cachée dans meuble vintage
+            // TV dans meuble repositionnée
             createVintageEntertainmentCenter();
 
-            // Décorations old money
-            createOldMoneyDecorations();
+            // Cheminée repositionnée
+            createElegantFireplace();
 
-            // Éléments d'ambiance
-            createAmbientElements();
+            // Plantes repositionnées esthétiquement
+            createBeautifulPlants();
+
+            // Objets décoratifs repositionnés
+            createElegantDecorations();
 
             scene.add(salon);
         }
 
-        function createVintageFloor() {
+        function createBeautifulFloor() {
             const floorGroup = new THREE.Group();
             
-            // Parquet en chevrons
+            // Parquet dans les tons beige
             const plankWidth = 0.15;
             const plankLength = 1.2;
             
             for (let row = 0; row < 40; row++) {
                 for (let col = 0; col < 50; col++) {
                     const plankGeometry = new THREE.BoxGeometry(plankLength, 0.05, plankWidth);
-                    const woodVariation = Math.random() * 0.1;
-                    const baseColor = 0x8b4513;
-                    const r = Math.max(0, Math.min(1, ((baseColor >> 16) & 0xFF) / 255 + woodVariation));
-                    const g = Math.max(0, Math.min(1, ((baseColor >> 8) & 0xFF) / 255 + woodVariation));
-                    const b = Math.max(0, Math.min(1, (baseColor & 0xFF) / 255 + woodVariation));
+                    const woodVariation = (Math.random() - 0.5) * 0.1;
+                    const baseColors = [0x9f624f, 0xae9e8f, 0xcca98d];
+                    const baseColor = baseColors[Math.floor(Math.random() * baseColors.length)];
+                    
+                    const r = Math.max(0.2, Math.min(1, ((baseColor >> 16) & 0xFF) / 255 + woodVariation));
+                    const g = Math.max(0.2, Math.min(1, ((baseColor >> 8) & 0xFF) / 255 + woodVariation));
+                    const b = Math.max(0.2, Math.min(1, (baseColor & 0xFF) / 255 + woodVariation));
                     
                     const plankMaterial = new THREE.MeshLambertMaterial({
                         color: new THREE.Color(r, g, b)
@@ -1495,18 +1420,18 @@
             salon.add(floorGroup);
         }
 
-        function createWallsWithWainscoting() {
-            const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
-            const wainscotMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
+        function createStylishWalls() {
+            const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
+            const wainscotMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
 
-            // Mur arrière avec boiseries
+            // Mur arrière
             const wallGeometry = new THREE.PlaneGeometry(40, 14);
             const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
             backWall.position.set(0, 7, -20);
             backWall.receiveShadow = true;
             salon.add(backWall);
 
-            // Boiseries (wainscoting)
+            // Boiseries beige
             const wainscotGeometry = new THREE.PlaneGeometry(40, 4);
             const backWainscot = new THREE.Mesh(wainscotGeometry, wainscotMaterial);
             backWainscot.position.set(0, 2, -19.9);
@@ -1537,77 +1462,48 @@
             rightWainscot.rotation.y = -Math.PI / 2;
             salon.add(rightWainscot);
 
-            // Plafond avec moulures
+            // Plafond beige très clair
             const ceilingGeometry = new THREE.PlaneGeometry(40, 40);
-            const ceilingMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+            const ceilingMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
             ceiling.position.set(0, 14, 0);
             ceiling.rotation.x = Math.PI / 2;
             ceiling.receiveShadow = true;
             salon.add(ceiling);
-
-            // Moulures décoratives
-            createCrownMolding();
         }
 
-        function createCrownMolding() {
-            const moldingMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-            
-            // Moulures horizontales
-            const moldingGeometry = new THREE.BoxGeometry(40, 0.5, 0.5);
-            
-            const topMolding1 = new THREE.Mesh(moldingGeometry, moldingMaterial);
-            topMolding1.position.set(0, 13.5, -20);
-            salon.add(topMolding1);
-
-            const topMolding2 = new THREE.Mesh(moldingGeometry, moldingMaterial);
-            topMolding2.position.set(0, 13.5, 20);
-            salon.add(topMolding2);
-
-            // Moulures verticales
-            const verticalMoldingGeometry = new THREE.BoxGeometry(0.5, 0.5, 40);
-            
-            const sideMolding1 = new THREE.Mesh(verticalMoldingGeometry, moldingMaterial);
-            sideMolding1.position.set(-20, 13.5, 0);
-            salon.add(sideMolding1);
-
-            const sideMolding2 = new THREE.Mesh(verticalMoldingGeometry, moldingMaterial);
-            sideMolding2.position.set(20, 13.5, 0);
-            salon.add(sideMolding2);
-        }
-
-        function createCrystalChandelier() {
+        function createElegantChandelier() {
             chandelierMesh = new THREE.Group();
 
-            // Chaîne dorée
+            // Chaîne dans les tons beige doré
             const chainGeometry = new THREE.CylinderGeometry(0.03, 0.03, 3, 12);
             const chainMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xd4af37,
-                emissive: 0x333311,
+                color: 0xcca98d,
+                emissive: 0x443322,
                 emissiveIntensity: 0.1
             });
             const chain = new THREE.Mesh(chainGeometry, chainMaterial);
             chain.position.y = 11.5;
             chandelierMesh.add(chain);
 
-            // Corps principal en bronze
+            // Corps principal beige doré
             const bodyGeometry = new THREE.SphereGeometry(1.2, 16, 12);
             const bodyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xb8860b,
-                emissive: 0x2a1f05,
+                color: 0x9f624f,
+                emissive: 0x2a1608,
                 emissiveIntensity: 0.2
             });
             const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
             body.position.y = 9;
             chandelierMesh.add(body);
 
-            // Bras en bronze avec cristaux
+            // Bras avec cristaux
             for (let i = 0; i < 8; i++) {
                 const angle = (i / 8) * Math.PI * 2;
                 
                 // Bras courbé
                 const armGeometry = new THREE.TorusGeometry(1.5, 0.08, 6, 16, Math.PI/2);
-                const armMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                const armMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
                 const arm = new THREE.Mesh(armGeometry, armMaterial);
                 arm.position.set(
                     Math.cos(angle) * 0.8,
@@ -1618,10 +1514,10 @@
                 arm.rotation.z = Math.PI;
                 chandelierMesh.add(arm);
 
-                // Bobèche (support de bougie)
+                // Support de bougie
                 const bobeche = new THREE.Mesh(
                     new THREE.CylinderGeometry(0.2, 0.15, 0.1, 12),
-                    new THREE.MeshLambertMaterial({ color: 0xd4af37 })
+                    new THREE.MeshLambertMaterial({ color: 0xcca98d })
                 );
                 bobeche.position.set(
                     Math.cos(angle) * 2.3,
@@ -1632,7 +1528,7 @@
 
                 // Bougie
                 const candleGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.8, 12);
-                const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+                const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
                 const candle = new THREE.Mesh(candleGeometry, candleMaterial);
                 candle.position.set(
                     Math.cos(angle) * 2.3,
@@ -1641,11 +1537,11 @@
                 );
                 chandelierMesh.add(candle);
 
-                // Flamme de bougie
+                // Flamme
                 const flameGeometry = new THREE.SphereGeometry(0.04, 6, 4);
                 const flameMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xffd700, 
-                    emissive: 0xffd700, 
+                    color: 0xcca98d, 
+                    emissive: 0xcca98d, 
                     emissiveIntensity: 0.6 
                 });
                 const flame = new THREE.Mesh(flameGeometry, flameMaterial);
@@ -1657,14 +1553,14 @@
                 flame.scale.set(0.8, 1.5, 0.8);
                 chandelierMesh.add(flame);
 
-                // Cristaux suspendus
+                // Cristaux dans les tons beige
                 for (let j = 0; j < 5; j++) {
                     const crystalGeometry = new THREE.OctahedronGeometry(0.1);
                     const crystalMaterial = new THREE.MeshLambertMaterial({ 
-                        color: 0xffffff, 
+                        color: 0xf7e7ce, 
                         transparent: true, 
                         opacity: 0.9,
-                        emissive: 0x333333,
+                        emissive: 0x443322,
                         emissiveIntensity: 0.1
                     });
                     const crystal = new THREE.Mesh(crystalGeometry, crystalMaterial);
@@ -1684,26 +1580,26 @@
         function createChesterfieldSofa() {
             const sofaGroup = new THREE.Group();
             const leatherMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x8b4513,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.1
             });
 
-            // Base capitonnée
+            // Base du sofa
             const baseGeometry = new THREE.BoxGeometry(8, 1, 3.5);
             const base = new THREE.Mesh(baseGeometry, leatherMaterial);
             base.position.y = 0.5;
             base.castShadow = true;
             sofaGroup.add(base);
 
-            // Dossier capitonné haut
+            // Dossier
             const backGeometry = new THREE.BoxGeometry(8, 3.5, 0.6);
             const back = new THREE.Mesh(backGeometry, leatherMaterial);
             back.position.set(0, 2.2, 1.45);
             back.castShadow = true;
             sofaGroup.add(back);
 
-            // Accoudoirs sculptés
+            // Accoudoirs
             const armGeometry = new THREE.BoxGeometry(0.6, 2.5, 3.5);
             
             const leftArm = new THREE.Mesh(armGeometry, leatherMaterial);
@@ -1716,9 +1612,9 @@
             rightArm.castShadow = true;
             sofaGroup.add(rightArm);
 
-            // Pieds en acajou tournés
+            // Pieds beige clair
             const legGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.8, 12);
-            const legMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+            const legMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             
             const legPositions = [
                 [-3.2, 0.4, -1.5], [3.2, 0.4, -1.5],
@@ -1732,12 +1628,12 @@
                 sofaGroup.add(leg);
             });
 
-            // Coussins de luxe
+            // Coussins beige clair
             for (let i = 0; i < 3; i++) {
                 const cushionGeometry = new THREE.BoxGeometry(2.2, 0.4, 2.8);
                 const cushionMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0x228b22,
-                    emissive: 0x0a2f0a,
+                    color: 0xcca98d,
+                    emissive: 0x2a1f05,
                     emissiveIntensity: 0.05
                 });
                 const cushion = new THREE.Mesh(cushionGeometry, cushionMaterial);
@@ -1746,20 +1642,20 @@
                 sofaGroup.add(cushion);
             }
 
-            // Position face à la cheminée
-            sofaGroup.position.set(0, 0, -8);
+            // Position repositionnée pour meilleure esthétique
+            sofaGroup.position.set(0, 0, -6);
             salon.add(sofaGroup);
         }
 
         function createMahoganyTable() {
             const tableGroup = new THREE.Group();
             const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x654321,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.1
             });
 
-            // Plateau en acajou massif
+            // Plateau beige foncé
             const topGeometry = new THREE.CylinderGeometry(2.5, 2.5, 0.2, 24);
             const top = new THREE.Mesh(topGeometry, mahoganyMaterial);
             top.position.y = 1.5;
@@ -1773,7 +1669,7 @@
             base.castShadow = true;
             tableGroup.add(base);
 
-            // Pieds griffes (claw feet)
+            // Pieds
             for (let i = 0; i < 4; i++) {
                 const angle = (i / 4) * Math.PI * 2;
                 const footGeometry = new THREE.SphereGeometry(0.2, 8, 6);
@@ -1787,17 +1683,17 @@
                 tableGroup.add(foot);
             }
 
-            // Service à thé en argent
+            // Service à thé
             createTeaService(tableGroup);
 
             // Position entre sofa et cheminée
-            tableGroup.position.set(0, 0, -12);
+            tableGroup.position.set(0, 0, -10);
             salon.add(tableGroup);
         }
 
         function createTeaService(parent) {
             const silverMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xc0c0c0,
+                color: 0xae9e8f,
                 emissive: 0x333333,
                 emissiveIntensity: 0.2
             });
@@ -1811,18 +1707,17 @@
             teapotBody.castShadow = true;
             parent.add(teapotBody);
 
-            // Bec de théière
+            // Bec
             const spoutGeometry = new THREE.CylinderGeometry(0.05, 0.08, 0.4, 8);
             const spout = new THREE.Mesh(spoutGeometry, silverMaterial);
             spout.position.set(0.35, 1.8, 0);
             spout.rotation.z = Math.PI / 6;
             parent.add(spout);
 
-            // Tasses et soucoupes
+            // Tasses
             for (let i = 0; i < 2; i++) {
                 const angle = (i / 2) * Math.PI + Math.PI/4;
                 
-                // Soucoupe
                 const saucerGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.02, 16);
                 const saucer = new THREE.Mesh(saucerGeometry, silverMaterial);
                 saucer.position.set(
@@ -1832,7 +1727,6 @@
                 );
                 parent.add(saucer);
 
-                // Tasse
                 const cupGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.12, 12);
                 const cup = new THREE.Mesh(cupGeometry, silverMaterial);
                 cup.position.set(
@@ -1847,25 +1741,25 @@
 
         function createAntiqueSideTable() {
             const tableGroup = new THREE.Group();
-            const antiqueMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            const antiqueMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
 
-            // Plateau marqueterie
+            // Plateau
             const topGeometry = new THREE.BoxGeometry(1.8, 0.15, 1.2);
             const top = new THREE.Mesh(topGeometry, antiqueMaterial);
             top.position.y = 2;
             top.castShadow = true;
             tableGroup.add(top);
 
-            // Tiroir décoratif
+            // Tiroir
             const drawerGeometry = new THREE.BoxGeometry(1.6, 0.3, 1);
-            const drawer = new THREE.Mesh(drawerGeometry, new THREE.MeshLambertMaterial({ color: 0x654321 }));
+            const drawer = new THREE.Mesh(drawerGeometry, new THREE.MeshLambertMaterial({ color: 0x59372b }));
             drawer.position.y = 1.5;
             drawer.castShadow = true;
             tableGroup.add(drawer);
 
-            // Pieds Louis XVI
+            // Pieds
             const legGeometry = new THREE.CylinderGeometry(0.06, 0.08, 2, 12);
-            const legMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+            const legMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
             
             const legPositions = [
                 [-0.7, 1, -0.5], [0.7, 1, -0.5],
@@ -1879,74 +1773,53 @@
                 tableGroup.add(leg);
             });
 
-            // Lampe Tiffany
-            createTiffanyLamp(tableGroup);
+            // Lampe élégante
+            createElegantLamp(tableGroup);
 
-            // Position à côté du sofa
-            tableGroup.position.set(-8, 0, -8);
+            // Position repositionnée
+            tableGroup.position.set(-6, 0, -6);
             salon.add(tableGroup);
         }
 
-        function createTiffanyLamp(parent) {
-            // Pied en bronze
+        function createElegantLamp(parent) {
+            // Pied beige doré
             const baseGeometry = new THREE.CylinderGeometry(0.15, 0.2, 1.2, 12);
-            const baseMaterial = new THREE.MeshLambertMaterial({ color: 0xb8860b });
+            const baseMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
             const base = new THREE.Mesh(baseGeometry, baseMaterial);
             base.position.y = 2.8;
             base.castShadow = true;
             parent.add(base);
 
-            // Abat-jour Tiffany multicolore
+            // Abat-jour beige
             const shadeGeometry = new THREE.CylinderGeometry(0.8, 1.2, 0.8, 12);
             const shadeMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xff6347, 
+                color: 0xf7e7ce, 
                 transparent: true, 
-                opacity: 0.7,
-                emissive: 0xff2211,
+                opacity: 0.8,
+                emissive: 0x443322,
                 emissiveIntensity: 0.2
             });
             const shade = new THREE.Mesh(shadeGeometry, shadeMaterial);
             shade.position.y = 3.8;
             parent.add(shade);
-
-            // Motifs vitrail
-            for (let i = 0; i < 8; i++) {
-                const angle = (i / 8) * Math.PI * 2;
-                const colors = [0xff6b35, 0xf7931e, 0x06ffa5, 0x1fb3d3];
-                
-                const panelGeometry = new THREE.BoxGeometry(0.3, 0.6, 0.02);
-                const panelMaterial = new THREE.MeshLambertMaterial({ 
-                    color: colors[i % colors.length], 
-                    transparent: true, 
-                    opacity: 0.8 
-                });
-                const panel = new THREE.Mesh(panelGeometry, panelMaterial);
-                panel.position.set(
-                    Math.cos(angle) * 1,
-                    3.8,
-                    Math.sin(angle) * 1
-                );
-                panel.rotation.y = angle;
-                parent.add(panel);
-            }
         }
 
         function createExecutiveDesk() {
             const deskGroup = new THREE.Group();
             const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x654321,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.1
             });
 
-            // Bureau exécutif imposant
+            // Bureau
             const deskTopGeometry = new THREE.BoxGeometry(10, 0.2, 4);
             const deskTop = new THREE.Mesh(deskTopGeometry, mahoganyMaterial);
             deskTop.position.y = 2.5;
             deskTop.castShadow = true;
             deskGroup.add(deskTop);
 
-            // Caissons avec tiroirs
+            // Caissons
             const cabinetGeometry = new THREE.BoxGeometry(2, 2.3, 3.5);
             
             const leftCabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
@@ -1959,10 +1832,10 @@
             rightCabinet.castShadow = true;
             deskGroup.add(rightCabinet);
 
-            // Détails dorés (poignées, etc.)
+            // Poignées beige clair
             createBrassDetails(deskGroup);
 
-            // Ordinateur vintage moderne
+            // Ordinateur
             const monitorGeometry = new THREE.BoxGeometry(3, 2.2, 0.4);
             const monitorMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
             const monitor = new THREE.Mesh(monitorGeometry, monitorMaterial);
@@ -1970,7 +1843,7 @@
             monitor.castShadow = true;
             deskGroup.add(monitor);
 
-            // Écran cliquable avec interface vintage - VERSION CORRIGÉE
+            // Écran cliquable
             const screenGeometry = new THREE.BoxGeometry(2.8, 2, 0.1);
             const screenMaterial = new THREE.MeshLambertMaterial({ 
                 color: 0x001100, 
@@ -1981,27 +1854,26 @@
             computerMesh.position.set(-1, 3.8, -0.65);
             computerMesh.userData = { clickable: true, type: 'computer' };
             deskGroup.add(computerMesh);
-            clickableObjects.push(computerMesh); // Ajouter à la liste des objets cliquables
+            clickableObjects.push(computerMesh);
 
-            // Accessoires de bureau vintage
+            // Accessoires
             createDeskAccessories(deskGroup);
 
-            // Position contre le mur droit
-            deskGroup.position.set(12, 0, -8);
+            // Position repositionnée
+            deskGroup.position.set(10, 0, -6);
             salon.add(deskGroup);
         }
 
         function createBrassDetails(parent) {
             const brassMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xd4af37,
-                emissive: 0x333311,
+                color: 0xcca98d,
+                emissive: 0x443322,
                 emissiveIntensity: 0.2
             });
 
-            // Poignées des tiroirs
+            // Poignées
             const handleGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.3, 8);
             
-            // Poignées caisson gauche
             for (let i = 0; i < 3; i++) {
                 const handle = new THREE.Mesh(handleGeometry, brassMaterial);
                 handle.position.set(-2.5, 0.8 + i * 0.6, 1.8);
@@ -2009,7 +1881,6 @@
                 parent.add(handle);
             }
 
-            // Poignées caisson droit
             for (let i = 0; i < 3; i++) {
                 const handle = new THREE.Mesh(handleGeometry, brassMaterial);
                 handle.position.set(4.5, 0.8 + i * 0.6, 1.8);
@@ -2017,7 +1888,7 @@
                 parent.add(handle);
             }
 
-            // Ornements de coins
+            // Ornements
             const ornamentGeometry = new THREE.SphereGeometry(0.08, 8, 6);
             const corners = [
                 [-4.8, 2.6, -1.8], [4.8, 2.6, -1.8],
@@ -2032,10 +1903,10 @@
         }
 
         function createDeskAccessories(parent) {
-            // Encrier en cristal
+            // Encrier beige
             const inkwellGeometry = new THREE.CylinderGeometry(0.15, 0.2, 0.2, 12);
             const inkwellMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x4682b4, 
+                color: 0x9f624f, 
                 transparent: true, 
                 opacity: 0.8 
             });
@@ -2044,24 +1915,24 @@
             inkwell.castShadow = true;
             parent.add(inkwell);
 
-            // Plume d'écriture
+            // Plume
             const quillGeometry = new THREE.CylinderGeometry(0.01, 0.02, 0.8, 8);
-            const quillMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+            const quillMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             const quill = new THREE.Mesh(quillGeometry, quillMaterial);
             quill.position.set(2.3, 2.9, 1);
             quill.rotation.z = Math.PI / 6;
             parent.add(quill);
 
-            // Bascule-lettre en bronze
+            // Porte-lettres
             const letterHolderGeometry = new THREE.BoxGeometry(0.5, 0.6, 0.1);
-            const letterHolderMaterial = new THREE.MeshLambertMaterial({ color: 0xb8860b });
+            const letterHolderMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
             const letterHolder = new THREE.Mesh(letterHolderGeometry, letterHolderMaterial);
             letterHolder.position.set(3.5, 2.8, -0.5);
             letterHolder.rotation.x = -Math.PI / 8;
             parent.add(letterHolder);
 
-            // Livres anciens empilés
-            const bookColors = [0x8b0000, 0x000080, 0x006400];
+            // Livres
+            const bookColors = [0x59372b, 0x9f624f, 0xae9e8f];
             for (let i = 0; i < 3; i++) {
                 const bookGeometry = new THREE.BoxGeometry(0.8, 0.08, 1.2);
                 const bookMaterial = new THREE.MeshLambertMaterial({ color: bookColors[i] });
@@ -2072,9 +1943,9 @@
                 parent.add(book);
             }
 
-            // Clavier vintage
+            // Clavier
             const keyboardGeometry = new THREE.BoxGeometry(2.2, 0.1, 0.8);
-            const keyboardMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+            const keyboardMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             const keyboard = new THREE.Mesh(keyboardGeometry, keyboardMaterial);
             keyboard.position.set(-1, 2.65, 0.8);
             keyboard.castShadow = true;
@@ -2084,17 +1955,17 @@
         function createAntiqueBookshelf() {
             const shelfGroup = new THREE.Group();
             const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x654321,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.1
             });
 
-            // Structure bibliothèque victorienne
+            // Structure
             const frameWidth = 0.4;
             const shelfHeight = 10;
             const shelfDepth = 3;
 
-            // Montants sculptés
+            // Montants
             const pillarGeometry = new THREE.BoxGeometry(frameWidth, shelfHeight, shelfDepth);
             
             const leftPillar = new THREE.Mesh(pillarGeometry, mahoganyMaterial);
@@ -2107,14 +1978,14 @@
             rightPillar.castShadow = true;
             shelfGroup.add(rightPillar);
 
-            // Panneau arrière sculpté
+            // Panneau arrière
             const backPanelGeometry = new THREE.BoxGeometry(8, shelfHeight, 0.3);
             const backPanel = new THREE.Mesh(backPanelGeometry, mahoganyMaterial);
             backPanel.position.set(0, 5, -1.35);
             backPanel.castShadow = true;
             shelfGroup.add(backPanel);
 
-            // Étagères avec bords moulurés
+            // Étagères
             const shelfGeometry = new THREE.BoxGeometry(8, 0.3, shelfDepth);
             for (let i = 0; i <= 6; i++) {
                 const shelf = new THREE.Mesh(shelfGeometry, mahoganyMaterial);
@@ -2123,37 +1994,27 @@
                 shelfGroup.add(shelf);
             }
 
-            // Fronton décoratif
-            const pedimentGeometry = new THREE.ConeGeometry(2.5, 1.5, 3);
-            const pediment = new THREE.Mesh(pedimentGeometry, mahoganyMaterial);
-            pediment.position.set(0, 11, -1);
-            pediment.rotation.z = Math.PI;
-            pediment.rotation.y = Math.PI / 2;
-            pediment.castShadow = true;
-            shelfGroup.add(pediment);
+            // Collection de livres
+            createBookCollection(shelfGroup);
 
-            // Collection de livres anciens et objets d'art
-            createAntiqueBookCollection(shelfGroup);
-
-            // Position contre le mur gauche
-            shelfGroup.position.set(-15, 0, -8);
+            // Position repositionnée
+            shelfGroup.position.set(-12, 0, -6);
             salon.add(shelfGroup);
         }
 
-        function createAntiqueBookCollection(parent) {
+        function createBookCollection(parent) {
             const bookCollections = [
-                { colors: [0x8b0000, 0xa0522d, 0x800000], shelf: 0, theme: 'Classiques' },
-                { colors: [0x000080, 0x191970, 0x4169e1], shelf: 1, theme: 'Philosophie' },
-                { colors: [0x006400, 0x228b22, 0x32cd32], shelf: 2, theme: 'Histoire' },
-                { colors: [0x8b4513, 0xa0522d, 0xd2b48c], shelf: 3, theme: 'Littérature' },
-                { colors: [0x4b0082, 0x663399, 0x9932cc], shelf: 4, theme: 'Sciences' },
-                { colors: [0xb8860b, 0xdaa520, 0xffd700], shelf: 5, theme: 'Art' }
+                { colors: [0x59372b, 0x9f624f, 0xae9e8f], shelf: 0 },
+                { colors: [0x9f624f, 0xcca98d, 0x59372b], shelf: 1 },
+                { colors: [0xae9e8f, 0xf7e7ce, 0x9f624f], shelf: 2 },
+                { colors: [0x59372b, 0xcca98d, 0xae9e8f], shelf: 3 },
+                { colors: [0x9f624f, 0xf7e7ce, 0x59372b], shelf: 4 },
+                { colors: [0xcca98d, 0xae9e8f, 0x9f624f], shelf: 5 }
             ];
 
             bookCollections.forEach(collection => {
                 const shelfY = collection.shelf * 1.5 + 1.1;
                 
-                // Livres de la collection
                 for (let i = 0; i < 12; i++) {
                     const bookGeometry = new THREE.BoxGeometry(0.4, 1.4, 0.2);
                     const bookMaterial = new THREE.MeshLambertMaterial({ 
@@ -2166,20 +2027,20 @@
                     parent.add(book);
                 }
 
-                // Objets décoratifs sur certaines étagères
+                // Objets décoratifs
                 if (collection.shelf % 2 === 0) {
                     if (collection.shelf === 0) {
-                        // Buste en marbre
+                        // Buste
                         const bustGeometry = new THREE.CylinderGeometry(0.3, 0.4, 0.8, 12);
-                        const bustMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+                        const bustMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
                         const bust = new THREE.Mesh(bustGeometry, bustMaterial);
                         bust.position.set(2.5, shelfY, 1);
                         bust.castShadow = true;
                         parent.add(bust);
                     } else if (collection.shelf === 2) {
-                        // Globe terrestre
+                        // Globe
                         const globeStandGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.4, 12);
-                        const standMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                        const standMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
                         const stand = new THREE.Mesh(globeStandGeometry, standMaterial);
                         stand.position.set(2.5, shelfY - 0.2, 1);
                         parent.add(stand);
@@ -2190,14 +2051,6 @@
                         globe.position.set(2.5, shelfY + 0.1, 1);
                         globe.castShadow = true;
                         parent.add(globe);
-                    } else {
-                        // Chandelier miniature
-                        const candlestickGeometry = new THREE.CylinderGeometry(0.08, 0.12, 0.6, 12);
-                        const candlestickMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
-                        const candlestick = new THREE.Mesh(candlestickGeometry, candlestickMaterial);
-                        candlestick.position.set(2.5, shelfY, 1);
-                        candlestick.castShadow = true;
-                        parent.add(candlestick);
                     }
                 }
             });
@@ -2206,26 +2059,26 @@
         function createVintageEntertainmentCenter() {
             const centerGroup = new THREE.Group();
             const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x654321,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.1
             });
 
-            // Meuble TV intégré style vintage
+            // Meuble TV
             const cabinetGeometry = new THREE.BoxGeometry(12, 3, 2.5);
             const cabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
             cabinet.position.y = 1.5;
             cabinet.castShadow = true;
             centerGroup.add(cabinet);
 
-            // Socle surélevé
+            // Socle
             const baseGeometry = new THREE.BoxGeometry(13, 0.5, 3);
-            const base = new THREE.Mesh(baseGeometry, new THREE.MeshLambertMaterial({ color: 0x8b4513 }));
+            const base = new THREE.Mesh(baseGeometry, new THREE.MeshLambertMaterial({ color: 0xae9e8f }));
             base.position.y = 0.25;
             base.castShadow = true;
             centerGroup.add(base);
 
-            // TV moderne intégrée dans style vintage
+            // TV
             const tvFrameGeometry = new THREE.BoxGeometry(8, 2.8, 0.3);
             const tvFrameMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
             const tvFrame = new THREE.Mesh(tvFrameGeometry, tvFrameMaterial);
@@ -2233,21 +2086,21 @@
             tvFrame.castShadow = true;
             centerGroup.add(tvFrame);
 
-            // Écran TV avec ambiance vintage - VERSION CORRIGÉE
+            // Écran TV
             const screenGeometry = new THREE.BoxGeometry(7.5, 2.5, 0.1);
-            const screenTexture = new THREE.CanvasTexture(createVintageScreenCanvas());
+            const screenTexture = new THREE.CanvasTexture(createBeautifulScreenCanvas());
             const screenMaterial = new THREE.MeshLambertMaterial({ 
                 map: screenTexture, 
-                emissive: 0x221100, 
+                emissive: 0x332211, 
                 emissiveIntensity: 0.2 
             });
             tvMesh = new THREE.Mesh(screenGeometry, screenMaterial);
             tvMesh.position.set(0, 4.5, 1.75);
             tvMesh.userData = { clickable: true, type: 'tv' };
             centerGroup.add(tvMesh);
-            clickableObjects.push(tvMesh); // Ajouter à la liste des objets cliquables
+            clickableObjects.push(tvMesh);
 
-            // Portes du meuble avec vitrail
+            // Portes du meuble
             createCabinetDoors(centerGroup);
 
             // Position contre le mur du fond
@@ -2255,23 +2108,23 @@
             salon.add(centerGroup);
         }
 
-        function createVintageScreenCanvas() {
+        function createBeautifulScreenCanvas() {
             const canvas = document.createElement('canvas');
             canvas.width = 750;
             canvas.height = 250;
             const ctx = canvas.getContext('2d');
 
-            // Fond sépia vintage
+            // Fond dégradé beige
             const gradient = ctx.createLinearGradient(0, 0, 750, 250);
-            gradient.addColorStop(0, '#8b4513');
-            gradient.addColorStop(0.3, '#deb887');
-            gradient.addColorStop(0.7, '#f4a460');
-            gradient.addColorStop(1, '#daa520');
+            gradient.addColorStop(0, '#9f624f');
+            gradient.addColorStop(0.3, '#cca98d');
+            gradient.addColorStop(0.7, '#f7e7ce');
+            gradient.addColorStop(1, '#ae9e8f');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 750, 250);
 
-            // Motif vintage
-            ctx.fillStyle = 'rgba(139, 69, 19, 0.3)';
+            // Motifs élégants
+            ctx.fillStyle = 'rgba(89, 55, 43, 0.3)';
             for (let i = 0; i < 20; i++) {
                 ctx.beginPath();
                 ctx.arc(
@@ -2285,23 +2138,22 @@
             }
 
             // Bordure décorative
-            ctx.strokeStyle = '#654321';
+            ctx.strokeStyle = '#59372b';
             ctx.lineWidth = 8;
             ctx.strokeRect(0, 0, 750, 250);
 
-            // Texte vintage
-            ctx.fillStyle = '#654321';
+            // Texte élégant
+            ctx.fillStyle = '#59372b';
             ctx.font = 'bold 32px Times New Roman';
             ctx.textAlign = 'center';
-            ctx.fillText('Entertainment Vintage', 375, 130);
+            ctx.fillText('Divertissement Élégant', 375, 130);
 
             return canvas;
         }
 
         function createCabinetDoors(parent) {
-            const doorMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            const doorMaterial = new THREE.MeshLambertMaterial({ color: 0xae9e8f });
             
-            // Portes latérales
             for (let side = 0; side < 2; side++) {
                 const doorGeometry = new THREE.BoxGeometry(2, 2.8, 0.1);
                 const door = new THREE.Mesh(doorGeometry, doorMaterial);
@@ -2309,9 +2161,9 @@
                 door.castShadow = true;
                 parent.add(door);
 
-                // Panneaux de verre teinté
+                // Panneaux de verre beige
                 const glassGeometry = new THREE.BoxGeometry(1.5, 2, 0.05);
-                const glassColors = [0x8b0000, 0x000080, 0x006400, 0x8b4513];
+                const glassColors = [0x9f624f, 0xcca98d, 0xae9e8f, 0xf7e7ce];
                 const glassMaterial = new THREE.MeshLambertMaterial({ 
                     color: glassColors[side], 
                     transparent: true, 
@@ -2321,9 +2173,9 @@
                 glass.position.set(side === 0 ? -4.5 : 4.5, 1.5, 1.35);
                 parent.add(glass);
 
-                // Poignées en bronze
+                // Poignées beige clair
                 const handleGeometry = new THREE.SphereGeometry(0.08, 8, 6);
-                const handleMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                const handleMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
                 const handle = new THREE.Mesh(handleGeometry, handleMaterial);
                 handle.position.set(
                     side === 0 ? -3.7 : 3.7, 
@@ -2334,29 +2186,12 @@
             }
         }
 
-        function createOldMoneyDecorations() {
-            // Cheminée élégante
-            createElegantFireplace();
-            
-            // Portraits de famille
-            createFamilyPortraits();
-            
-            // Tapis persan authentique
-            createAuthenticPersianRug();
-            
-            // Objets d'art et antiquités
-            createArtObjects();
-            
-            // Plantes d'intérieur sophistiquées
-            createSophisticatedPlants();
-        }
-
         function createElegantFireplace() {
             const fireplaceGroup = new THREE.Group();
             
-            // Manteau en marbre
+            // Manteau beige clair
             const mantleGeometry = new THREE.BoxGeometry(8, 1, 2);
-            const mantleMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
+            const mantleMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             const mantle = new THREE.Mesh(mantleGeometry, mantleMaterial);
             mantle.position.set(0, 4, -19.5);
             mantle.castShadow = true;
@@ -2364,17 +2199,17 @@
 
             // Foyer
             const fireboxGeometry = new THREE.BoxGeometry(6, 3, 1.5);
-            const fireboxMaterial = new THREE.MeshLambertMaterial({ color: 0x2f4f4f });
+            const fireboxMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
             const firebox = new THREE.Mesh(fireboxGeometry, fireboxMaterial);
             firebox.position.set(0, 2.5, -19);
             firebox.castShadow = true;
             fireplaceGroup.add(firebox);
 
-            // Feu de cheminée
+            // Feu de cheminée dans les tons beige/doré
             const fireGeometry = new THREE.ConeGeometry(1, 2, 8);
             const fireMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xff4500, 
-                emissive: 0xff4500, 
+                color: 0xcca98d, 
+                emissive: 0xcca98d, 
                 emissiveIntensity: 0.5,
                 transparent: true,
                 opacity: 0.8
@@ -2393,7 +2228,7 @@
 
             // Bûches
             const logGeometry = new THREE.CylinderGeometry(0.15, 0.2, 2, 8);
-            const logMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            const logMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
             
             for (let i = 0; i < 3; i++) {
                 const log = new THREE.Mesh(logGeometry, logMaterial);
@@ -2403,10 +2238,10 @@
                 fireplaceGroup.add(log);
             }
 
-            // Chenets en bronze
+            // Chenets beige doré
             for (let side = 0; side < 2; side++) {
                 const andironGeometry = new THREE.CylinderGeometry(0.1, 0.15, 1.5, 12);
-                const andironMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+                const andironMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
                 const andiron = new THREE.Mesh(andironGeometry, andironMaterial);
                 andiron.position.set(side === 0 ? -2.5 : 2.5, 1.75, -18.5);
                 andiron.castShadow = true;
@@ -2414,242 +2249,22 @@
             }
 
             // Lumière du feu
-            const fireLight = new THREE.PointLight(0xff4500, 1, 15);
+            const fireLight = new THREE.PointLight(0xcca98d, 1, 15);
             fireLight.position.set(0, 2, -18);
             fireplaceGroup.add(fireLight);
 
             salon.add(fireplaceGroup);
         }
 
-        function createFamilyPortraits() {
-            const portraitPositions = [
-                { pos: [-10, 6, -19.8], size: [2, 2.5] },
-                { pos: [10, 6, -19.8], size: [2, 2.5] },
-                { pos: [-18, 6, -5], size: [1.5, 2] },
-                { pos: [18, 6, 5], size: [1.5, 2] }
-            ];
-
-            portraitPositions.forEach((portrait, index) => {
-                // Cadre doré
-                const frameGeometry = new THREE.BoxGeometry(portrait.size[0] + 0.2, portrait.size[1] + 0.2, 0.1);
-                const frameMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xd4af37,
-                    emissive: 0x333311,
-                    emissiveIntensity: 0.1
-                });
-                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
-                frame.position.set(...portrait.pos);
-                frame.castShadow = true;
-                salon.add(frame);
-
-                // Portrait peint
-                const paintingGeometry = new THREE.PlaneGeometry(portrait.size[0], portrait.size[1]);
-                const paintingTexture = new THREE.CanvasTexture(createPortraitCanvas(index));
-                const paintingMaterial = new THREE.MeshLambertMaterial({ map: paintingTexture });
-                const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
-                painting.position.set(portrait.pos[0], portrait.pos[1], portrait.pos[2] + 0.02);
-                salon.add(painting);
-            });
-        }
-
-        function createPortraitCanvas(index) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 200;
-            canvas.height = 250;
-            const ctx = canvas.getContext('2d');
-
-            // Fond vintage
-            const bgColors = ['#8b4513', '#654321', '#2f4f4f', '#556b2f'];
-            ctx.fillStyle = bgColors[index % bgColors.length];
-            ctx.fillRect(0, 0, 200, 250);
-
-            // Silhouette de portrait
-            ctx.fillStyle = 'rgba(139, 69, 19, 0.7)';
-            ctx.beginPath();
-            ctx.arc(100, 100, 60, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Détails du visage (stylisés)
-            ctx.fillStyle = 'rgba(101, 67, 33, 0.8)';
-            ctx.fillRect(85, 85, 30, 15); // Front
-            ctx.fillRect(90, 110, 20, 10); // Nez
+        function createBeautifulPlants() {
+            // Plantes repositionnées esthétiquement
             
-            // Vêtements d'époque
-            ctx.fillStyle = 'rgba(47, 79, 79, 0.8)';
-            ctx.fillRect(70, 160, 60, 90);
-
-            // Texte signature
-            ctx.fillStyle = '#f5f5dc';
-            ctx.font = '12px Times New Roman';
-            ctx.textAlign = 'center';
-            const names = ['Lord Winchester', 'Lady Margaret', 'Sir Edmund', 'Duchess Claire'];
-            ctx.fillText(names[index], 100, 240);
-
-            return canvas;
-        }
-
-        function createAuthenticPersianRug() {
-            const rugGeometry = new THREE.PlaneGeometry(16, 12);
-            const rugTexture = new THREE.CanvasTexture(createPersianRugPattern());
-            const rugMaterial = new THREE.MeshLambertMaterial({ 
-                map: rugTexture,
-                transparent: true,
-                opacity: 0.95
-            });
-            const rug = new THREE.Mesh(rugGeometry, rugMaterial);
-            rug.rotation.x = -Math.PI / 2;
-            rug.position.set(0, 0.02, -8);
-            rug.receiveShadow = true;
-            salon.add(rug);
-        }
-
-        function createPersianRugPattern() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 600;
-            canvas.height = 450;
-            const ctx = canvas.getContext('2d');
-
-            // Fond bordeaux profond
-            ctx.fillStyle = '#800020';
-            ctx.fillRect(0, 0, 600, 450);
-
-            // Bordure principale dorée
-            ctx.strokeStyle = '#d4af37';
-            ctx.lineWidth = 8;
-            ctx.strokeRect(20, 20, 560, 410);
-            
-            // Bordure secondaire
-            ctx.strokeStyle = '#8b4513';
-            ctx.lineWidth = 4;
-            ctx.strokeRect(40, 40, 520, 370);
-
-            // Motif central (médaillon)
-            ctx.strokeStyle = '#d4af37';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(300, 225, 100, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Motifs floraux dans le médaillon
-            for (let i = 0; i < 8; i++) {
-                const angle = (i / 8) * Math.PI * 2;
-                ctx.beginPath();
-                ctx.arc(
-                    300 + Math.cos(angle) * 60,
-                    225 + Math.sin(angle) * 60,
-                    15,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.stroke();
-            }
-
-            // Motifs dans les coins
-            const cornerPositions = [[100, 100], [500, 100], [100, 350], [500, 350]];
-            cornerPositions.forEach(pos => {
-                ctx.strokeStyle = '#b8860b';
-                ctx.lineWidth = 2;
-                
-                // Rosace de coin
-                for (let i = 0; i < 6; i++) {
-                    const angle = (i / 6) * Math.PI * 2;
-                    ctx.beginPath();
-                    ctx.moveTo(pos[0], pos[1]);
-                    ctx.lineTo(
-                        pos[0] + Math.cos(angle) * 30,
-                        pos[1] + Math.sin(angle) * 30
-                    );
-                    ctx.stroke();
-                }
-            });
-
-            // Motifs répétitifs sur les côtés
-            for (let i = 0; i < 10; i++) {
-                ctx.strokeStyle = '#654321';
-                ctx.lineWidth = 2;
-                
-                // Motifs latéraux
-                ctx.beginPath();
-                ctx.arc(80, 80 + i * 30, 8, 0, Math.PI * 2);
-                ctx.stroke();
-                
-                ctx.beginPath();
-                ctx.arc(520, 80 + i * 30, 8, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-
-            return canvas;
-        }
-
-        function createArtObjects() {
-            // Sculpture en bronze
-            const sculptureGroup = new THREE.Group();
-            
-            const pedestalGeometry = new THREE.CylinderGeometry(0.6, 0.8, 1.2, 16);
-            const pedestalMaterial = new THREE.MeshLambertMaterial({ color: 0xf5f5dc });
-            const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
-            pedestal.position.y = 0.6;
-            pedestal.castShadow = true;
-            sculptureGroup.add(pedestal);
-
-            const sculptureGeometry = new THREE.ConeGeometry(0.4, 1.5, 12);
-            const sculptureMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xb8860b,
-                emissive: 0x2a1f05,
-                emissiveIntensity: 0.1
-            });
-            const sculpture = new THREE.Mesh(sculptureGeometry, sculptureMaterial);
-            sculpture.position.y = 2;
-            sculpture.castShadow = true;
-            sculptureGroup.add(sculpture);
-
-            sculptureGroup.position.set(8, 0, -15);
-            salon.add(sculptureGroup);
-
-            // Vases décoratifs
-            const vasePositions = [
-                { pos: [-8, 0, -15], height: 1.5 },
-                { pos: [6, 0, 8], height: 1.2 }
-            ];
-
-            vasePositions.forEach(vaseData => {
-                const vaseGeometry = new THREE.CylinderGeometry(0.3, 0.5, vaseData.height, 16);
-                const vaseMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0x2f4f4f,
-                    emissive: 0x0a0f0f,
-                    emissiveIntensity: 0.1
-                });
-                const vase = new THREE.Mesh(vaseGeometry, vaseMaterial);
-                vase.position.set(vaseData.pos[0], vaseData.height / 2, vaseData.pos[1]);
-                vase.castShadow = true;
-                salon.add(vase);
-
-                // Fleurs dans les vases
-                const flowerColors = [0xdc143c, 0xff69b4, 0xdaa520];
-                for (let i = 0; i < 5; i++) {
-                    const flowerGeometry = new THREE.SphereGeometry(0.08, 8, 6);
-                    const flowerMaterial = new THREE.MeshLambertMaterial({
-                        color: flowerColors[Math.floor(Math.random() * flowerColors.length)]
-                    });
-                    const flower = new THREE.Mesh(flowerGeometry, flowerMaterial);
-                    const angle = (i / 5) * Math.PI * 2;
-                    flower.position.set(
-                        vaseData.pos[0] + Math.cos(angle) * 0.15,
-                        vaseData.height + 0.3 + Math.random() * 0.2,
-                        vaseData.pos[1] + Math.sin(angle) * 0.15
-                    );
-                    salon.add(flower);
-                }
-            });
-        }
-
-        function createSophisticatedPlants() {
-            // Ficus dans pot en céramique
+            // Grand ficus dans un coin élégant
             const ficusGroup = new THREE.Group();
             
             const potGeometry = new THREE.CylinderGeometry(1, 1.3, 1.5, 16);
             const potMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x8b4513,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.05
             });
@@ -2658,15 +2273,15 @@
             pot.castShadow = true;
             ficusGroup.add(pot);
 
-            // Tronc du ficus
+            // Tronc
             const trunkGeometry = new THREE.CylinderGeometry(0.15, 0.25, 4, 12);
-            const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+            const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
             const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
             trunk.position.y = 3.5;
             trunk.castShadow = true;
             ficusGroup.add(trunk);
 
-            // Feuillage dense
+            // Feuillage
             const foliageMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
             for (let i = 0; i < 20; i++) {
                 const leafGeometry = new THREE.SphereGeometry(0.4, 8, 6);
@@ -2683,14 +2298,15 @@
                 ficusGroup.add(leaf);
             }
 
-            ficusGroup.position.set(-14, 0, 8);
+            // Position dans un coin esthétique
+            ficusGroup.position.set(-16, 0, 12);
             salon.add(ficusGroup);
 
-            // Palmier d'intérieur
+            // Palmier élégant de l'autre côté
             const palmGroup = new THREE.Group();
             
             const palmPotGeometry = new THREE.CylinderGeometry(0.8, 1, 1.2, 12);
-            const palmPot = new THREE.Mesh(palmPotGeometry, new THREE.MeshLambertMaterial({ color: 0x2f4f4f }));
+            const palmPot = new THREE.Mesh(palmPotGeometry, new THREE.MeshLambertMaterial({ color: 0xae9e8f }));
             palmPot.position.y = 0.6;
             palmPot.castShadow = true;
             palmGroup.add(palmPot);
@@ -2698,7 +2314,7 @@
             // Troncs de palmier
             for (let i = 0; i < 3; i++) {
                 const palmTrunkGeometry = new THREE.CylinderGeometry(0.08, 0.12, 3 + i * 0.5, 10);
-                const palmTrunk = new THREE.Mesh(palmTrunkGeometry, new THREE.MeshLambertMaterial({ color: 0x8b7355 }));
+                const palmTrunk = new THREE.Mesh(palmTrunkGeometry, new THREE.MeshLambertMaterial({ color: 0xae9e8f }));
                 palmTrunk.position.set(
                     (i - 1) * 0.3,
                     2.7 + i * 0.25,
@@ -2726,31 +2342,29 @@
                 }
             }
 
-            palmGroup.position.set(14, 0, 8);
+            // Position symétrique
+            palmGroup.position.set(16, 0, 12);
             salon.add(palmGroup);
         }
 
-        function createAmbientElements() {
-            // Horloges grand-père
+        function createElegantDecorations() {
+            // Horloge grand-père repositionnée
             createGrandfatherClock();
             
-            // Miroirs dorés
-            createGildedMirrors();
-            
-            // Candélabres
+            // Candélabres repositionnés
             createCandelabras();
             
-            // Objets de collection
+            // Objets de collection repositionnés
             createCollectibles();
         }
 
         function createGrandfatherClock() {
             const clockGroup = new THREE.Group();
             
-            // Corps principal
+            // Corps principal beige foncé
             const bodyGeometry = new THREE.BoxGeometry(1, 7, 1);
             const bodyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x654321,
+                color: 0x9f624f,
                 emissive: 0x1a0e07,
                 emissiveIntensity: 0.1
             });
@@ -2759,19 +2373,19 @@
             body.castShadow = true;
             clockGroup.add(body);
 
-            // Cadran
+            // Cadran beige clair
             const faceGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.1, 24);
-            const faceMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+            const faceMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
             const face = new THREE.Mesh(faceGeometry, faceMaterial);
             face.position.set(0, 5.5, 0.6);
             face.rotation.x = Math.PI / 2;
             face.castShadow = true;
             clockGroup.add(face);
 
-            // Aiguilles
+            // Aiguilles beige foncé
             const hourHandGeometry = new THREE.BoxGeometry(0.02, 0.4, 0.01);
             const minuteHandGeometry = new THREE.BoxGeometry(0.01, 0.5, 0.01);
-            const handMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+            const handMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
             
             const hourHand = new THREE.Mesh(hourHandGeometry, handMaterial);
             hourHand.position.set(0, 5.5, 0.65);
@@ -2790,78 +2404,33 @@
             base.castShadow = true;
             clockGroup.add(base);
 
-            // Pendule (visible à travers une fenêtre)
+            // Pendule beige doré
             const pendulumGeometry = new THREE.SphereGeometry(0.1, 12, 8);
-            const pendulumMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
+            const pendulumMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
             const pendulum = new THREE.Mesh(pendulumGeometry, pendulumMaterial);
             pendulum.position.set(0, 3, 0.6);
             clockGroup.add(pendulum);
 
-            clockGroup.position.set(-16, 0, 5);
+            // Position dans un coin élégant
+            clockGroup.position.set(-18, 0, 8);
             salon.add(clockGroup);
-        }
-
-        function createGildedMirrors() {
-            // Grand miroir doré
-            const mirrorGroup = new THREE.Group();
-            
-            // Cadre baroque doré
-            const frameGeometry = new THREE.CylinderGeometry(2.2, 2.2, 0.3, 32);
-            const frameMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xd4af37,
-                emissive: 0x333311,
-                emissiveIntensity: 0.2
-            });
-            const frame = new THREE.Mesh(frameGeometry, frameMaterial);
-            frame.position.y = 6;
-            frame.rotation.x = Math.PI / 2;
-            frame.castShadow = true;
-            mirrorGroup.add(frame);
-
-            // Surface réfléchissante
-            const mirrorGeometry = new THREE.CylinderGeometry(1.8, 1.8, 0.05, 32);
-            const mirrorMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xb0c4de,
-                emissive: 0x444455,
-                emissiveIntensity: 0.3
-            });
-            const mirror = new THREE.Mesh(mirrorGeometry, mirrorMaterial);
-            mirror.position.y = 6;
-            mirror.rotation.x = Math.PI / 2;
-            mirrorGroup.add(mirror);
-
-            // Ornements dorés autour du cadre
-            for (let i = 0; i < 12; i++) {
-                const angle = (i / 12) * Math.PI * 2;
-                const ornamentGeometry = new THREE.SphereGeometry(0.15, 8, 6);
-                const ornament = new THREE.Mesh(ornamentGeometry, frameMaterial);
-                ornament.position.set(
-                    Math.cos(angle) * 2.5,
-                    6,
-                    Math.sin(angle) * 2.5
-                );
-                mirrorGroup.add(ornament);
-            }
-
-            mirrorGroup.position.set(16, 0, -12);
-            salon.add(mirrorGroup);
         }
 
         function createCandelabras() {
             const candelabraPositions = [
-                { pos: [-6, 2.1, -12], candles: 5 },
-                { pos: [6, 2.1, -12], candles: 3 },
+                { pos: [-4, 2.1, -10], candles: 5 },
+                { pos: [4, 2.1, -10], candles: 3 },
                 { pos: [0, 4.5, -19.5], candles: 7 } // Sur la cheminée
             ];
 
             candelabraPositions.forEach(data => {
                 const candelabraGroup = new THREE.Group();
                 
-                // Base en bronze
+                // Base beige doré
                 const baseGeometry = new THREE.CylinderGeometry(0.3, 0.4, 0.2, 16);
                 const baseMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xb8860b,
-                    emissive: 0x2a1f05,
+                    color: 0x9f624f,
+                    emissive: 0x2a1608,
                     emissiveIntensity: 0.1
                 });
                 const base = new THREE.Mesh(baseGeometry, baseMaterial);
@@ -2872,7 +2441,7 @@
                 // Bras et bougies
                 for (let i = 0; i < data.candles; i++) {
                     const angle = (i / data.candles) * Math.PI * 2;
-                    const radius = i === Math.floor(data.candles / 2) ? 0 : 0.8; // Centre + couronne
+                    const radius = i === Math.floor(data.candles / 2) ? 0 : 0.8;
                     const height = i === Math.floor(data.candles / 2) ? 1.2 : 1;
 
                     // Bras
@@ -2888,7 +2457,7 @@
                         candelabraGroup.add(arm);
                     }
 
-                    // Bobèche
+                    // Support
                     const bobeche = new THREE.Mesh(
                         new THREE.CylinderGeometry(0.08, 0.06, 0.05, 12),
                         baseMaterial
@@ -2900,9 +2469,9 @@
                     );
                     candelabraGroup.add(bobeche);
 
-                    // Bougie
+                    // Bougie beige clair
                     const candleGeometry = new THREE.CylinderGeometry(0.04, 0.05, 0.6, 12);
-                    const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
+                    const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
                     const candle = new THREE.Mesh(candleGeometry, candleMaterial);
                     candle.position.set(
                         Math.cos(angle) * radius,
@@ -2912,11 +2481,11 @@
                     candle.castShadow = true;
                     candelabraGroup.add(candle);
 
-                    // Flamme
+                    // Flamme dorée
                     const flameGeometry = new THREE.SphereGeometry(0.025, 6, 4);
                     const flameMaterial = new THREE.MeshLambertMaterial({ 
-                        color: 0xffd700, 
-                        emissive: 0xffd700, 
+                        color: 0xcca98d, 
+                        emissive: 0xcca98d, 
                         emissiveIntensity: 0.4 
                     });
                     const flame = new THREE.Mesh(flameGeometry, flameMaterial);
@@ -2928,8 +2497,8 @@
                     flame.scale.set(0.6, 1.2, 0.6);
                     candelabraGroup.add(flame);
 
-                    // Lumière de bougie
-                    const candleLight = new THREE.PointLight(0xffd700, 0.2, 8);
+                    // Lumière
+                    const candleLight = new THREE.PointLight(0xcca98d, 0.2, 8);
                     candleLight.position.set(
                         Math.cos(angle) * radius,
                         height + 0.65,
@@ -2944,87 +2513,65 @@
         }
 
         function createCollectibles() {
-            // Collection de livres rares sur présentoir
-            const displayGroup = new THREE.Group();
-            
-            // Présentoir en acajou
-            const standGeometry = new THREE.CylinderGeometry(0.8, 1, 0.8, 12);
-            const standMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
-            const stand = new THREE.Mesh(standGeometry, standMaterial);
-            stand.position.y = 0.4;
-            stand.castShadow = true;
-            displayGroup.add(stand);
-
-            // Livre ouvert précieux
-            const openBookGeometry = new THREE.BoxGeometry(1.2, 0.05, 0.8);
-            const bookMaterial = new THREE.MeshLambertMaterial({ color: 0x8b0000 });
-            const openBook = new THREE.Mesh(openBookGeometry, bookMaterial);
-            openBook.position.y = 0.83;
-            openBook.rotation.y = Math.PI / 6;
-            openBook.castShadow = true;
-            displayGroup.add(openBook);
-
-            // Pages
-            const pageGeometry = new THREE.BoxGeometry(1.1, 0.01, 0.7);
-            const pageMaterial = new THREE.MeshLambertMaterial({ color: 0xfaf0e6 });
-            const pages = new THREE.Mesh(pageGeometry, pageMaterial);
-            pages.position.y = 0.85;
-            pages.rotation.y = Math.PI / 6;
-            displayGroup.add(pages);
-
-            displayGroup.position.set(4, 0, 4);
-            salon.add(displayGroup);
-
-            // Objets de curiosité
-            const curiosityPositions = [
-                { pos: [-4, 2.2, 4], type: 'compass' },
-                { pos: [8, 1.8, -2], type: 'telescope' },
-                { pos: [-10, 2.5, 2], type: 'globe' }
+            // Vases repositionnés esthétiquement
+            const vasePositions = [
+                { pos: [6, 0, 12], height: 1.5 },
+                { pos: [-6, 0, 12], height: 1.2 }
             ];
 
-            curiosityPositions.forEach(item => {
-                const itemGroup = new THREE.Group();
+            vasePositions.forEach(vaseData => {
+                const vaseGeometry = new THREE.CylinderGeometry(0.3, 0.5, vaseData.height, 16);
+                const vaseMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0x59372b,
+                    emissive: 0x0f0a08,
+                    emissiveIntensity: 0.1
+                });
+                const vase = new THREE.Mesh(vaseGeometry, vaseMaterial);
+                vase.position.set(vaseData.pos[0], vaseData.height / 2, vaseData.pos[1]);
+                vase.castShadow = true;
+                salon.add(vase);
 
-                switch(item.type) {
-                    case 'compass':
-                        // Boussole ancienne
-                        const compassGeometry = new THREE.CylinderGeometry(0.2, 0.2, 0.08, 16);
-                        const compassMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
-                        const compass = new THREE.Mesh(compassGeometry, compassMaterial);
-                        compass.castShadow = true;
-                        itemGroup.add(compass);
-                        break;
-
-                    case 'telescope':
-                        // Lunette astronomique
-                        const telescopeGeometry = new THREE.CylinderGeometry(0.1, 0.15, 1.5, 12);
-                        const telescopeMaterial = new THREE.MeshLambertMaterial({ color: 0xb8860b });
-                        const telescope = new THREE.Mesh(telescopeGeometry, telescopeMaterial);
-                        telescope.rotation.x = Math.PI / 4;
-                        telescope.castShadow = true;
-                        itemGroup.add(telescope);
-                        break;
-
-                    case 'globe':
-                        // Globe céleste
-                        const globeGeometry = new THREE.SphereGeometry(0.3, 16, 12);
-                        const globeMaterial = new THREE.MeshLambertMaterial({ color: 0x191970 });
-                        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
-                        globe.castShadow = true;
-                        itemGroup.add(globe);
-
-                        // Support
-                        const supportGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.6, 12);
-                        const supportMaterial = new THREE.MeshLambertMaterial({ color: 0xd4af37 });
-                        const support = new THREE.Mesh(supportGeometry, supportMaterial);
-                        support.position.y = -0.5;
-                        itemGroup.add(support);
-                        break;
+                // Fleurs dans les vases
+                const flowerColors = [0xdc143c, 0xff69b4, 0xcca98d];
+                for (let i = 0; i < 5; i++) {
+                    const flowerGeometry = new THREE.SphereGeometry(0.08, 8, 6);
+                    const flowerMaterial = new THREE.MeshLambertMaterial({
+                        color: flowerColors[Math.floor(Math.random() * flowerColors.length)]
+                    });
+                    const flower = new THREE.Mesh(flowerGeometry, flowerMaterial);
+                    const angle = (i / 5) * Math.PI * 2;
+                    flower.position.set(
+                        vaseData.pos[0] + Math.cos(angle) * 0.15,
+                        vaseData.height + 0.3 + Math.random() * 0.2,
+                        vaseData.pos[1] + Math.sin(angle) * 0.15
+                    );
+                    salon.add(flower);
                 }
-
-                itemGroup.position.set(...item.pos);
-                salon.add(itemGroup);
             });
+
+            // Sculpture repositionnée
+            const sculptureGroup = new THREE.Group();
+            
+            const pedestalGeometry = new THREE.CylinderGeometry(0.6, 0.8, 1.2, 16);
+            const pedestalMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
+            const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
+            pedestal.position.y = 0.6;
+            pedestal.castShadow = true;
+            sculptureGroup.add(pedestal);
+
+            const sculptureGeometry = new THREE.ConeGeometry(0.4, 1.5, 12);
+            const sculptureMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x9f624f,
+                emissive: 0x2a1608,
+                emissiveIntensity: 0.1
+            });
+            const sculpture = new THREE.Mesh(sculptureGeometry, sculptureMaterial);
+            sculpture.position.y = 2;
+            sculpture.castShadow = true;
+            sculptureGroup.add(sculpture);
+
+            sculptureGroup.position.set(0, 0, 12);
+            salon.add(sculptureGroup);
         }
 
         function setupEventListeners() {
@@ -3033,7 +2580,89 @@
             renderer.domElement.addEventListener('mousemove', onMouseMove);
             renderer.domElement.addEventListener('mousedown', onMouseDown);
             renderer.domElement.addEventListener('mouseup', onMouseUp);
-            renderer.domElement.addEventListener('wheel', onMouseWheel);
+            renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
+            
+            // Événements tactiles pour mobile
+            renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: false });
+            renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
+            renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
+        }
+
+        // Gestion des événements tactiles
+        function onTouchStart(event) {
+            event.preventDefault();
+            touches = Array.from(event.touches);
+            
+            if (touches.length === 1) {
+                cameraControls.isMouseDown = true;
+                cameraControls.mouseX = touches[0].clientX;
+                cameraControls.mouseY = touches[0].clientY;
+            } else if (touches.length === 2) {
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                lastPinchDistance = Math.sqrt(dx * dx + dy * dy);
+            }
+        }
+
+        function onTouchMove(event) {
+            event.preventDefault();
+            touches = Array.from(event.touches);
+            
+            if (touches.length === 1 && cameraControls.isMouseDown) {
+                const deltaX = touches[0].clientX - cameraControls.mouseX;
+                const deltaY = touches[0].clientY - cameraControls.mouseY;
+
+                cameraControls.targetRotationX += deltaX * 0.01;
+                cameraControls.targetRotationY += deltaY * 0.01;
+
+                cameraControls.targetRotationY = Math.max(-Math.PI/4, Math.min(Math.PI/4, cameraControls.targetRotationY));
+
+                cameraControls.mouseX = touches[0].clientX;
+                cameraControls.mouseY = touches[0].clientY;
+            } else if (touches.length === 2) {
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (lastPinchDistance > 0) {
+                    const delta = distance - lastPinchDistance;
+                    cameraControls.targetDistance -= delta * 0.05;
+                    cameraControls.targetDistance = Math.max(8, Math.min(50, cameraControls.targetDistance));
+                }
+                
+                lastPinchDistance = distance;
+            }
+        }
+
+        function onTouchEnd(event) {
+            event.preventDefault();
+            
+            if (event.touches.length === 0) {
+                cameraControls.isMouseDown = false;
+                lastPinchDistance = 0;
+                
+                // Gestion du tap pour les objets cliquables
+                if (touches.length === 1) {
+                    const touch = touches[0];
+                    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+                    raycaster.setFromCamera(mouse, camera);
+                    const intersects = raycaster.intersectObjects(clickableObjects);
+
+                    if (intersects.length > 0) {
+                        const intersectedObject = intersects[0].object;
+                        
+                        if (intersectedObject.userData.type === 'computer') {
+                            openComputer();
+                            createClickSound();
+                        } else if (intersectedObject.userData.type === 'tv') {
+                            openTV();
+                            createClickSound();
+                        }
+                    }
+                }
+            }
         }
 
         function onMouseDown(event) {
@@ -3062,13 +2691,11 @@
                 cameraControls.mouseY = event.clientY;
             }
 
-            // Détection objets cliquables AMÉLIORÉE
+            // Détection objets cliquables
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
-            
-            // Utiliser la liste des objets cliquables directement
             const intersects = raycaster.intersectObjects(clickableObjects);
             
             document.body.style.cursor = cameraControls.isMouseDown ? 'grabbing' : 'grab';
@@ -3079,14 +2706,15 @@
                 document.body.style.cursor = 'pointer';
                 
                 if (intersectedObject.userData.type === 'computer') {
-                    showHint('Cliquez pour ouvrir l\'ordinateur vintage');
+                    showHint('Cliquez pour ouvrir l\'ordinateur');
                 } else if (intersectedObject.userData.type === 'tv') {
-                    showHint('Cliquez pour ouvrir la télévision vintage');
+                    showHint('Cliquez pour ouvrir la télévision');
                 }
             }
         }
 
         function onMouseWheel(event) {
+            event.preventDefault();
             cameraControls.targetDistance += event.deltaY * 0.02;
             cameraControls.targetDistance = Math.max(8, Math.min(50, cameraControls.targetDistance));
         }
@@ -3098,8 +2726,6 @@
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
-            
-            // Utiliser la liste des objets cliquables directement
             const intersects = raycaster.intersectObjects(clickableObjects);
 
             if (intersects.length > 0) {
@@ -3204,13 +2830,18 @@
             cameraControls.rotationY += (cameraControls.targetRotationY - cameraControls.rotationY) * 0.08;
             cameraControls.distance += (cameraControls.targetDistance - cameraControls.distance) * 0.08;
 
+            // Rotation automatique si activée
+            if (autoRotateEnabled) {
+                cameraControls.targetRotationX += 0.005;
+            }
+
             camera.position.x = Math.cos(cameraControls.rotationX) * cameraControls.distance * Math.cos(cameraControls.rotationY);
             camera.position.y = Math.sin(cameraControls.rotationY) * cameraControls.distance + 12;
             camera.position.z = Math.sin(cameraControls.rotationX) * cameraControls.distance * Math.cos(cameraControls.rotationY) + 20;
 
             camera.lookAt(0, 5, 0);
 
-            // Animations vintage
+            // Animations élégantes avec le nouveau thème
             const time = Date.now() * 0.0003;
 
             // Rotation lente du lustre
@@ -3235,19 +2866,21 @@
                 tvMesh.material.emissiveIntensity = 0.15 + Math.sin(time * 1.5) * 0.08;
             }
 
-            // Animation des flammes de cheminée
-            salon.children.forEach(child => {
-                if (child.isGroup) {
-                    child.children.forEach(subChild => {
-                        if (subChild.material && subChild.material.color && subChild.material.color.r > 0.8) {
-                            if (subChild.material.emissiveIntensity !== undefined) {
-                                subChild.material.emissiveIntensity = 0.4 + Math.sin(time * 8 + subChild.position.x) * 0.2;
-                                subChild.scale.y = 1 + Math.sin(time * 6 + subChild.position.z) * 0.1;
-                            }
-                        }
-                    });
-                }
-            });
+         // Animation des flammes de cheminée UNIQUEMENT
+salon.children.forEach(child => {
+    if (child.isGroup) {
+        child.children.forEach(subChild => {
+            // Vérifier si c'est une flamme de cheminée (pas un livre)
+            if (subChild.material && subChild.material.emissive && 
+                subChild.material.emissiveIntensity !== undefined &&
+                subChild.geometry && subChild.geometry.type === 'ConeGeometry') {
+                // Animation seulement pour les flammes (géométrie en cône)
+                subChild.material.emissiveIntensity = 0.4 + Math.sin(time * 8 + subChild.position.x) * 0.2;
+                subChild.scale.y = 1 + Math.sin(time * 6 + subChild.position.z) * 0.1;
+            }
+        });
+    }
+});
 
             renderer.render(scene, camera);
         }
@@ -3278,7 +2911,7 @@
             draggedWindow = null;
         });
 
-        // Navigation clavier
+        // Navigation clavier améliorée
         document.addEventListener('keydown', (event) => {
             const computerOverlay = document.getElementById('computerOverlay');
             const tvOverlay = document.getElementById('tvOverlay');
@@ -3294,7 +2927,45 @@
                     closeTV();
                 }
             }
+
+            // Raccourcis clavier pour la navigation
+            if (!computerOverlay.classList.contains('active') && !tvOverlay.classList.contains('active')) {
+                switch(event.key) {
+                    case 'r':
+                    case 'R':
+                        resetCamera();
+                        break;
+                    case 'c':
+                    case 'C':
+                        focusComputer();
+                        break;
+                    case 't':
+                    case 'T':
+                        focusTV();
+                        break;
+                    case ' ':
+                        event.preventDefault();
+                        autoRotate();
+                        break;
+                }
+            }
         });
+
+        // Gestion de l'orientation mobile
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                onWindowResize();
+            }, 100);
+        });
+
+        // Amélioration des performances sur mobile
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Réduire la qualité des ombres sur mobile
+            renderer.shadowMap.type = THREE.BasicShadowMap;
+            
+            // Réduire le nombre d'objets pour les performances
+            scene.fog = new THREE.Fog(0x59372b, 20, 80);
+        }
     </script>
 </body>
 </html>
