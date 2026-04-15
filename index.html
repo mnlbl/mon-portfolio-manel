@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Portfolio - Salon Élégant</title>
+    <title>Mon Portfolio - Bienvenue dans mon salon ! </title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * {
@@ -24,7 +24,6 @@
             cursor: grabbing;
         }
 
-        /* Avis pour tous appareils */
         .device-notice {
             position: fixed;
             top: 0;
@@ -86,7 +85,6 @@
             box-shadow: 0 4px 12px rgba(204, 169, 141, 0.3);
         }
 
-        /* Interface utilisateur */
         .ui-overlay {
             position: fixed;
             top: 20px;
@@ -129,7 +127,6 @@
             color: #f7e7ce;
         }
 
-        /* Contrôles mobile */
         .mobile-controls {
             position: fixed;
             bottom: 20px;
@@ -161,7 +158,6 @@
             box-shadow: 0 4px 12px rgba(204, 169, 141, 0.3);
         }
 
-        /* Ordinateur overlay */
         .computer-overlay {
             position: fixed;
             top: 0;
@@ -368,7 +364,6 @@
             color: #ff0000;
         }
 
-        /* TV Overlay */
         .tv-overlay {
             position: fixed;
             top: 0;
@@ -482,7 +477,6 @@
             transform: translateY(-1px);
         }
 
-        /* Indicateurs visuels pour objets interactifs */
         .interactive-hint {
             position: fixed;
             bottom: 80px;
@@ -519,7 +513,6 @@
             }
         }
 
-        /* Mobile responsive */
         @media (max-width: 768px) {
             .computer-screen, .tv-screen {
                 width: 95vw;
@@ -578,7 +571,6 @@
             }
         }
 
-        /* Touch-friendly controls */
         @media (hover: none) {
             .interactive-hint {
                 display: none;
@@ -587,7 +579,6 @@
     </style>
 </head>
 <body>
-    <!-- Avis pour tous appareils -->
     <div class="device-notice" id="deviceNotice">
         <div class="notice-content">
             <h2>Bienvenue dans mon salon</h2>
@@ -598,7 +589,6 @@
         </div>
     </div>
 
-    <!-- Interface utilisateur -->
     <div class="ui-overlay">
         <div class="logo">Portfolio</div>
         <div class="instructions">
@@ -610,7 +600,6 @@
         </div>
     </div>
 
-    <!-- Contrôles mobiles -->
     <div class="mobile-controls">
         <button class="mobile-btn" onclick="resetCamera()">Vue d'ensemble</button>
         <button class="mobile-btn" onclick="focusComputer()">Ordinateur</button>
@@ -618,7 +607,6 @@
         <button class="mobile-btn" onclick="autoRotate()">Rotation auto</button>
     </div>
 
-    <!-- Indicateur d'interaction -->
     <div class="interactive-hint" id="interactiveHint"></div>
 
     <!-- Overlay de l'ordinateur -->
@@ -651,8 +639,12 @@
                     <div class="icon" style="background: #ff4500;">⚡</div>
                     <div class="icon-text">Compétences</div>
                 </div>
+                <!-- NOUVEAU: Icône Recherche -->
+                <div class="desktop-icon" style="top: 350px; left: 50px;" onclick="openWindow('research')">
+                    <div class="icon" style="background: #006633;">🔬</div>
+                    <div class="icon-text">Recherche</div>
+                </div>
 
-                <!-- Barre des tâches -->
                 <div class="taskbar">
                     <div class="start-button">Démarrer</div>
                 </div>
@@ -698,7 +690,7 @@
         </div>
     </div>
 
-    <!-- Fenêtres du portfolio -->
+    <!-- Fenêtre À Propos -->
     <div class="window" id="window-about" style="top: 100px; left: 300px; width: 500px; height: 400px;">
         <div class="window-header">
             À Propos
@@ -725,7 +717,7 @@
         </div>
     </div>
 
-    <!-- Autres fenêtres (éducation, expérience, etc.) -->
+    <!-- Fenêtre Éducation -->
     <div class="window" id="window-education" style="top: 120px; left: 320px; width: 550px; height: 450px;">
         <div class="window-header">
             Éducation
@@ -757,6 +749,7 @@
         </div>
     </div>
 
+    <!-- Fenêtre Expérience — MODIFICATION: MIFI avec nom complet -->
     <div class="window" id="window-experience" style="top: 80px; left: 280px; width: 600px; height: 500px;">
         <div class="window-header">
             Expérience professionnelle
@@ -767,7 +760,8 @@
         <div class="window-content" style="color: #1a1611;">
             <div class="experience-item">
                 <div class="experience-title">Conseillère en gestion de l'information</div>
-                <div class="experience-company">MIFI - Juin 2025 à aujourd'hui</div>
+                <!-- MODIFIÉ: nom complet + acronyme -->
+                <div class="experience-company">Ministère de l'Immigration, de la Francisation et de l'Intégration (MIFI) — Juin 2025 à aujourd'hui</div>
                 <p>Appui stratégique au Secrétariat général. Conseil en gouvernance documentaire, développement du greffe numérique, programmation et automatisation (JSON, Python, tableaux de bord).</p>
             </div>
             <div class="experience-item">
@@ -788,9 +782,10 @@
         </div>
     </div>
 
+    <!-- Fenêtre Bénévolat -->
     <div class="window" id="window-volunteer" style="top: 100px; left: 300px; width: 580px; height: 480px;">
         <div class="window-header">
-            Bénévolat & Engagement
+            Bénévolat &amp; Engagement
             <div class="window-controls">
                 <div class="window-control" onclick="closeWindow('volunteer')">×</div>
             </div>
@@ -819,14 +814,21 @@
         </div>
     </div>
 
-    <div class="window" id="window-awards" style="top: 120px; left: 320px; width: 520px; height: 420px;">
+    <!-- Fenêtre Prix — MODIFICATION: BESC M ajoutée en premier -->
+    <div class="window" id="window-awards" style="top: 120px; left: 320px; width: 560px; height: 500px;">
         <div class="window-header">
-            Prix & Distinctions
+            Prix &amp; Distinctions
             <div class="window-controls">
                 <div class="window-control" onclick="closeWindow('awards')">×</div>
             </div>
         </div>
         <div class="window-content" style="color: #1a1611;">
+            <!-- NOUVEAU: BESC M / CRSH -->
+            <div class="experience-item">
+                <div class="experience-title">Bourse d'études supérieures du Canada Maîtrise (BESC M) — Comité des sciences humaines (CRSH)</div>
+                <div class="experience-company">Conseil de recherches en sciences humaines du Canada (CRSH) — 2024-2025</div>
+                <p>Bourse fédérale de recherche aux cycles supérieurs, attribuée par le Conseil de recherches en sciences humaines du Canada (CRSH) dans le cadre du programme de Bourses d'études supérieures du Canada Maîtrise (BESC M). Souligne l'excellence académique et le potentiel de recherche.</p>
+            </div>
             <div class="experience-item">
                 <div class="experience-title">Bourses Hélène et Jean-Louis-Tassé</div>
                 <div class="experience-company">Fondation de l'UQAM - Mai 2025</div>
@@ -845,6 +847,7 @@
         </div>
     </div>
 
+    <!-- Fenêtre Compétences -->
     <div class="window" id="window-skills" style="top: 80px; left: 280px; width: 580px; height: 500px;">
         <div class="window-header">
             Compétences techniques
@@ -857,7 +860,7 @@
             <ul>
                 <li>Big Data, SQL, NoSQL, Pandas</li>
                 <li>Python, SAS, MATLAB, R</li>
-                <li>Tableau Desktop & Prep Builder</li>
+                <li>Tableau Desktop &amp; Prep Builder</li>
                 <li>Microsoft Power BI, Google Analytics</li>
                 <li>Tableaux croisés dynamiques</li>
             </ul>
@@ -896,8 +899,43 @@
         </div>
     </div>
 
+    <!-- NOUVEAU: Fenêtre Recherche -->
+    <div class="window" id="window-research" style="top: 80px; left: 260px; width: 650px; height: 520px;">
+        <div class="window-header">
+            Recherche — Mémoire en cours
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('research')">×</div>
+            </div>
+        </div>
+        <div class="window-content" style="color: #1a1611;">
+            <div class="experience-item">
+                <div class="experience-title">🔬 Mémoire de maîtrise — En cours de rédaction</div>
+                <div class="experience-company">Université du Québec à Montréal (UQAM) — École des sciences de la gestion (ESG)</div>
+                <p><strong>Sujet :</strong> Gouvernance algorithmique, parcours humain et biais algorithmiques dans les systèmes de gestion migratoire.</p>
+                <br>
+                <p>Recherche portant sur les biais algorithmiques (données, modélisation, déploiement, institutionnel) dans les outils décisionnels automatisés appliqués à la gestion des migrations. Développement d'un cadre de gouvernance algorithmique évalué dans des contextes canadien, européen et américain.</p>
+                <br>
+                <p><strong>Méthodologie :</strong> Design Science Research (DSR) — analyse documentaire, analyse de contenu et entretien semi-directif.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">💰 Financement</div>
+                <div class="experience-company">Conseil de recherches en sciences humaines du Canada (CRSH)</div>
+                <p>Recherche subventionnée par la Bourse d'études supérieures du Canada Maîtrise (BESC M) — Comité des sciences humaines, Conseil de recherches en sciences humaines du Canada (CRSH).</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">🤝 Collaboration institutionnelle</div>
+                <div class="experience-company">Ministère de l'Immigration, de la Francisation et de l'Intégration (MIFI) — Gouvernement du Québec</div>
+                <p>Recherche menée en collaboration avec le Ministère de l'Immigration, de la Francisation et de l'Intégration (MIFI). Accès au terrain et expertise sectorielle en gestion migratoire québécoise.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">📍 Affiliation et rédaction</div>
+                <div class="experience-company">UQAM — Maîtrise en technologies de l'information (MTI)</div>
+                <p>Mémoire en cours de rédaction à l'Université du Québec à Montréal (UQAM), dans le cadre de la Maîtrise en technologies de l'information (MTI) à l'École des sciences de la gestion (ESG).</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Variables globales
         let scene, camera, renderer;
         let salon, computerMesh, tvMesh, chandelierMesh;
         let mouse = new THREE.Vector2();
@@ -905,7 +943,6 @@
         let clickableObjects = [];
         let autoRotateEnabled = false;
 
-        // Contrôles de caméra améliorés pour mobile
         let cameraControls = {
             isMouseDown: false,
             mouseX: 0,
@@ -919,7 +956,6 @@
             autoRotate: false
         };
 
-        // Variables pour les contrôles tactiles
         let touches = [];
         let lastPinchDistance = 0;
 
@@ -934,21 +970,15 @@
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
-                
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
                 oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.15);
-                
                 gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-                
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.15);
-            } catch (e) {
-                console.log('Audio non supporté');
-            }
+            } catch (e) {}
         }
 
         function showHint(text) {
@@ -958,11 +988,9 @@
         }
 
         function hideHint() {
-            const hint = document.getElementById('interactiveHint');
-            hint.classList.remove('show');
+            document.getElementById('interactiveHint').classList.remove('show');
         }
 
-        // Fonctions de contrôle mobile
         function resetCamera() {
             cameraControls.targetRotationX = 0;
             cameraControls.targetRotationY = 0;
@@ -997,17 +1025,14 @@
         }
 
         function init() {
-            // Scène avec brouillard pour l'atmosphère
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x59372b);
             scene.fog = new THREE.Fog(0x59372b, 30, 100);
 
-            // Caméra positionnée pour voir l'environnement urbain
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(0, 12, 30);
             camera.lookAt(0, 5, 0);
 
-            // Renderer avec ombres améliorées
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.shadowMap.enabled = true;
@@ -1015,25 +1040,16 @@
             renderer.setClearColor(0x59372b);
             document.body.appendChild(renderer.domElement);
 
-            // Éclairage avec nouveau thème beige
             setupElegantLighting();
-
-            // Créer l'environnement urbain réorganisé
             createUrbanEnvironment();
-
-            // Créer le salon avec nouveau thème
             createElegantSalon();
-
-            // Event listeners améliorés pour mobile
             setupEventListeners();
         }
 
         function setupElegantLighting() {
-            // Lumière ambiante chaude dans les tons beige
             const ambientLight = new THREE.AmbientLight(0xf7e7ce, 0.4);
             scene.add(ambientLight);
 
-            // Lumière principale du lustre
             const chandelierLight = new THREE.PointLight(0xcca98d, 1.5, 35);
             chandelierLight.position.set(0, 10, 0);
             chandelierLight.castShadow = true;
@@ -1043,7 +1059,6 @@
             chandelierLight.shadow.camera.far = 35;
             scene.add(chandelierLight);
 
-            // Éclairage directionnel doux
             const mainLight = new THREE.DirectionalLight(0xf7e7ce, 0.5);
             mainLight.position.set(15, 20, 10);
             mainLight.castShadow = true;
@@ -1053,7 +1068,6 @@
             mainLight.shadow.camera.far = 60;
             scene.add(mainLight);
 
-            // Lumières d'accentuation dans les tons beige
             const warmLight1 = new THREE.PointLight(0xae9e8f, 0.8, 25);
             warmLight1.position.set(-12, 6, 5);
             scene.add(warmLight1);
@@ -1062,1516 +1076,447 @@
             warmLight2.position.set(12, 5, -5);
             scene.add(warmLight2);
 
-            // Éclairage des fenêtres
             const windowLight = new THREE.PointLight(0xcca98d, 1, 15);
             windowLight.position.set(0, 8, -18);
             scene.add(windowLight);
         }
 
         function createUrbanEnvironment() {
-            // Sol pavé avec nouveau thème
             createStylishStreet();
-            
-            // Bâtiments environnants repositionnés
             createSurroundingBuildings();
-            
-            // Éléments urbains repositionnés
             createUrbanElements();
         }
 
         function createStylishStreet() {
             const streetGroup = new THREE.Group();
-            
-            // Base de rue avec couleurs beige
             const streetGeometry = new THREE.PlaneGeometry(150, 150);
-            const streetMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                transparent: true,
-                opacity: 0.8
-            });
+            const streetMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f, transparent: true, opacity: 0.8 });
             const street = new THREE.Mesh(streetGeometry, streetMaterial);
             street.rotation.x = -Math.PI / 2;
             street.position.y = -0.5;
             street.receiveShadow = true;
             streetGroup.add(street);
 
-            // Texture de pavés dans les tons beige
             for (let i = 0; i < 200; i++) {
-                const cobbleGeometry = new THREE.BoxGeometry(
-                    0.8 + Math.random() * 0.4,
-                    0.1,
-                    0.8 + Math.random() * 0.4
-                );
+                const cobbleGeometry = new THREE.BoxGeometry(0.8 + Math.random() * 0.4, 0.1, 0.8 + Math.random() * 0.4);
                 const baseColor = Math.random() > 0.5 ? 0xae9e8f : 0xcca98d;
-                const variation = Math.random() * 0x202020;
-                const cobbleColor = baseColor + variation;
-                const cobbleMaterial = new THREE.MeshLambertMaterial({ color: cobbleColor });
+                const cobbleMaterial = new THREE.MeshLambertMaterial({ color: baseColor + Math.random() * 0x202020 });
                 const cobble = new THREE.Mesh(cobbleGeometry, cobbleMaterial);
-                
-                cobble.position.set(
-                    (Math.random() - 0.5) * 140,
-                    -0.4,
-                    (Math.random() - 0.5) * 140
-                );
+                cobble.position.set((Math.random() - 0.5) * 140, -0.4, (Math.random() - 0.5) * 140);
                 cobble.rotation.y = Math.random() * Math.PI;
                 cobble.receiveShadow = true;
                 streetGroup.add(cobble);
             }
-
             scene.add(streetGroup);
         }
 
         function createSurroundingBuildings() {
-            // Repositionner les bâtiments pour un meilleur équilibre esthétique
             createStylishHouse(-45, 0, -30, 0x9f624f);
             createStylishHouse(-45, 0, 30, 0xae9e8f);
-            
             createStylishHouse(45, 0, -25, 0xcca98d);
             createStylishHouse(45, 0, 25, 0x9f624f);
-            
-            // Bâtiment au fond repositionné
             createInstitutionalBuilding(-25, 0, -60);
         }
 
         function createStylishHouse(x, y, z, color) {
             const houseGroup = new THREE.Group();
-            
-            // Corps principal avec couleurs beige
-            const mainGeometry = new THREE.BoxGeometry(12, 15, 10);
-            const mainMaterial = new THREE.MeshLambertMaterial({ color: color });
-            const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
+            const mainBuilding = new THREE.Mesh(new THREE.BoxGeometry(12, 15, 10), new THREE.MeshLambertMaterial({ color: color }));
             mainBuilding.position.y = 7.5;
             mainBuilding.castShadow = true;
             houseGroup.add(mainBuilding);
 
-            // Toit dans les tons beige foncé
-            const roofGeometry = new THREE.ConeGeometry(8, 6, 4);
-            const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
-            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            const roof = new THREE.Mesh(new THREE.ConeGeometry(8, 6, 4), new THREE.MeshLambertMaterial({ color: 0x59372b }));
             roof.position.y = 18;
             roof.rotation.y = Math.PI / 4;
             roof.castShadow = true;
             houseGroup.add(roof);
 
-            // Cheminée
-            const chimneyGeometry = new THREE.BoxGeometry(1.5, 4, 1.5);
-            const chimneyMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
-            const chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial);
+            const chimney = new THREE.Mesh(new THREE.BoxGeometry(1.5, 4, 1.5), new THREE.MeshLambertMaterial({ color: 0x59372b }));
             chimney.position.set(3, 19, 2);
             chimney.castShadow = true;
             houseGroup.add(chimney);
 
-            // Fenêtres avec cadres beige clair
             createStylishWindows(houseGroup);
-
             houseGroup.position.set(x, y, z);
             scene.add(houseGroup);
         }
 
         function createStylishWindows(parent) {
-            const windowPositions = [
-                [-4, 5, 5.1], [0, 5, 5.1], [4, 5, 5.1],
-                [-4, 10, 5.1], [0, 10, 5.1], [4, 10, 5.1]
-            ];
-
+            const windowPositions = [[-4,5,5.1],[0,5,5.1],[4,5,5.1],[-4,10,5.1],[0,10,5.1],[4,10,5.1]];
             windowPositions.forEach(pos => {
-                // Cadre de fenêtre beige clair
-                const frameGeometry = new THREE.BoxGeometry(2.5, 3, 0.2);
-                const frameMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                const frame = new THREE.Mesh(new THREE.BoxGeometry(2.5, 3, 0.2), new THREE.MeshLambertMaterial({ color: 0xf7e7ce }));
                 frame.position.set(...pos);
                 parent.add(frame);
-
-                // Vitre avec reflet doré
-                const glassGeometry = new THREE.BoxGeometry(2.2, 2.7, 0.05);
-                const glassMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xcca98d, 
-                    transparent: true, 
-                    opacity: 0.7,
-                    emissive: 0x443322,
-                    emissiveIntensity: 0.1
-                });
-                const glass = new THREE.Mesh(glassGeometry, glassMaterial);
+                const glass = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.7, 0.05), new THREE.MeshLambertMaterial({ color: 0xcca98d, transparent: true, opacity: 0.7, emissive: 0x443322, emissiveIntensity: 0.1 }));
                 glass.position.set(pos[0], pos[1], pos[2] + 0.1);
                 parent.add(glass);
-
-                // Lumière chaude derrière les fenêtres
-                const windowLight = new THREE.PointLight(0xcca98d, 0.4, 8);
-                windowLight.position.set(pos[0], pos[1], pos[2] - 2);
-                parent.add(windowLight);
+                const wl = new THREE.PointLight(0xcca98d, 0.4, 8);
+                wl.position.set(pos[0], pos[1], pos[2] - 2);
+                parent.add(wl);
             });
         }
 
         function createInstitutionalBuilding(x, y, z) {
             const buildingGroup = new THREE.Group();
-            
-            // Bâtiment dans les tons beige
-            const mainGeometry = new THREE.BoxGeometry(30, 20, 8);
-            const mainMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-            const mainBuilding = new THREE.Mesh(mainGeometry, mainMaterial);
+            const mainBuilding = new THREE.Mesh(new THREE.BoxGeometry(30, 20, 8), new THREE.MeshLambertMaterial({ color: 0xcca98d }));
             mainBuilding.position.y = 10;
             mainBuilding.castShadow = true;
             buildingGroup.add(mainBuilding);
-
-            // Colonnade beige clair
             for (let i = 0; i < 7; i++) {
-                const columnGeometry = new THREE.CylinderGeometry(0.8, 1, 16, 16);
-                const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-                const column = new THREE.Mesh(columnGeometry, columnMaterial);
+                const column = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 1, 16, 16), new THREE.MeshLambertMaterial({ color: 0xf7e7ce }));
                 column.position.set(-12 + i * 4, 8, 5);
                 column.castShadow = true;
                 buildingGroup.add(column);
             }
-
             buildingGroup.position.set(x, y, z);
             scene.add(buildingGroup);
         }
 
         function createUrbanElements() {
-            // Fontaine repositionnée loin du salon
             createElegantFountain(-40, 0, -40);
-            
-            // Réverbères repositionnés
             createStylishStreetLamps();
-            
-            // Arbres repositionnés esthétiquement
             createBeautifulTrees();
         }
 
         function createElegantFountain(x, y, z) {
-            const fountainGroup = new THREE.Group();
-            
-            // Bassin dans les tons beige
-            const basinGeometry = new THREE.CylinderGeometry(6, 6, 1.5, 24);
-            const basinMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-            const basin = new THREE.Mesh(basinGeometry, basinMaterial);
-            basin.position.y = 0.75;
-            basin.castShadow = true;
-            fountainGroup.add(basin);
-
-            // Eau
-            const waterGeometry = new THREE.CylinderGeometry(5.5, 5.5, 0.8, 24);
-            const waterMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f, 
-                transparent: true, 
-                opacity: 0.7 
-            });
-            const water = new THREE.Mesh(waterGeometry, waterMaterial);
-            water.position.y = 1.1;
-            fountainGroup.add(water);
-
-            // Colonne centrale
-            const columnGeometry = new THREE.CylinderGeometry(1.5, 2, 6, 16);
-            const columnMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const column = new THREE.Mesh(columnGeometry, columnMaterial);
-            column.position.y = 4.5;
-            column.castShadow = true;
-            fountainGroup.add(column);
-
-            fountainGroup.position.set(x, y, z);
-            scene.add(fountainGroup);
+            const fg = new THREE.Group();
+            const basin = new THREE.Mesh(new THREE.CylinderGeometry(6,6,1.5,24), new THREE.MeshLambertMaterial({color:0xcca98d}));
+            basin.position.y = 0.75; basin.castShadow = true; fg.add(basin);
+            const water = new THREE.Mesh(new THREE.CylinderGeometry(5.5,5.5,0.8,24), new THREE.MeshLambertMaterial({color:0x9f624f,transparent:true,opacity:0.7}));
+            water.position.y = 1.1; fg.add(water);
+            const col = new THREE.Mesh(new THREE.CylinderGeometry(1.5,2,6,16), new THREE.MeshLambertMaterial({color:0xf7e7ce}));
+            col.position.y = 4.5; col.castShadow = true; fg.add(col);
+            fg.position.set(x, y, z); scene.add(fg);
         }
 
         function createStylishStreetLamps() {
-            const lampPositions = [
-                [-30, 0, -15], [-30, 0, 15], [30, 0, -15], [30, 0, 15]
-            ];
-
-            lampPositions.forEach(pos => {
-                const lampGroup = new THREE.Group();
-                
-                // Poteau dans les tons beige foncé
-                const poleGeometry = new THREE.CylinderGeometry(0.15, 0.2, 8, 12);
-                const poleMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
-                const pole = new THREE.Mesh(poleGeometry, poleMaterial);
-                pole.position.y = 4;
-                pole.castShadow = true;
-                lampGroup.add(pole);
-
-                // Lanterne beige clair
-                const lanternGeometry = new THREE.SphereGeometry(0.8, 12, 8);
-                const lanternMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xf7e7ce, 
-                    emissive: 0xcca98d, 
-                    emissiveIntensity: 0.3,
-                    transparent: true,
-                    opacity: 0.9
-                });
-                const lantern = new THREE.Mesh(lanternGeometry, lanternMaterial);
-                lantern.position.y = 8.5;
-                lampGroup.add(lantern);
-
-                // Lumière du réverbère
-                const streetLight = new THREE.PointLight(0xcca98d, 0.8, 20);
-                streetLight.position.y = 8.5;
-                lampGroup.add(streetLight);
-
-                lampGroup.position.set(...pos);
-                scene.add(lampGroup);
+            [[-30,0,-15],[-30,0,15],[30,0,-15],[30,0,15]].forEach(pos => {
+                const lg = new THREE.Group();
+                const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.2,8,12), new THREE.MeshLambertMaterial({color:0x59372b}));
+                pole.position.y = 4; pole.castShadow = true; lg.add(pole);
+                const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.8,12,8), new THREE.MeshLambertMaterial({color:0xf7e7ce,emissive:0xcca98d,emissiveIntensity:0.3,transparent:true,opacity:0.9}));
+                lantern.position.y = 8.5; lg.add(lantern);
+                const sl = new THREE.PointLight(0xcca98d, 0.8, 20);
+                sl.position.y = 8.5; lg.add(sl);
+                lg.position.set(...pos); scene.add(lg);
             });
         }
 
         function createBeautifulTrees() {
-            // Arbres repositionnés pour une meilleure esthétique
-            const treePositions = [
-                [-35, 0, -10], [35, 0, -10],  // Côtés symétriques
-                [-25, 0, 40], [25, 0, 40],    // Fond symétriques  
-                [0, 0, 45]                    // Centre fond
-            ];
-
-            treePositions.forEach(pos => {
-                const treeGroup = new THREE.Group();
-                
-                // Tronc dans les tons beige foncé
-                const trunkGeometry = new THREE.CylinderGeometry(1.2, 2, 12, 12);
-                const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
-                const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
-                trunk.position.y = 6;
-                trunk.castShadow = true;
-                treeGroup.add(trunk);
-
-                // Couronne feuillue verte naturelle
-                const foliageGeometry = new THREE.SphereGeometry(7, 16, 12);
-                const foliageMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
-                const foliage = new THREE.Mesh(foliageGeometry, foliageMaterial);
-                foliage.position.y = 15;
-                foliage.castShadow = true;
-                treeGroup.add(foliage);
-
-                treeGroup.position.set(...pos);
-                scene.add(treeGroup);
+            [[-35,0,-10],[35,0,-10],[-25,0,40],[25,0,40],[0,0,45]].forEach(pos => {
+                const tg = new THREE.Group();
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(1.2,2,12,12), new THREE.MeshLambertMaterial({color:0x59372b}));
+                trunk.position.y = 6; trunk.castShadow = true; tg.add(trunk);
+                const foliage = new THREE.Mesh(new THREE.SphereGeometry(7,16,12), new THREE.MeshLambertMaterial({color:0x228b22}));
+                foliage.position.y = 15; foliage.castShadow = true; tg.add(foliage);
+                tg.position.set(...pos); scene.add(tg);
             });
         }
 
         function createElegantSalon() {
             salon = new THREE.Group();
-
-            // Sol avec nouveau thème beige
             createBeautifulFloor();
-
-            // Murs avec couleurs beige
             createStylishWalls();
-
-            // Lustre élégant
             createElegantChandelier();
-
-            // Mobilier repositionné esthétiquement
             createChesterfieldSofa();
             createMahoganyTable();
             createAntiqueSideTable();
-
-            // Bureau avec ordinateur repositionné
             createExecutiveDesk();
-
-            // Bibliothèque repositionnée
             createAntiqueBookshelf();
-
-            // TV dans meuble repositionnée
             createVintageEntertainmentCenter();
-
-            // Cheminée repositionnée
             createElegantFireplace();
-
-            // Plantes repositionnées esthétiquement
             createBeautifulPlants();
-
-            // Objets décoratifs repositionnés
             createElegantDecorations();
-
             scene.add(salon);
         }
 
         function createBeautifulFloor() {
             const floorGroup = new THREE.Group();
-            
-            // Parquet dans les tons beige
-            const plankWidth = 0.15;
-            const plankLength = 1.2;
-            
             for (let row = 0; row < 40; row++) {
                 for (let col = 0; col < 50; col++) {
-                    const plankGeometry = new THREE.BoxGeometry(plankLength, 0.05, plankWidth);
+                    const plankGeometry = new THREE.BoxGeometry(1.2, 0.05, 0.15);
                     const woodVariation = (Math.random() - 0.5) * 0.1;
                     const baseColors = [0x9f624f, 0xae9e8f, 0xcca98d];
                     const baseColor = baseColors[Math.floor(Math.random() * baseColors.length)];
-                    
                     const r = Math.max(0.2, Math.min(1, ((baseColor >> 16) & 0xFF) / 255 + woodVariation));
                     const g = Math.max(0.2, Math.min(1, ((baseColor >> 8) & 0xFF) / 255 + woodVariation));
                     const b = Math.max(0.2, Math.min(1, (baseColor & 0xFF) / 255 + woodVariation));
-                    
-                    const plankMaterial = new THREE.MeshLambertMaterial({
-                        color: new THREE.Color(r, g, b)
-                    });
-                    const plank = new THREE.Mesh(plankGeometry, plankMaterial);
-                    
-                    // Pattern chevrons
-                    const isEven = (row + col) % 2 === 0;
-                    plank.rotation.y = isEven ? Math.PI / 4 : -Math.PI / 4;
-                    plank.position.set(
-                        -25 + col * 1,
-                        0,
-                        -20 + row * 1
-                    );
+                    const plank = new THREE.Mesh(plankGeometry, new THREE.MeshLambertMaterial({ color: new THREE.Color(r, g, b) }));
+                    plank.rotation.y = (row + col) % 2 === 0 ? Math.PI / 4 : -Math.PI / 4;
+                    plank.position.set(-25 + col * 1, 0, -20 + row * 1);
                     plank.receiveShadow = true;
                     floorGroup.add(plank);
                 }
             }
-            
             salon.add(floorGroup);
         }
 
         function createStylishWalls() {
-            const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const wainscotMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
+            const wallMat = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
+            const wainscotMat = new THREE.MeshLambertMaterial({ color: 0xcca98d });
 
-            // Mur arrière
-            const wallGeometry = new THREE.PlaneGeometry(40, 14);
-            const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
-            backWall.position.set(0, 7, -20);
-            backWall.receiveShadow = true;
-            salon.add(backWall);
+            const backWall = new THREE.Mesh(new THREE.PlaneGeometry(40, 14), wallMat);
+            backWall.position.set(0, 7, -20); backWall.receiveShadow = true; salon.add(backWall);
+            const backWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMat);
+            backWainscot.position.set(0, 2, -19.9); salon.add(backWainscot);
 
-            // Boiseries beige
-            const wainscotGeometry = new THREE.PlaneGeometry(40, 4);
-            const backWainscot = new THREE.Mesh(wainscotGeometry, wainscotMaterial);
-            backWainscot.position.set(0, 2, -19.9);
-            salon.add(backWainscot);
+            const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(40, 14), wallMat);
+            leftWall.position.set(-20, 7, 0); leftWall.rotation.y = Math.PI / 2; leftWall.receiveShadow = true; salon.add(leftWall);
+            const leftWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMat);
+            leftWainscot.position.set(-19.9, 2, 0); leftWainscot.rotation.y = Math.PI / 2; salon.add(leftWainscot);
 
-            // Murs latéraux
-            const sideWallGeometry = new THREE.PlaneGeometry(40, 14);
-            
-            const leftWall = new THREE.Mesh(sideWallGeometry, wallMaterial);
-            leftWall.position.set(-20, 7, 0);
-            leftWall.rotation.y = Math.PI / 2;
-            leftWall.receiveShadow = true;
-            salon.add(leftWall);
+            const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(40, 14), wallMat);
+            rightWall.position.set(20, 7, 0); rightWall.rotation.y = -Math.PI / 2; rightWall.receiveShadow = true; salon.add(rightWall);
+            const rightWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMat);
+            rightWainscot.position.set(19.9, 2, 0); rightWainscot.rotation.y = -Math.PI / 2; salon.add(rightWainscot);
 
-            const leftWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMaterial);
-            leftWainscot.position.set(-19.9, 2, 0);
-            leftWainscot.rotation.y = Math.PI / 2;
-            salon.add(leftWainscot);
-
-            const rightWall = new THREE.Mesh(sideWallGeometry, wallMaterial);
-            rightWall.position.set(20, 7, 0);
-            rightWall.rotation.y = -Math.PI / 2;
-            rightWall.receiveShadow = true;
-            salon.add(rightWall);
-
-            const rightWainscot = new THREE.Mesh(new THREE.PlaneGeometry(40, 4), wainscotMaterial);
-            rightWainscot.position.set(19.9, 2, 0);
-            rightWainscot.rotation.y = -Math.PI / 2;
-            salon.add(rightWainscot);
-
-            // Plafond beige très clair
-            const ceilingGeometry = new THREE.PlaneGeometry(40, 40);
-            const ceilingMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-            ceiling.position.set(0, 14, 0);
-            ceiling.rotation.x = Math.PI / 2;
-            ceiling.receiveShadow = true;
-            salon.add(ceiling);
+            const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshLambertMaterial({ color: 0xf7e7ce }));
+            ceiling.position.set(0, 14, 0); ceiling.rotation.x = Math.PI / 2; ceiling.receiveShadow = true; salon.add(ceiling);
         }
 
         function createElegantChandelier() {
             chandelierMesh = new THREE.Group();
+            const chain = new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,3,12), new THREE.MeshLambertMaterial({color:0xcca98d,emissive:0x443322,emissiveIntensity:0.1}));
+            chain.position.y = 11.5; chandelierMesh.add(chain);
+            const body = new THREE.Mesh(new THREE.SphereGeometry(1.2,16,12), new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x2a1608,emissiveIntensity:0.2}));
+            body.position.y = 9; chandelierMesh.add(body);
 
-            // Chaîne dans les tons beige doré
-            const chainGeometry = new THREE.CylinderGeometry(0.03, 0.03, 3, 12);
-            const chainMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xcca98d,
-                emissive: 0x443322,
-                emissiveIntensity: 0.1
-            });
-            const chain = new THREE.Mesh(chainGeometry, chainMaterial);
-            chain.position.y = 11.5;
-            chandelierMesh.add(chain);
-
-            // Corps principal beige doré
-            const bodyGeometry = new THREE.SphereGeometry(1.2, 16, 12);
-            const bodyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x2a1608,
-                emissiveIntensity: 0.2
-            });
-            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-            body.position.y = 9;
-            chandelierMesh.add(body);
-
-            // Bras avec cristaux
             for (let i = 0; i < 8; i++) {
                 const angle = (i / 8) * Math.PI * 2;
-                
-                // Bras courbé
-                const armGeometry = new THREE.TorusGeometry(1.5, 0.08, 6, 16, Math.PI/2);
-                const armMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-                const arm = new THREE.Mesh(armGeometry, armMaterial);
-                arm.position.set(
-                    Math.cos(angle) * 0.8,
-                    8.5,
-                    Math.sin(angle) * 0.8
-                );
-                arm.rotation.y = angle;
-                arm.rotation.z = Math.PI;
-                chandelierMesh.add(arm);
-
-                // Support de bougie
-                const bobeche = new THREE.Mesh(
-                    new THREE.CylinderGeometry(0.2, 0.15, 0.1, 12),
-                    new THREE.MeshLambertMaterial({ color: 0xcca98d })
-                );
-                bobeche.position.set(
-                    Math.cos(angle) * 2.3,
-                    8.5,
-                    Math.sin(angle) * 2.3
-                );
-                chandelierMesh.add(bobeche);
-
-                // Bougie
-                const candleGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.8, 12);
-                const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-                const candle = new THREE.Mesh(candleGeometry, candleMaterial);
-                candle.position.set(
-                    Math.cos(angle) * 2.3,
-                    8.9,
-                    Math.sin(angle) * 2.3
-                );
-                chandelierMesh.add(candle);
-
-                // Flamme
-                const flameGeometry = new THREE.SphereGeometry(0.04, 6, 4);
-                const flameMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xcca98d, 
-                    emissive: 0xcca98d, 
-                    emissiveIntensity: 0.6 
-                });
-                const flame = new THREE.Mesh(flameGeometry, flameMaterial);
-                flame.position.set(
-                    Math.cos(angle) * 2.3,
-                    9.3,
-                    Math.sin(angle) * 2.3
-                );
-                flame.scale.set(0.8, 1.5, 0.8);
-                chandelierMesh.add(flame);
-
-                // Cristaux dans les tons beige
+                const arm = new THREE.Mesh(new THREE.TorusGeometry(1.5,0.08,6,16,Math.PI/2), new THREE.MeshLambertMaterial({color:0xcca98d}));
+                arm.position.set(Math.cos(angle)*0.8,8.5,Math.sin(angle)*0.8); arm.rotation.y=angle; arm.rotation.z=Math.PI; chandelierMesh.add(arm);
+                const bobeche = new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.15,0.1,12), new THREE.MeshLambertMaterial({color:0xcca98d}));
+                bobeche.position.set(Math.cos(angle)*2.3,8.5,Math.sin(angle)*2.3); chandelierMesh.add(bobeche);
+                const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.1,0.8,12), new THREE.MeshLambertMaterial({color:0xf7e7ce}));
+                candle.position.set(Math.cos(angle)*2.3,8.9,Math.sin(angle)*2.3); chandelierMesh.add(candle);
+                const flame = new THREE.Mesh(new THREE.SphereGeometry(0.04,6,4), new THREE.MeshLambertMaterial({color:0xcca98d,emissive:0xcca98d,emissiveIntensity:0.6}));
+                flame.position.set(Math.cos(angle)*2.3,9.3,Math.sin(angle)*2.3); flame.scale.set(0.8,1.5,0.8); chandelierMesh.add(flame);
                 for (let j = 0; j < 5; j++) {
-                    const crystalGeometry = new THREE.OctahedronGeometry(0.1);
-                    const crystalMaterial = new THREE.MeshLambertMaterial({ 
-                        color: 0xf7e7ce, 
-                        transparent: true, 
-                        opacity: 0.9,
-                        emissive: 0x443322,
-                        emissiveIntensity: 0.1
-                    });
-                    const crystal = new THREE.Mesh(crystalGeometry, crystalMaterial);
-                    crystal.position.set(
-                        Math.cos(angle + j * 0.2) * (2 + j * 0.1),
-                        8 - j * 0.3,
-                        Math.sin(angle + j * 0.2) * (2 + j * 0.1)
-                    );
-                    chandelierMesh.add(crystal);
+                    const crystal = new THREE.Mesh(new THREE.OctahedronGeometry(0.1), new THREE.MeshLambertMaterial({color:0xf7e7ce,transparent:true,opacity:0.9,emissive:0x443322,emissiveIntensity:0.1}));
+                    crystal.position.set(Math.cos(angle+j*0.2)*(2+j*0.1),8-j*0.3,Math.sin(angle+j*0.2)*(2+j*0.1)); chandelierMesh.add(crystal);
                 }
             }
-
-            chandelierMesh.position.set(0, 0, 0);
-            salon.add(chandelierMesh);
+            chandelierMesh.position.set(0,0,0); salon.add(chandelierMesh);
         }
 
         function createChesterfieldSofa() {
-            const sofaGroup = new THREE.Group();
-            const leatherMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.1
+            const sg = new THREE.Group();
+            const lm = new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.1});
+            const base = new THREE.Mesh(new THREE.BoxGeometry(8,1,3.5), lm); base.position.y=0.5; base.castShadow=true; sg.add(base);
+            const back = new THREE.Mesh(new THREE.BoxGeometry(8,3.5,0.6), lm); back.position.set(0,2.2,1.45); back.castShadow=true; sg.add(back);
+            const la = new THREE.Mesh(new THREE.BoxGeometry(0.6,2.5,3.5), lm); la.position.set(-3.7,1.7,0); la.castShadow=true; sg.add(la);
+            const ra = new THREE.Mesh(new THREE.BoxGeometry(0.6,2.5,3.5), lm); ra.position.set(3.7,1.7,0); ra.castShadow=true; sg.add(ra);
+            const legm = new THREE.MeshLambertMaterial({color:0xf7e7ce});
+            [[-3.2,0.4,-1.5],[3.2,0.4,-1.5],[-3.2,0.4,1.5],[3.2,0.4,1.5]].forEach(p => {
+                const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.15,0.8,12), legm); leg.position.set(...p); leg.castShadow=true; sg.add(leg);
             });
-
-            // Base du sofa
-            const baseGeometry = new THREE.BoxGeometry(8, 1, 3.5);
-            const base = new THREE.Mesh(baseGeometry, leatherMaterial);
-            base.position.y = 0.5;
-            base.castShadow = true;
-            sofaGroup.add(base);
-
-            // Dossier
-            const backGeometry = new THREE.BoxGeometry(8, 3.5, 0.6);
-            const back = new THREE.Mesh(backGeometry, leatherMaterial);
-            back.position.set(0, 2.2, 1.45);
-            back.castShadow = true;
-            sofaGroup.add(back);
-
-            // Accoudoirs
-            const armGeometry = new THREE.BoxGeometry(0.6, 2.5, 3.5);
-            
-            const leftArm = new THREE.Mesh(armGeometry, leatherMaterial);
-            leftArm.position.set(-3.7, 1.7, 0);
-            leftArm.castShadow = true;
-            sofaGroup.add(leftArm);
-
-            const rightArm = new THREE.Mesh(armGeometry, leatherMaterial);
-            rightArm.position.set(3.7, 1.7, 0);
-            rightArm.castShadow = true;
-            sofaGroup.add(rightArm);
-
-            // Pieds beige clair
-            const legGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.8, 12);
-            const legMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            
-            const legPositions = [
-                [-3.2, 0.4, -1.5], [3.2, 0.4, -1.5],
-                [-3.2, 0.4, 1.5], [3.2, 0.4, 1.5]
-            ];
-
-            legPositions.forEach(pos => {
-                const leg = new THREE.Mesh(legGeometry, legMaterial);
-                leg.position.set(...pos);
-                leg.castShadow = true;
-                sofaGroup.add(leg);
-            });
-
-            // Coussins beige clair
             for (let i = 0; i < 3; i++) {
-                const cushionGeometry = new THREE.BoxGeometry(2.2, 0.4, 2.8);
-                const cushionMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0xcca98d,
-                    emissive: 0x2a1f05,
-                    emissiveIntensity: 0.05
-                });
-                const cushion = new THREE.Mesh(cushionGeometry, cushionMaterial);
-                cushion.position.set(-2.5 + i * 2.5, 1.2, -0.3);
-                cushion.castShadow = true;
-                sofaGroup.add(cushion);
+                const cushion = new THREE.Mesh(new THREE.BoxGeometry(2.2,0.4,2.8), new THREE.MeshLambertMaterial({color:0xcca98d,emissive:0x2a1f05,emissiveIntensity:0.05}));
+                cushion.position.set(-2.5+i*2.5,1.2,-0.3); cushion.castShadow=true; sg.add(cushion);
             }
-
-            // Position repositionnée pour meilleure esthétique
-            sofaGroup.position.set(0, 0, -6);
-            salon.add(sofaGroup);
+            sg.position.set(0,0,-6); salon.add(sg);
         }
 
         function createMahoganyTable() {
-            const tableGroup = new THREE.Group();
-            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.1
-            });
-
-            // Plateau beige foncé
-            const topGeometry = new THREE.CylinderGeometry(2.5, 2.5, 0.2, 24);
-            const top = new THREE.Mesh(topGeometry, mahoganyMaterial);
-            top.position.y = 1.5;
-            top.castShadow = true;
-            tableGroup.add(top);
-
-            // Base sculptée
-            const baseGeometry = new THREE.CylinderGeometry(0.8, 1.5, 1.5, 16);
-            const base = new THREE.Mesh(baseGeometry, mahoganyMaterial);
-            base.position.y = 0.75;
-            base.castShadow = true;
-            tableGroup.add(base);
-
-            // Pieds
-            for (let i = 0; i < 4; i++) {
-                const angle = (i / 4) * Math.PI * 2;
-                const footGeometry = new THREE.SphereGeometry(0.2, 8, 6);
-                const foot = new THREE.Mesh(footGeometry, mahoganyMaterial);
-                foot.position.set(
-                    Math.cos(angle) * 1.2,
-                    0.1,
-                    Math.sin(angle) * 1.2
-                );
-                foot.castShadow = true;
-                tableGroup.add(foot);
-            }
-
-            // Service à thé
-            createTeaService(tableGroup);
-
-            // Position entre sofa et cheminée
-            tableGroup.position.set(0, 0, -10);
-            salon.add(tableGroup);
+            const tg = new THREE.Group();
+            const mm = new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.1});
+            const top = new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,0.2,24), mm); top.position.y=1.5; top.castShadow=true; tg.add(top);
+            const base = new THREE.Mesh(new THREE.CylinderGeometry(0.8,1.5,1.5,16), mm); base.position.y=0.75; base.castShadow=true; tg.add(base);
+            for (let i=0;i<4;i++){const a=(i/4)*Math.PI*2; const foot=new THREE.Mesh(new THREE.SphereGeometry(0.2,8,6),mm); foot.position.set(Math.cos(a)*1.2,0.1,Math.sin(a)*1.2); foot.castShadow=true; tg.add(foot);}
+            createTeaService(tg);
+            tg.position.set(0,0,-10); salon.add(tg);
         }
 
         function createTeaService(parent) {
-            const silverMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xae9e8f,
-                emissive: 0x333333,
-                emissiveIntensity: 0.2
-            });
-
-            // Théière
-            const teapotBody = new THREE.Mesh(
-                new THREE.SphereGeometry(0.3, 12, 8),
-                silverMaterial
-            );
-            teapotBody.position.set(0, 1.8, 0);
-            teapotBody.castShadow = true;
-            parent.add(teapotBody);
-
-            // Bec
-            const spoutGeometry = new THREE.CylinderGeometry(0.05, 0.08, 0.4, 8);
-            const spout = new THREE.Mesh(spoutGeometry, silverMaterial);
-            spout.position.set(0.35, 1.8, 0);
-            spout.rotation.z = Math.PI / 6;
-            parent.add(spout);
-
-            // Tasses
-            for (let i = 0; i < 2; i++) {
-                const angle = (i / 2) * Math.PI + Math.PI/4;
-                
-                const saucerGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.02, 16);
-                const saucer = new THREE.Mesh(saucerGeometry, silverMaterial);
-                saucer.position.set(
-                    Math.cos(angle) * 0.8,
-                    1.71,
-                    Math.sin(angle) * 0.8
-                );
-                parent.add(saucer);
-
-                const cupGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.12, 12);
-                const cup = new THREE.Mesh(cupGeometry, silverMaterial);
-                cup.position.set(
-                    Math.cos(angle) * 0.8,
-                    1.77,
-                    Math.sin(angle) * 0.8
-                );
-                cup.castShadow = true;
-                parent.add(cup);
-            }
+            const sm = new THREE.MeshLambertMaterial({color:0xae9e8f,emissive:0x333333,emissiveIntensity:0.2});
+            const tp = new THREE.Mesh(new THREE.SphereGeometry(0.3,12,8), sm); tp.position.set(0,1.8,0); tp.castShadow=true; parent.add(tp);
+            const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.08,0.4,8), sm); spout.position.set(0.35,1.8,0); spout.rotation.z=Math.PI/6; parent.add(spout);
+            for (let i=0;i<2;i++){const a=(i/2)*Math.PI+Math.PI/4; const saucer=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.15,0.02,16),sm); saucer.position.set(Math.cos(a)*0.8,1.71,Math.sin(a)*0.8); parent.add(saucer); const cup=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.1,0.12,12),sm); cup.position.set(Math.cos(a)*0.8,1.77,Math.sin(a)*0.8); cup.castShadow=true; parent.add(cup);}
         }
 
         function createAntiqueSideTable() {
-            const tableGroup = new THREE.Group();
-            const antiqueMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
-
-            // Plateau
-            const topGeometry = new THREE.BoxGeometry(1.8, 0.15, 1.2);
-            const top = new THREE.Mesh(topGeometry, antiqueMaterial);
-            top.position.y = 2;
-            top.castShadow = true;
-            tableGroup.add(top);
-
-            // Tiroir
-            const drawerGeometry = new THREE.BoxGeometry(1.6, 0.3, 1);
-            const drawer = new THREE.Mesh(drawerGeometry, new THREE.MeshLambertMaterial({ color: 0x59372b }));
-            drawer.position.y = 1.5;
-            drawer.castShadow = true;
-            tableGroup.add(drawer);
-
-            // Pieds
-            const legGeometry = new THREE.CylinderGeometry(0.06, 0.08, 2, 12);
-            const legMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-            
-            const legPositions = [
-                [-0.7, 1, -0.5], [0.7, 1, -0.5],
-                [-0.7, 1, 0.5], [0.7, 1, 0.5]
-            ];
-
-            legPositions.forEach(pos => {
-                const leg = new THREE.Mesh(legGeometry, legMaterial);
-                leg.position.set(...pos);
-                leg.castShadow = true;
-                tableGroup.add(leg);
-            });
-
-            // Lampe élégante
-            createElegantLamp(tableGroup);
-
-            // Position repositionnée
-            tableGroup.position.set(-6, 0, -6);
-            salon.add(tableGroup);
+            const tg = new THREE.Group();
+            const am = new THREE.MeshLambertMaterial({color:0x9f624f});
+            const top = new THREE.Mesh(new THREE.BoxGeometry(1.8,0.15,1.2),am); top.position.y=2; top.castShadow=true; tg.add(top);
+            const drawer = new THREE.Mesh(new THREE.BoxGeometry(1.6,0.3,1), new THREE.MeshLambertMaterial({color:0x59372b})); drawer.position.y=1.5; drawer.castShadow=true; tg.add(drawer);
+            const lm = new THREE.MeshLambertMaterial({color:0xcca98d});
+            [[-0.7,1,-0.5],[0.7,1,-0.5],[-0.7,1,0.5],[0.7,1,0.5]].forEach(p=>{const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.08,2,12),lm); leg.position.set(...p); leg.castShadow=true; tg.add(leg);});
+            createElegantLamp(tg);
+            tg.position.set(-6,0,-6); salon.add(tg);
         }
 
         function createElegantLamp(parent) {
-            // Pied beige doré
-            const baseGeometry = new THREE.CylinderGeometry(0.15, 0.2, 1.2, 12);
-            const baseMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
-            const base = new THREE.Mesh(baseGeometry, baseMaterial);
-            base.position.y = 2.8;
-            base.castShadow = true;
-            parent.add(base);
-
-            // Abat-jour beige
-            const shadeGeometry = new THREE.CylinderGeometry(0.8, 1.2, 0.8, 12);
-            const shadeMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xf7e7ce, 
-                transparent: true, 
-                opacity: 0.8,
-                emissive: 0x443322,
-                emissiveIntensity: 0.2
-            });
-            const shade = new THREE.Mesh(shadeGeometry, shadeMaterial);
-            shade.position.y = 3.8;
-            parent.add(shade);
+            const base = new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.2,1.2,12), new THREE.MeshLambertMaterial({color:0x9f624f})); base.position.y=2.8; base.castShadow=true; parent.add(base);
+            const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.8,1.2,0.8,12), new THREE.MeshLambertMaterial({color:0xf7e7ce,transparent:true,opacity:0.8,emissive:0x443322,emissiveIntensity:0.2})); shade.position.y=3.8; parent.add(shade);
         }
 
         function createExecutiveDesk() {
-            const deskGroup = new THREE.Group();
-            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.1
-            });
-
-            // Bureau
-            const deskTopGeometry = new THREE.BoxGeometry(10, 0.2, 4);
-            const deskTop = new THREE.Mesh(deskTopGeometry, mahoganyMaterial);
-            deskTop.position.y = 2.5;
-            deskTop.castShadow = true;
-            deskGroup.add(deskTop);
-
-            // Caissons
-            const cabinetGeometry = new THREE.BoxGeometry(2, 2.3, 3.5);
-            
-            const leftCabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
-            leftCabinet.position.set(-3.5, 1.35, 0);
-            leftCabinet.castShadow = true;
-            deskGroup.add(leftCabinet);
-
-            const rightCabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
-            rightCabinet.position.set(3.5, 1.35, 0);
-            rightCabinet.castShadow = true;
-            deskGroup.add(rightCabinet);
-
-            // Poignées beige clair
-            createBrassDetails(deskGroup);
-
-            // Ordinateur
-            const monitorGeometry = new THREE.BoxGeometry(3, 2.2, 0.4);
-            const monitorMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
-            const monitor = new THREE.Mesh(monitorGeometry, monitorMaterial);
-            monitor.position.set(-1, 3.8, -1);
-            monitor.castShadow = true;
-            deskGroup.add(monitor);
-
-            // Écran cliquable
-            const screenGeometry = new THREE.BoxGeometry(2.8, 2, 0.1);
-            const screenMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x001100, 
-                emissive: 0x002200, 
-                emissiveIntensity: 0.3 
-            });
-            computerMesh = new THREE.Mesh(screenGeometry, screenMaterial);
-            computerMesh.position.set(-1, 3.8, -0.65);
-            computerMesh.userData = { clickable: true, type: 'computer' };
-            deskGroup.add(computerMesh);
-            clickableObjects.push(computerMesh);
-
-            // Accessoires
-            createDeskAccessories(deskGroup);
-
-            // Position repositionnée
-            deskGroup.position.set(10, 0, -6);
-            salon.add(deskGroup);
+            const dg = new THREE.Group();
+            const mm = new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.1});
+            const deskTop = new THREE.Mesh(new THREE.BoxGeometry(10,0.2,4),mm); deskTop.position.y=2.5; deskTop.castShadow=true; dg.add(deskTop);
+            const lc = new THREE.Mesh(new THREE.BoxGeometry(2,2.3,3.5),mm); lc.position.set(-3.5,1.35,0); lc.castShadow=true; dg.add(lc);
+            const rc = new THREE.Mesh(new THREE.BoxGeometry(2,2.3,3.5),mm); rc.position.set(3.5,1.35,0); rc.castShadow=true; dg.add(rc);
+            createBrassDetails(dg);
+            const monitor = new THREE.Mesh(new THREE.BoxGeometry(3,2.2,0.4), new THREE.MeshLambertMaterial({color:0x2c2c2c})); monitor.position.set(-1,3.8,-1); monitor.castShadow=true; dg.add(monitor);
+            const screenMat = new THREE.MeshLambertMaterial({color:0x001100,emissive:0x002200,emissiveIntensity:0.3});
+            computerMesh = new THREE.Mesh(new THREE.BoxGeometry(2.8,2,0.1), screenMat);
+            computerMesh.position.set(-1,3.8,-0.65); computerMesh.userData={clickable:true,type:'computer'}; dg.add(computerMesh); clickableObjects.push(computerMesh);
+            createDeskAccessories(dg);
+            dg.position.set(10,0,-6); salon.add(dg);
         }
 
         function createBrassDetails(parent) {
-            const brassMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xcca98d,
-                emissive: 0x443322,
-                emissiveIntensity: 0.2
-            });
-
-            // Poignées
-            const handleGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.3, 8);
-            
-            for (let i = 0; i < 3; i++) {
-                const handle = new THREE.Mesh(handleGeometry, brassMaterial);
-                handle.position.set(-2.5, 0.8 + i * 0.6, 1.8);
-                handle.rotation.z = Math.PI / 2;
-                parent.add(handle);
-            }
-
-            for (let i = 0; i < 3; i++) {
-                const handle = new THREE.Mesh(handleGeometry, brassMaterial);
-                handle.position.set(4.5, 0.8 + i * 0.6, 1.8);
-                handle.rotation.z = Math.PI / 2;
-                parent.add(handle);
-            }
-
-            // Ornements
-            const ornamentGeometry = new THREE.SphereGeometry(0.08, 8, 6);
-            const corners = [
-                [-4.8, 2.6, -1.8], [4.8, 2.6, -1.8],
-                [-4.8, 2.6, 1.8], [4.8, 2.6, 1.8]
-            ];
-
-            corners.forEach(pos => {
-                const ornament = new THREE.Mesh(ornamentGeometry, brassMaterial);
-                ornament.position.set(...pos);
-                parent.add(ornament);
-            });
+            const bm = new THREE.MeshLambertMaterial({color:0xcca98d,emissive:0x443322,emissiveIntensity:0.2});
+            const hg = new THREE.CylinderGeometry(0.03,0.03,0.3,8);
+            for(let i=0;i<3;i++){const h=new THREE.Mesh(hg,bm); h.position.set(-2.5,0.8+i*0.6,1.8); h.rotation.z=Math.PI/2; parent.add(h);}
+            for(let i=0;i<3;i++){const h=new THREE.Mesh(hg,bm); h.position.set(4.5,0.8+i*0.6,1.8); h.rotation.z=Math.PI/2; parent.add(h);}
+            const og = new THREE.SphereGeometry(0.08,8,6);
+            [[-4.8,2.6,-1.8],[4.8,2.6,-1.8],[-4.8,2.6,1.8],[4.8,2.6,1.8]].forEach(p=>{const o=new THREE.Mesh(og,bm); o.position.set(...p); parent.add(o);});
         }
 
         function createDeskAccessories(parent) {
-            // Encrier beige
-            const inkwellGeometry = new THREE.CylinderGeometry(0.15, 0.2, 0.2, 12);
-            const inkwellMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f, 
-                transparent: true, 
-                opacity: 0.8 
-            });
-            const inkwell = new THREE.Mesh(inkwellGeometry, inkwellMaterial);
-            inkwell.position.set(2, 2.7, 1);
-            inkwell.castShadow = true;
-            parent.add(inkwell);
-
-            // Plume
-            const quillGeometry = new THREE.CylinderGeometry(0.01, 0.02, 0.8, 8);
-            const quillMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const quill = new THREE.Mesh(quillGeometry, quillMaterial);
-            quill.position.set(2.3, 2.9, 1);
-            quill.rotation.z = Math.PI / 6;
-            parent.add(quill);
-
-            // Porte-lettres
-            const letterHolderGeometry = new THREE.BoxGeometry(0.5, 0.6, 0.1);
-            const letterHolderMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
-            const letterHolder = new THREE.Mesh(letterHolderGeometry, letterHolderMaterial);
-            letterHolder.position.set(3.5, 2.8, -0.5);
-            letterHolder.rotation.x = -Math.PI / 8;
-            parent.add(letterHolder);
-
-            // Livres
-            const bookColors = [0x59372b, 0x9f624f, 0xae9e8f];
-            for (let i = 0; i < 3; i++) {
-                const bookGeometry = new THREE.BoxGeometry(0.8, 0.08, 1.2);
-                const bookMaterial = new THREE.MeshLambertMaterial({ color: bookColors[i] });
-                const book = new THREE.Mesh(bookGeometry, bookMaterial);
-                book.position.set(1, 2.7 + i * 0.08, -1.5);
-                book.rotation.y = i * 0.1;
-                book.castShadow = true;
-                parent.add(book);
-            }
-
-            // Clavier
-            const keyboardGeometry = new THREE.BoxGeometry(2.2, 0.1, 0.8);
-            const keyboardMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const keyboard = new THREE.Mesh(keyboardGeometry, keyboardMaterial);
-            keyboard.position.set(-1, 2.65, 0.8);
-            keyboard.castShadow = true;
-            parent.add(keyboard);
+            const inkwell = new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.2,0.2,12), new THREE.MeshLambertMaterial({color:0x9f624f,transparent:true,opacity:0.8})); inkwell.position.set(2,2.7,1); inkwell.castShadow=true; parent.add(inkwell);
+            const quill = new THREE.Mesh(new THREE.CylinderGeometry(0.01,0.02,0.8,8), new THREE.MeshLambertMaterial({color:0xf7e7ce})); quill.position.set(2.3,2.9,1); quill.rotation.z=Math.PI/6; parent.add(quill);
+            const lh = new THREE.Mesh(new THREE.BoxGeometry(0.5,0.6,0.1), new THREE.MeshLambertMaterial({color:0x9f624f})); lh.position.set(3.5,2.8,-0.5); lh.rotation.x=-Math.PI/8; parent.add(lh);
+            [0x59372b,0x9f624f,0xae9e8f].forEach((c,i)=>{const book=new THREE.Mesh(new THREE.BoxGeometry(0.8,0.08,1.2),new THREE.MeshLambertMaterial({color:c})); book.position.set(1,2.7+i*0.08,-1.5); book.rotation.y=i*0.1; book.castShadow=true; parent.add(book);});
+            const keyboard = new THREE.Mesh(new THREE.BoxGeometry(2.2,0.1,0.8), new THREE.MeshLambertMaterial({color:0xf7e7ce})); keyboard.position.set(-1,2.65,0.8); keyboard.castShadow=true; parent.add(keyboard);
         }
 
         function createAntiqueBookshelf() {
-            const shelfGroup = new THREE.Group();
-            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.1
-            });
-
-            // Structure
-            const frameWidth = 0.4;
-            const shelfHeight = 10;
-            const shelfDepth = 3;
-
-            // Montants
-            const pillarGeometry = new THREE.BoxGeometry(frameWidth, shelfHeight, shelfDepth);
-            
-            const leftPillar = new THREE.Mesh(pillarGeometry, mahoganyMaterial);
-            leftPillar.position.set(-3.8, 5, 0);
-            leftPillar.castShadow = true;
-            shelfGroup.add(leftPillar);
-
-            const rightPillar = new THREE.Mesh(pillarGeometry, mahoganyMaterial);
-            rightPillar.position.set(3.8, 5, 0);
-            rightPillar.castShadow = true;
-            shelfGroup.add(rightPillar);
-
-            // Panneau arrière
-            const backPanelGeometry = new THREE.BoxGeometry(8, shelfHeight, 0.3);
-            const backPanel = new THREE.Mesh(backPanelGeometry, mahoganyMaterial);
-            backPanel.position.set(0, 5, -1.35);
-            backPanel.castShadow = true;
-            shelfGroup.add(backPanel);
-
-            // Étagères
-            const shelfGeometry = new THREE.BoxGeometry(8, 0.3, shelfDepth);
-            for (let i = 0; i <= 6; i++) {
-                const shelf = new THREE.Mesh(shelfGeometry, mahoganyMaterial);
-                shelf.position.set(0, i * 1.5 + 0.3, 0);
-                shelf.castShadow = true;
-                shelfGroup.add(shelf);
-            }
-
-            // Collection de livres
-            createBookCollection(shelfGroup);
-
-            // Position repositionnée
-            shelfGroup.position.set(-12, 0, -6);
-            salon.add(shelfGroup);
+            const sg = new THREE.Group();
+            const mm = new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.1});
+            const lp = new THREE.Mesh(new THREE.BoxGeometry(0.4,10,3),mm); lp.position.set(-3.8,5,0); lp.castShadow=true; sg.add(lp);
+            const rp = new THREE.Mesh(new THREE.BoxGeometry(0.4,10,3),mm); rp.position.set(3.8,5,0); rp.castShadow=true; sg.add(rp);
+            const bp = new THREE.Mesh(new THREE.BoxGeometry(8,10,0.3),mm); bp.position.set(0,5,-1.35); bp.castShadow=true; sg.add(bp);
+            for(let i=0;i<=6;i++){const shelf=new THREE.Mesh(new THREE.BoxGeometry(8,0.3,3),mm); shelf.position.set(0,i*1.5+0.3,0); shelf.castShadow=true; sg.add(shelf);}
+            createBookCollection(sg);
+            sg.position.set(-12,0,-6); salon.add(sg);
         }
 
         function createBookCollection(parent) {
-            const bookCollections = [
-                { colors: [0x59372b, 0x9f624f, 0xae9e8f], shelf: 0 },
-                { colors: [0x9f624f, 0xcca98d, 0x59372b], shelf: 1 },
-                { colors: [0xae9e8f, 0xf7e7ce, 0x9f624f], shelf: 2 },
-                { colors: [0x59372b, 0xcca98d, 0xae9e8f], shelf: 3 },
-                { colors: [0x9f624f, 0xf7e7ce, 0x59372b], shelf: 4 },
-                { colors: [0xcca98d, 0xae9e8f, 0x9f624f], shelf: 5 }
+            const collections = [
+                {colors:[0x59372b,0x9f624f,0xae9e8f],shelf:0},{colors:[0x9f624f,0xcca98d,0x59372b],shelf:1},
+                {colors:[0xae9e8f,0xf7e7ce,0x9f624f],shelf:2},{colors:[0x59372b,0xcca98d,0xae9e8f],shelf:3},
+                {colors:[0x9f624f,0xf7e7ce,0x59372b],shelf:4},{colors:[0xcca98d,0xae9e8f,0x9f624f],shelf:5}
             ];
-
-            bookCollections.forEach(collection => {
-                const shelfY = collection.shelf * 1.5 + 1.1;
-                
-                for (let i = 0; i < 12; i++) {
-                    const bookGeometry = new THREE.BoxGeometry(0.4, 1.4, 0.2);
-                    const bookMaterial = new THREE.MeshLambertMaterial({ 
-                        color: collection.colors[Math.floor(Math.random() * collection.colors.length)]
-                    });
-                    const book = new THREE.Mesh(bookGeometry, bookMaterial);
-                    book.position.set(-3.5 + (i * 0.6), shelfY, 1.3);
-                    book.rotation.y = (Math.random() - 0.5) * 0.2;
-                    book.castShadow = true;
-                    parent.add(book);
-                }
-
-                // Objets décoratifs
-                if (collection.shelf % 2 === 0) {
-                    if (collection.shelf === 0) {
-                        // Buste
-                        const bustGeometry = new THREE.CylinderGeometry(0.3, 0.4, 0.8, 12);
-                        const bustMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-                        const bust = new THREE.Mesh(bustGeometry, bustMaterial);
-                        bust.position.set(2.5, shelfY, 1);
-                        bust.castShadow = true;
-                        parent.add(bust);
-                    } else if (collection.shelf === 2) {
-                        // Globe
-                        const globeStandGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.4, 12);
-                        const standMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-                        const stand = new THREE.Mesh(globeStandGeometry, standMaterial);
-                        stand.position.set(2.5, shelfY - 0.2, 1);
-                        parent.add(stand);
-
-                        const globeGeometry = new THREE.SphereGeometry(0.25, 16, 12);
-                        const globeMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
-                        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
-                        globe.position.set(2.5, shelfY + 0.1, 1);
-                        globe.castShadow = true;
-                        parent.add(globe);
-                    }
-                }
+            collections.forEach(c => {
+                const sy = c.shelf*1.5+1.1;
+                for(let i=0;i<12;i++){const book=new THREE.Mesh(new THREE.BoxGeometry(0.4,1.4,0.2),new THREE.MeshLambertMaterial({color:c.colors[Math.floor(Math.random()*c.colors.length)]})); book.position.set(-3.5+i*0.6,sy,1.3); book.rotation.y=(Math.random()-0.5)*0.2; book.castShadow=true; parent.add(book);}
+                if(c.shelf===0){const bust=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.4,0.8,12),new THREE.MeshLambertMaterial({color:0xf7e7ce})); bust.position.set(2.5,sy,1); bust.castShadow=true; parent.add(bust);}
+                if(c.shelf===2){const stand=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.15,0.4,12),new THREE.MeshLambertMaterial({color:0xcca98d})); stand.position.set(2.5,sy-0.2,1); parent.add(stand); const globe=new THREE.Mesh(new THREE.SphereGeometry(0.25,16,12),new THREE.MeshLambertMaterial({color:0x228b22})); globe.position.set(2.5,sy+0.1,1); globe.castShadow=true; parent.add(globe);}
             });
         }
 
         function createVintageEntertainmentCenter() {
-            const centerGroup = new THREE.Group();
-            const mahoganyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.1
-            });
-
-            // Meuble TV
-            const cabinetGeometry = new THREE.BoxGeometry(12, 3, 2.5);
-            const cabinet = new THREE.Mesh(cabinetGeometry, mahoganyMaterial);
-            cabinet.position.y = 1.5;
-            cabinet.castShadow = true;
-            centerGroup.add(cabinet);
-
-            // Socle
-            const baseGeometry = new THREE.BoxGeometry(13, 0.5, 3);
-            const base = new THREE.Mesh(baseGeometry, new THREE.MeshLambertMaterial({ color: 0xae9e8f }));
-            base.position.y = 0.25;
-            base.castShadow = true;
-            centerGroup.add(base);
-
-            // TV
-            const tvFrameGeometry = new THREE.BoxGeometry(8, 2.8, 0.3);
-            const tvFrameMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
-            const tvFrame = new THREE.Mesh(tvFrameGeometry, tvFrameMaterial);
-            tvFrame.position.set(0, 4.5, 1.4);
-            tvFrame.castShadow = true;
-            centerGroup.add(tvFrame);
-
-            // Écran TV
-            const screenGeometry = new THREE.BoxGeometry(7.5, 2.5, 0.1);
+            const cg = new THREE.Group();
+            const mm = new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.1});
+            const cabinet = new THREE.Mesh(new THREE.BoxGeometry(12,3,2.5),mm); cabinet.position.y=1.5; cabinet.castShadow=true; cg.add(cabinet);
+            const base = new THREE.Mesh(new THREE.BoxGeometry(13,0.5,3),new THREE.MeshLambertMaterial({color:0xae9e8f})); base.position.y=0.25; base.castShadow=true; cg.add(base);
+            const tvFrame = new THREE.Mesh(new THREE.BoxGeometry(8,2.8,0.3),new THREE.MeshLambertMaterial({color:0x2c2c2c})); tvFrame.position.set(0,4.5,1.4); tvFrame.castShadow=true; cg.add(tvFrame);
             const screenTexture = new THREE.CanvasTexture(createBeautifulScreenCanvas());
-            const screenMaterial = new THREE.MeshLambertMaterial({ 
-                map: screenTexture, 
-                emissive: 0x332211, 
-                emissiveIntensity: 0.2 
-            });
-            tvMesh = new THREE.Mesh(screenGeometry, screenMaterial);
-            tvMesh.position.set(0, 4.5, 1.75);
-            tvMesh.userData = { clickable: true, type: 'tv' };
-            centerGroup.add(tvMesh);
-            clickableObjects.push(tvMesh);
-
-            // Portes du meuble
-            createCabinetDoors(centerGroup);
-
-            // Position contre le mur du fond
-            centerGroup.position.set(0, 0, -18);
-            salon.add(centerGroup);
+            tvMesh = new THREE.Mesh(new THREE.BoxGeometry(7.5,2.5,0.1),new THREE.MeshLambertMaterial({map:screenTexture,emissive:0x332211,emissiveIntensity:0.2}));
+            tvMesh.position.set(0,4.5,1.75); tvMesh.userData={clickable:true,type:'tv'}; cg.add(tvMesh); clickableObjects.push(tvMesh);
+            createCabinetDoors(cg);
+            cg.position.set(0,0,-18); salon.add(cg);
         }
 
         function createBeautifulScreenCanvas() {
             const canvas = document.createElement('canvas');
-            canvas.width = 750;
-            canvas.height = 250;
+            canvas.width = 750; canvas.height = 250;
             const ctx = canvas.getContext('2d');
-
-            // Fond dégradé beige
-            const gradient = ctx.createLinearGradient(0, 0, 750, 250);
-            gradient.addColorStop(0, '#9f624f');
-            gradient.addColorStop(0.3, '#cca98d');
-            gradient.addColorStop(0.7, '#f7e7ce');
-            gradient.addColorStop(1, '#ae9e8f');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 750, 250);
-
-            // Motifs élégants
-            ctx.fillStyle = 'rgba(89, 55, 43, 0.3)';
-            for (let i = 0; i < 20; i++) {
-                ctx.beginPath();
-                ctx.arc(
-                    Math.random() * 750, 
-                    Math.random() * 250, 
-                    Math.random() * 30 + 10, 
-                    0, 
-                    Math.PI * 2
-                );
-                ctx.fill();
-            }
-
-            // Bordure décorative
-            ctx.strokeStyle = '#59372b';
-            ctx.lineWidth = 8;
-            ctx.strokeRect(0, 0, 750, 250);
-
-            // Texte élégant
-            ctx.fillStyle = '#59372b';
-            ctx.font = 'bold 32px Times New Roman';
-            ctx.textAlign = 'center';
-            ctx.fillText('Divertissement Élégant', 375, 130);
-
+            const gradient = ctx.createLinearGradient(0,0,750,250);
+            gradient.addColorStop(0,'#9f624f'); gradient.addColorStop(0.3,'#cca98d'); gradient.addColorStop(0.7,'#f7e7ce'); gradient.addColorStop(1,'#ae9e8f');
+            ctx.fillStyle = gradient; ctx.fillRect(0,0,750,250);
+            ctx.fillStyle = 'rgba(89,55,43,0.3)';
+            for(let i=0;i<20;i++){ctx.beginPath(); ctx.arc(Math.random()*750,Math.random()*250,Math.random()*30+10,0,Math.PI*2); ctx.fill();}
+            ctx.strokeStyle='#59372b'; ctx.lineWidth=8; ctx.strokeRect(0,0,750,250);
+            ctx.fillStyle='#59372b'; ctx.font='bold 32px Times New Roman'; ctx.textAlign='center'; ctx.fillText('Divertissement Élégant',375,130);
             return canvas;
         }
 
         function createCabinetDoors(parent) {
-            const doorMaterial = new THREE.MeshLambertMaterial({ color: 0xae9e8f });
-            
-            for (let side = 0; side < 2; side++) {
-                const doorGeometry = new THREE.BoxGeometry(2, 2.8, 0.1);
-                const door = new THREE.Mesh(doorGeometry, doorMaterial);
-                door.position.set(side === 0 ? -4.5 : 4.5, 1.5, 1.3);
-                door.castShadow = true;
-                parent.add(door);
-
-                // Panneaux de verre beige
-                const glassGeometry = new THREE.BoxGeometry(1.5, 2, 0.05);
-                const glassColors = [0x9f624f, 0xcca98d, 0xae9e8f, 0xf7e7ce];
-                const glassMaterial = new THREE.MeshLambertMaterial({ 
-                    color: glassColors[side], 
-                    transparent: true, 
-                    opacity: 0.6 
-                });
-                const glass = new THREE.Mesh(glassGeometry, glassMaterial);
-                glass.position.set(side === 0 ? -4.5 : 4.5, 1.5, 1.35);
-                parent.add(glass);
-
-                // Poignées beige clair
-                const handleGeometry = new THREE.SphereGeometry(0.08, 8, 6);
-                const handleMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-                const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-                handle.position.set(
-                    side === 0 ? -3.7 : 3.7, 
-                    1.5, 
-                    1.4
-                );
-                parent.add(handle);
+            const dm = new THREE.MeshLambertMaterial({color:0xae9e8f});
+            for(let side=0;side<2;side++){
+                const door=new THREE.Mesh(new THREE.BoxGeometry(2,2.8,0.1),dm); door.position.set(side===0?-4.5:4.5,1.5,1.3); door.castShadow=true; parent.add(door);
+                const glass=new THREE.Mesh(new THREE.BoxGeometry(1.5,2,0.05),new THREE.MeshLambertMaterial({color:[0x9f624f,0xcca98d][side],transparent:true,opacity:0.6})); glass.position.set(side===0?-4.5:4.5,1.5,1.35); parent.add(glass);
+                const handle=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,6),new THREE.MeshLambertMaterial({color:0xcca98d})); handle.position.set(side===0?-3.7:3.7,1.5,1.4); parent.add(handle);
             }
         }
 
         function createElegantFireplace() {
-            const fireplaceGroup = new THREE.Group();
-            
-            // Manteau beige clair
-            const mantleGeometry = new THREE.BoxGeometry(8, 1, 2);
-            const mantleMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const mantle = new THREE.Mesh(mantleGeometry, mantleMaterial);
-            mantle.position.set(0, 4, -19.5);
-            mantle.castShadow = true;
-            fireplaceGroup.add(mantle);
-
-            // Foyer
-            const fireboxGeometry = new THREE.BoxGeometry(6, 3, 1.5);
-            const fireboxMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
-            const firebox = new THREE.Mesh(fireboxGeometry, fireboxMaterial);
-            firebox.position.set(0, 2.5, -19);
-            firebox.castShadow = true;
-            fireplaceGroup.add(firebox);
-
-            // Feu de cheminée dans les tons beige/doré
-            const fireGeometry = new THREE.ConeGeometry(1, 2, 8);
-            const fireMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0xcca98d, 
-                emissive: 0xcca98d, 
-                emissiveIntensity: 0.5,
-                transparent: true,
-                opacity: 0.8
-            });
-            
-            for (let i = 0; i < 5; i++) {
-                const flame = new THREE.Mesh(fireGeometry, fireMaterial);
-                flame.position.set(
-                    -2 + i * 1,
-                    1.5 + Math.random() * 0.5,
-                    -18.5
-                );
-                flame.scale.set(0.5 + Math.random() * 0.5, 1 + Math.random() * 0.5, 0.5);
-                fireplaceGroup.add(flame);
-            }
-
-            // Bûches
-            const logGeometry = new THREE.CylinderGeometry(0.15, 0.2, 2, 8);
-            const logMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
-            
-            for (let i = 0; i < 3; i++) {
-                const log = new THREE.Mesh(logGeometry, logMaterial);
-                log.position.set(-1 + i * 1, 1.2, -18.5);
-                log.rotation.z = (Math.random() - 0.5) * 0.5;
-                log.castShadow = true;
-                fireplaceGroup.add(log);
-            }
-
-            // Chenets beige doré
-            for (let side = 0; side < 2; side++) {
-                const andironGeometry = new THREE.CylinderGeometry(0.1, 0.15, 1.5, 12);
-                const andironMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-                const andiron = new THREE.Mesh(andironGeometry, andironMaterial);
-                andiron.position.set(side === 0 ? -2.5 : 2.5, 1.75, -18.5);
-                andiron.castShadow = true;
-                fireplaceGroup.add(andiron);
-            }
-
-            // Lumière du feu
-            const fireLight = new THREE.PointLight(0xcca98d, 1, 15);
-            fireLight.position.set(0, 2, -18);
-            fireplaceGroup.add(fireLight);
-
-            salon.add(fireplaceGroup);
+            const fg = new THREE.Group();
+            const mantle=new THREE.Mesh(new THREE.BoxGeometry(8,1,2),new THREE.MeshLambertMaterial({color:0xf7e7ce})); mantle.position.set(0,4,-19.5); mantle.castShadow=true; fg.add(mantle);
+            const firebox=new THREE.Mesh(new THREE.BoxGeometry(6,3,1.5),new THREE.MeshLambertMaterial({color:0x59372b})); firebox.position.set(0,2.5,-19); firebox.castShadow=true; fg.add(firebox);
+            const fireGeom=new THREE.ConeGeometry(1,2,8);
+            const fireMat=new THREE.MeshLambertMaterial({color:0xcca98d,emissive:0xcca98d,emissiveIntensity:0.5,transparent:true,opacity:0.8});
+            for(let i=0;i<5;i++){const flame=new THREE.Mesh(fireGeom,fireMat); flame.position.set(-2+i*1,1.5+Math.random()*0.5,-18.5); flame.scale.set(0.5+Math.random()*0.5,1+Math.random()*0.5,0.5); fg.add(flame);}
+            const logMat=new THREE.MeshLambertMaterial({color:0x9f624f});
+            for(let i=0;i<3;i++){const log=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.2,2,8),logMat); log.position.set(-1+i*1,1.2,-18.5); log.rotation.z=(Math.random()-0.5)*0.5; log.castShadow=true; fg.add(log);}
+            for(let side=0;side<2;side++){const andiron=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.15,1.5,12),new THREE.MeshLambertMaterial({color:0xcca98d})); andiron.position.set(side===0?-2.5:2.5,1.75,-18.5); andiron.castShadow=true; fg.add(andiron);}
+            const fl=new THREE.PointLight(0xcca98d,1,15); fl.position.set(0,2,-18); fg.add(fl);
+            salon.add(fg);
         }
 
         function createBeautifulPlants() {
-            // Plantes repositionnées esthétiquement
-            
-            // Grand ficus dans un coin élégant
             const ficusGroup = new THREE.Group();
-            
-            const potGeometry = new THREE.CylinderGeometry(1, 1.3, 1.5, 16);
-            const potMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.05
-            });
-            const pot = new THREE.Mesh(potGeometry, potMaterial);
-            pot.position.y = 0.75;
-            pot.castShadow = true;
-            ficusGroup.add(pot);
+            const pot=new THREE.Mesh(new THREE.CylinderGeometry(1,1.3,1.5,16),new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.05})); pot.position.y=0.75; pot.castShadow=true; ficusGroup.add(pot);
+            const trunk=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.25,4,12),new THREE.MeshLambertMaterial({color:0x9f624f})); trunk.position.y=3.5; trunk.castShadow=true; ficusGroup.add(trunk);
+            const fm=new THREE.MeshLambertMaterial({color:0x228b22});
+            for(let i=0;i<20;i++){const leaf=new THREE.Mesh(new THREE.SphereGeometry(0.4,8,6),fm); const a=Math.random()*Math.PI*2; const r=1+Math.random()*0.8; leaf.position.set(Math.cos(a)*r,4.5+Math.random()*2,Math.sin(a)*r); leaf.scale.set(1.2,0.4,0.8); leaf.castShadow=true; ficusGroup.add(leaf);}
+            ficusGroup.position.set(-16,0,12); salon.add(ficusGroup);
 
-            // Tronc
-            const trunkGeometry = new THREE.CylinderGeometry(0.15, 0.25, 4, 12);
-            const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x9f624f });
-            const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
-            trunk.position.y = 3.5;
-            trunk.castShadow = true;
-            ficusGroup.add(trunk);
-
-            // Feuillage
-            const foliageMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
-            for (let i = 0; i < 20; i++) {
-                const leafGeometry = new THREE.SphereGeometry(0.4, 8, 6);
-                const leaf = new THREE.Mesh(leafGeometry, foliageMaterial);
-                const angle = Math.random() * Math.PI * 2;
-                const radius = 1 + Math.random() * 0.8;
-                leaf.position.set(
-                    Math.cos(angle) * radius,
-                    4.5 + Math.random() * 2,
-                    Math.sin(angle) * radius
-                );
-                leaf.scale.set(1.2, 0.4, 0.8);
-                leaf.castShadow = true;
-                ficusGroup.add(leaf);
-            }
-
-            // Position dans un coin esthétique
-            ficusGroup.position.set(-16, 0, 12);
-            salon.add(ficusGroup);
-
-            // Palmier élégant de l'autre côté
             const palmGroup = new THREE.Group();
-            
-            const palmPotGeometry = new THREE.CylinderGeometry(0.8, 1, 1.2, 12);
-            const palmPot = new THREE.Mesh(palmPotGeometry, new THREE.MeshLambertMaterial({ color: 0xae9e8f }));
-            palmPot.position.y = 0.6;
-            palmPot.castShadow = true;
-            palmGroup.add(palmPot);
-
-            // Troncs de palmier
-            for (let i = 0; i < 3; i++) {
-                const palmTrunkGeometry = new THREE.CylinderGeometry(0.08, 0.12, 3 + i * 0.5, 10);
-                const palmTrunk = new THREE.Mesh(palmTrunkGeometry, new THREE.MeshLambertMaterial({ color: 0xae9e8f }));
-                palmTrunk.position.set(
-                    (i - 1) * 0.3,
-                    2.7 + i * 0.25,
-                    0
-                );
-                palmTrunk.rotation.z = (i - 1) * 0.2;
-                palmTrunk.castShadow = true;
-                palmGroup.add(palmTrunk);
-
-                // Palmes
-                for (let j = 0; j < 6; j++) {
-                    const frondGeometry = new THREE.BoxGeometry(0.1, 1.5, 0.05);
-                    const frondMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
-                    const frond = new THREE.Mesh(frondGeometry, frondMaterial);
-                    const angle = (j / 6) * Math.PI * 2;
-                    frond.position.set(
-                        (i - 1) * 0.3 + Math.cos(angle) * 0.5,
-                        4.2 + i * 0.25,
-                        Math.sin(angle) * 0.5
-                    );
-                    frond.rotation.y = angle;
-                    frond.rotation.z = -Math.PI / 6;
-                    frond.castShadow = true;
-                    palmGroup.add(frond);
-                }
-            }
-
-            // Position symétrique
-            palmGroup.position.set(16, 0, 12);
-            salon.add(palmGroup);
+            const pp=new THREE.Mesh(new THREE.CylinderGeometry(0.8,1,1.2,12),new THREE.MeshLambertMaterial({color:0xae9e8f})); pp.position.y=0.6; pp.castShadow=true; palmGroup.add(pp);
+            for(let i=0;i<3;i++){const pt=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.12,3+i*0.5,10),new THREE.MeshLambertMaterial({color:0xae9e8f})); pt.position.set((i-1)*0.3,2.7+i*0.25,0); pt.rotation.z=(i-1)*0.2; pt.castShadow=true; palmGroup.add(pt); for(let j=0;j<6;j++){const a=(j/6)*Math.PI*2; const frond=new THREE.Mesh(new THREE.BoxGeometry(0.1,1.5,0.05),new THREE.MeshLambertMaterial({color:0x228b22})); frond.position.set((i-1)*0.3+Math.cos(a)*0.5,4.2+i*0.25,Math.sin(a)*0.5); frond.rotation.y=a; frond.rotation.z=-Math.PI/6; frond.castShadow=true; palmGroup.add(frond);}}
+            palmGroup.position.set(16,0,12); salon.add(palmGroup);
         }
 
         function createElegantDecorations() {
-            // Horloge grand-père repositionnée
             createGrandfatherClock();
-            
-            // Candélabres repositionnés
             createCandelabras();
-            
-            // Objets de collection repositionnés
             createCollectibles();
         }
 
         function createGrandfatherClock() {
-            const clockGroup = new THREE.Group();
-            
-            // Corps principal beige foncé
-            const bodyGeometry = new THREE.BoxGeometry(1, 7, 1);
-            const bodyMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x1a0e07,
-                emissiveIntensity: 0.1
-            });
-            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-            body.position.y = 3.5;
-            body.castShadow = true;
-            clockGroup.add(body);
-
-            // Cadran beige clair
-            const faceGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.1, 24);
-            const faceMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const face = new THREE.Mesh(faceGeometry, faceMaterial);
-            face.position.set(0, 5.5, 0.6);
-            face.rotation.x = Math.PI / 2;
-            face.castShadow = true;
-            clockGroup.add(face);
-
-            // Aiguilles beige foncé
-            const hourHandGeometry = new THREE.BoxGeometry(0.02, 0.4, 0.01);
-            const minuteHandGeometry = new THREE.BoxGeometry(0.01, 0.5, 0.01);
-            const handMaterial = new THREE.MeshLambertMaterial({ color: 0x59372b });
-            
-            const hourHand = new THREE.Mesh(hourHandGeometry, handMaterial);
-            hourHand.position.set(0, 5.5, 0.65);
-            hourHand.rotation.z = Math.PI / 4;
-            clockGroup.add(hourHand);
-
-            const minuteHand = new THREE.Mesh(minuteHandGeometry, handMaterial);
-            minuteHand.position.set(0, 5.5, 0.66);
-            minuteHand.rotation.z = Math.PI / 6;
-            clockGroup.add(minuteHand);
-
-            // Base
-            const baseGeometry = new THREE.BoxGeometry(1.4, 1, 1.4);
-            const base = new THREE.Mesh(baseGeometry, bodyMaterial);
-            base.position.y = 0.5;
-            base.castShadow = true;
-            clockGroup.add(base);
-
-            // Pendule beige doré
-            const pendulumGeometry = new THREE.SphereGeometry(0.1, 12, 8);
-            const pendulumMaterial = new THREE.MeshLambertMaterial({ color: 0xcca98d });
-            const pendulum = new THREE.Mesh(pendulumGeometry, pendulumMaterial);
-            pendulum.position.set(0, 3, 0.6);
-            clockGroup.add(pendulum);
-
-            // Position dans un coin élégant
-            clockGroup.position.set(-18, 0, 8);
-            salon.add(clockGroup);
+            const cg = new THREE.Group();
+            const bm=new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x1a0e07,emissiveIntensity:0.1});
+            const body=new THREE.Mesh(new THREE.BoxGeometry(1,7,1),bm); body.position.y=3.5; body.castShadow=true; cg.add(body);
+            const face=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.1,24),new THREE.MeshLambertMaterial({color:0xf7e7ce})); face.position.set(0,5.5,0.6); face.rotation.x=Math.PI/2; face.castShadow=true; cg.add(face);
+            const hm=new THREE.MeshLambertMaterial({color:0x59372b});
+            const hh=new THREE.Mesh(new THREE.BoxGeometry(0.02,0.4,0.01),hm); hh.position.set(0,5.5,0.65); hh.rotation.z=Math.PI/4; cg.add(hh);
+            const mh=new THREE.Mesh(new THREE.BoxGeometry(0.01,0.5,0.01),hm); mh.position.set(0,5.5,0.66); mh.rotation.z=Math.PI/6; cg.add(mh);
+            const base=new THREE.Mesh(new THREE.BoxGeometry(1.4,1,1.4),bm); base.position.y=0.5; base.castShadow=true; cg.add(base);
+            const pendulum=new THREE.Mesh(new THREE.SphereGeometry(0.1,12,8),new THREE.MeshLambertMaterial({color:0xcca98d})); pendulum.position.set(0,3,0.6); cg.add(pendulum);
+            cg.position.set(-18,0,8); salon.add(cg);
         }
 
         function createCandelabras() {
-            const candelabraPositions = [
-                { pos: [-4, 2.1, -10], candles: 5 },
-                { pos: [4, 2.1, -10], candles: 3 },
-                { pos: [0, 4.5, -19.5], candles: 7 } // Sur la cheminée
-            ];
-
-            candelabraPositions.forEach(data => {
-                const candelabraGroup = new THREE.Group();
-                
-                // Base beige doré
-                const baseGeometry = new THREE.CylinderGeometry(0.3, 0.4, 0.2, 16);
-                const baseMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0x9f624f,
-                    emissive: 0x2a1608,
-                    emissiveIntensity: 0.1
-                });
-                const base = new THREE.Mesh(baseGeometry, baseMaterial);
-                base.position.y = 0.1;
-                base.castShadow = true;
-                candelabraGroup.add(base);
-
-                // Bras et bougies
-                for (let i = 0; i < data.candles; i++) {
-                    const angle = (i / data.candles) * Math.PI * 2;
-                    const radius = i === Math.floor(data.candles / 2) ? 0 : 0.8;
-                    const height = i === Math.floor(data.candles / 2) ? 1.2 : 1;
-
-                    // Bras
-                    if (radius > 0) {
-                        const armGeometry = new THREE.CylinderGeometry(0.02, 0.03, 0.6, 8);
-                        const arm = new THREE.Mesh(armGeometry, baseMaterial);
-                        arm.position.set(
-                            Math.cos(angle) * radius / 2,
-                            0.5,
-                            Math.sin(angle) * radius / 2
-                        );
-                        arm.rotation.z = angle;
-                        candelabraGroup.add(arm);
-                    }
-
-                    // Support
-                    const bobeche = new THREE.Mesh(
-                        new THREE.CylinderGeometry(0.08, 0.06, 0.05, 12),
-                        baseMaterial
-                    );
-                    bobeche.position.set(
-                        Math.cos(angle) * radius,
-                        height,
-                        Math.sin(angle) * radius
-                    );
-                    candelabraGroup.add(bobeche);
-
-                    // Bougie beige clair
-                    const candleGeometry = new THREE.CylinderGeometry(0.04, 0.05, 0.6, 12);
-                    const candleMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-                    const candle = new THREE.Mesh(candleGeometry, candleMaterial);
-                    candle.position.set(
-                        Math.cos(angle) * radius,
-                        height + 0.3,
-                        Math.sin(angle) * radius
-                    );
-                    candle.castShadow = true;
-                    candelabraGroup.add(candle);
-
-                    // Flamme dorée
-                    const flameGeometry = new THREE.SphereGeometry(0.025, 6, 4);
-                    const flameMaterial = new THREE.MeshLambertMaterial({ 
-                        color: 0xcca98d, 
-                        emissive: 0xcca98d, 
-                        emissiveIntensity: 0.4 
-                    });
-                    const flame = new THREE.Mesh(flameGeometry, flameMaterial);
-                    flame.position.set(
-                        Math.cos(angle) * radius,
-                        height + 0.65,
-                        Math.sin(angle) * radius
-                    );
-                    flame.scale.set(0.6, 1.2, 0.6);
-                    candelabraGroup.add(flame);
-
-                    // Lumière
-                    const candleLight = new THREE.PointLight(0xcca98d, 0.2, 8);
-                    candleLight.position.set(
-                        Math.cos(angle) * radius,
-                        height + 0.65,
-                        Math.sin(angle) * radius
-                    );
-                    candelabraGroup.add(candleLight);
+            [{pos:[-4,2.1,-10],candles:5},{pos:[4,2.1,-10],candles:3},{pos:[0,4.5,-19.5],candles:7}].forEach(data => {
+                const cg=new THREE.Group();
+                const bm=new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x2a1608,emissiveIntensity:0.1});
+                const base=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.4,0.2,16),bm); base.position.y=0.1; base.castShadow=true; cg.add(base);
+                for(let i=0;i<data.candles;i++){
+                    const a=(i/data.candles)*Math.PI*2; const r=i===Math.floor(data.candles/2)?0:0.8; const h=i===Math.floor(data.candles/2)?1.2:1;
+                    if(r>0){const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.03,0.6,8),bm); arm.position.set(Math.cos(a)*r/2,0.5,Math.sin(a)*r/2); arm.rotation.z=a; cg.add(arm);}
+                    const bob=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.06,0.05,12),bm); bob.position.set(Math.cos(a)*r,h,Math.sin(a)*r); cg.add(bob);
+                    const candle=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.05,0.6,12),new THREE.MeshLambertMaterial({color:0xf7e7ce})); candle.position.set(Math.cos(a)*r,h+0.3,Math.sin(a)*r); candle.castShadow=true; cg.add(candle);
+                    const flame=new THREE.Mesh(new THREE.SphereGeometry(0.025,6,4),new THREE.MeshLambertMaterial({color:0xcca98d,emissive:0xcca98d,emissiveIntensity:0.4})); flame.position.set(Math.cos(a)*r,h+0.65,Math.sin(a)*r); flame.scale.set(0.6,1.2,0.6); cg.add(flame);
+                    const cl=new THREE.PointLight(0xcca98d,0.2,8); cl.position.set(Math.cos(a)*r,h+0.65,Math.sin(a)*r); cg.add(cl);
                 }
-
-                candelabraGroup.position.set(...data.pos);
-                salon.add(candelabraGroup);
+                cg.position.set(...data.pos); salon.add(cg);
             });
         }
 
         function createCollectibles() {
-            // Vases repositionnés esthétiquement
-            const vasePositions = [
-                { pos: [6, 0, 12], height: 1.5 },
-                { pos: [-6, 0, 12], height: 1.2 }
-            ];
-
-            vasePositions.forEach(vaseData => {
-                const vaseGeometry = new THREE.CylinderGeometry(0.3, 0.5, vaseData.height, 16);
-                const vaseMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0x59372b,
-                    emissive: 0x0f0a08,
-                    emissiveIntensity: 0.1
-                });
-                const vase = new THREE.Mesh(vaseGeometry, vaseMaterial);
-                vase.position.set(vaseData.pos[0], vaseData.height / 2, vaseData.pos[1]);
-                vase.castShadow = true;
-                salon.add(vase);
-
-                // Fleurs dans les vases
-                const flowerColors = [0xdc143c, 0xff69b4, 0xcca98d];
-                for (let i = 0; i < 5; i++) {
-                    const flowerGeometry = new THREE.SphereGeometry(0.08, 8, 6);
-                    const flowerMaterial = new THREE.MeshLambertMaterial({
-                        color: flowerColors[Math.floor(Math.random() * flowerColors.length)]
-                    });
-                    const flower = new THREE.Mesh(flowerGeometry, flowerMaterial);
-                    const angle = (i / 5) * Math.PI * 2;
-                    flower.position.set(
-                        vaseData.pos[0] + Math.cos(angle) * 0.15,
-                        vaseData.height + 0.3 + Math.random() * 0.2,
-                        vaseData.pos[1] + Math.sin(angle) * 0.15
-                    );
-                    salon.add(flower);
-                }
+            [{pos:[6,0,12],height:1.5},{pos:[-6,0,12],height:1.2}].forEach(vd => {
+                const vase=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.5,vd.height,16),new THREE.MeshLambertMaterial({color:0x59372b,emissive:0x0f0a08,emissiveIntensity:0.1})); vase.position.set(vd.pos[0],vd.height/2,vd.pos[1]); vase.castShadow=true; salon.add(vase);
+                const fc=[0xdc143c,0xff69b4,0xcca98d];
+                for(let i=0;i<5;i++){const a=(i/5)*Math.PI*2; const flower=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,6),new THREE.MeshLambertMaterial({color:fc[Math.floor(Math.random()*fc.length)]})); flower.position.set(vd.pos[0]+Math.cos(a)*0.15,vd.height+0.3+Math.random()*0.2,vd.pos[1]+Math.sin(a)*0.15); salon.add(flower);}
             });
-
-            // Sculpture repositionnée
-            const sculptureGroup = new THREE.Group();
-            
-            const pedestalGeometry = new THREE.CylinderGeometry(0.6, 0.8, 1.2, 16);
-            const pedestalMaterial = new THREE.MeshLambertMaterial({ color: 0xf7e7ce });
-            const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
-            pedestal.position.y = 0.6;
-            pedestal.castShadow = true;
-            sculptureGroup.add(pedestal);
-
-            const sculptureGeometry = new THREE.ConeGeometry(0.4, 1.5, 12);
-            const sculptureMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x9f624f,
-                emissive: 0x2a1608,
-                emissiveIntensity: 0.1
-            });
-            const sculpture = new THREE.Mesh(sculptureGeometry, sculptureMaterial);
-            sculpture.position.y = 2;
-            sculpture.castShadow = true;
-            sculptureGroup.add(sculpture);
-
-            sculptureGroup.position.set(0, 0, 12);
-            salon.add(sculptureGroup);
+            const sg=new THREE.Group();
+            const pedestal=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.8,1.2,16),new THREE.MeshLambertMaterial({color:0xf7e7ce})); pedestal.position.y=0.6; pedestal.castShadow=true; sg.add(pedestal);
+            const sculpture=new THREE.Mesh(new THREE.ConeGeometry(0.4,1.5,12),new THREE.MeshLambertMaterial({color:0x9f624f,emissive:0x2a1608,emissiveIntensity:0.1})); sculpture.position.y=2; sculpture.castShadow=true; sg.add(sculpture);
+            sg.position.set(0,0,12); salon.add(sg);
         }
 
         function setupEventListeners() {
@@ -2581,390 +1526,145 @@
             renderer.domElement.addEventListener('mousedown', onMouseDown);
             renderer.domElement.addEventListener('mouseup', onMouseUp);
             renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
-            
-            // Événements tactiles pour mobile
             renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: false });
             renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
             renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
         }
 
-        // Gestion des événements tactiles
         function onTouchStart(event) {
             event.preventDefault();
             touches = Array.from(event.touches);
-            
-            if (touches.length === 1) {
-                cameraControls.isMouseDown = true;
-                cameraControls.mouseX = touches[0].clientX;
-                cameraControls.mouseY = touches[0].clientY;
-            } else if (touches.length === 2) {
-                const dx = touches[0].clientX - touches[1].clientX;
-                const dy = touches[0].clientY - touches[1].clientY;
-                lastPinchDistance = Math.sqrt(dx * dx + dy * dy);
-            }
+            if (touches.length === 1) { cameraControls.isMouseDown = true; cameraControls.mouseX = touches[0].clientX; cameraControls.mouseY = touches[0].clientY; }
+            else if (touches.length === 2) { const dx=touches[0].clientX-touches[1].clientX; const dy=touches[0].clientY-touches[1].clientY; lastPinchDistance=Math.sqrt(dx*dx+dy*dy); }
         }
 
         function onTouchMove(event) {
             event.preventDefault();
             touches = Array.from(event.touches);
-            
             if (touches.length === 1 && cameraControls.isMouseDown) {
-                const deltaX = touches[0].clientX - cameraControls.mouseX;
-                const deltaY = touches[0].clientY - cameraControls.mouseY;
-
-                cameraControls.targetRotationX += deltaX * 0.01;
-                cameraControls.targetRotationY += deltaY * 0.01;
-
-                cameraControls.targetRotationY = Math.max(-Math.PI/4, Math.min(Math.PI/4, cameraControls.targetRotationY));
-
-                cameraControls.mouseX = touches[0].clientX;
-                cameraControls.mouseY = touches[0].clientY;
+                const dx=touches[0].clientX-cameraControls.mouseX; const dy=touches[0].clientY-cameraControls.mouseY;
+                cameraControls.targetRotationX+=dx*0.01; cameraControls.targetRotationY+=dy*0.01;
+                cameraControls.targetRotationY=Math.max(-Math.PI/4,Math.min(Math.PI/4,cameraControls.targetRotationY));
+                cameraControls.mouseX=touches[0].clientX; cameraControls.mouseY=touches[0].clientY;
             } else if (touches.length === 2) {
-                const dx = touches[0].clientX - touches[1].clientX;
-                const dy = touches[0].clientY - touches[1].clientY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (lastPinchDistance > 0) {
-                    const delta = distance - lastPinchDistance;
-                    cameraControls.targetDistance -= delta * 0.05;
-                    cameraControls.targetDistance = Math.max(8, Math.min(50, cameraControls.targetDistance));
-                }
-                
-                lastPinchDistance = distance;
+                const dx=touches[0].clientX-touches[1].clientX; const dy=touches[0].clientY-touches[1].clientY; const distance=Math.sqrt(dx*dx+dy*dy);
+                if(lastPinchDistance>0){cameraControls.targetDistance-=(distance-lastPinchDistance)*0.05; cameraControls.targetDistance=Math.max(8,Math.min(50,cameraControls.targetDistance));}
+                lastPinchDistance=distance;
             }
         }
 
         function onTouchEnd(event) {
             event.preventDefault();
-            
             if (event.touches.length === 0) {
-                cameraControls.isMouseDown = false;
-                lastPinchDistance = 0;
-                
-                // Gestion du tap pour les objets cliquables
+                cameraControls.isMouseDown = false; lastPinchDistance = 0;
                 if (touches.length === 1) {
-                    const touch = touches[0];
-                    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-                    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-
+                    const touch=touches[0]; mouse.x=(touch.clientX/window.innerWidth)*2-1; mouse.y=-(touch.clientY/window.innerHeight)*2+1;
                     raycaster.setFromCamera(mouse, camera);
-                    const intersects = raycaster.intersectObjects(clickableObjects);
-
-                    if (intersects.length > 0) {
-                        const intersectedObject = intersects[0].object;
-                        
-                        if (intersectedObject.userData.type === 'computer') {
-                            openComputer();
-                            createClickSound();
-                        } else if (intersectedObject.userData.type === 'tv') {
-                            openTV();
-                            createClickSound();
-                        }
-                    }
+                    const intersects=raycaster.intersectObjects(clickableObjects);
+                    if(intersects.length>0){const obj=intersects[0].object; if(obj.userData.type==='computer'){openComputer();createClickSound();}else if(obj.userData.type==='tv'){openTV();createClickSound();}}
                 }
             }
         }
 
-        function onMouseDown(event) {
-            cameraControls.isMouseDown = true;
-            cameraControls.mouseX = event.clientX;
-            cameraControls.mouseY = event.clientY;
-            document.body.style.cursor = 'grabbing';
-        }
-
-        function onMouseUp(event) {
-            cameraControls.isMouseDown = false;
-            document.body.style.cursor = 'grab';
-        }
+        function onMouseDown(event) { cameraControls.isMouseDown=true; cameraControls.mouseX=event.clientX; cameraControls.mouseY=event.clientY; document.body.style.cursor='grabbing'; }
+        function onMouseUp() { cameraControls.isMouseDown=false; document.body.style.cursor='grab'; }
 
         function onMouseMove(event) {
             if (cameraControls.isMouseDown) {
-                const deltaX = event.clientX - cameraControls.mouseX;
-                const deltaY = event.clientY - cameraControls.mouseY;
-
-                cameraControls.targetRotationX += deltaX * 0.008;
-                cameraControls.targetRotationY += deltaY * 0.008;
-
-                cameraControls.targetRotationY = Math.max(-Math.PI/4, Math.min(Math.PI/4, cameraControls.targetRotationY));
-
-                cameraControls.mouseX = event.clientX;
-                cameraControls.mouseY = event.clientY;
+                const dx=event.clientX-cameraControls.mouseX; const dy=event.clientY-cameraControls.mouseY;
+                cameraControls.targetRotationX+=dx*0.008; cameraControls.targetRotationY+=dy*0.008;
+                cameraControls.targetRotationY=Math.max(-Math.PI/4,Math.min(Math.PI/4,cameraControls.targetRotationY));
+                cameraControls.mouseX=event.clientX; cameraControls.mouseY=event.clientY;
             }
-
-            // Détection objets cliquables
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
+            mouse.x=(event.clientX/window.innerWidth)*2-1; mouse.y=-(event.clientY/window.innerHeight)*2+1;
             raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(clickableObjects);
-            
-            document.body.style.cursor = cameraControls.isMouseDown ? 'grabbing' : 'grab';
-            hideHint();
-
-            if (intersects.length > 0) {
-                const intersectedObject = intersects[0].object;
-                document.body.style.cursor = 'pointer';
-                
-                if (intersectedObject.userData.type === 'computer') {
-                    showHint('Cliquez pour ouvrir l\'ordinateur');
-                } else if (intersectedObject.userData.type === 'tv') {
-                    showHint('Cliquez pour ouvrir la télévision');
-                }
-            }
+            const intersects=raycaster.intersectObjects(clickableObjects);
+            document.body.style.cursor=cameraControls.isMouseDown?'grabbing':'grab'; hideHint();
+            if(intersects.length>0){const obj=intersects[0].object; document.body.style.cursor='pointer'; if(obj.userData.type==='computer')showHint("Cliquez pour ouvrir l'ordinateur"); else if(obj.userData.type==='tv')showHint('Cliquez pour ouvrir la télévision');}
         }
 
-        function onMouseWheel(event) {
-            event.preventDefault();
-            cameraControls.targetDistance += event.deltaY * 0.02;
-            cameraControls.targetDistance = Math.max(8, Math.min(50, cameraControls.targetDistance));
-        }
+        function onMouseWheel(event) { event.preventDefault(); cameraControls.targetDistance+=event.deltaY*0.02; cameraControls.targetDistance=Math.max(8,Math.min(50,cameraControls.targetDistance)); }
 
         function onMouseClick(event) {
-            if (cameraControls.isMouseDown) return;
-
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
+            if(cameraControls.isMouseDown) return;
+            mouse.x=(event.clientX/window.innerWidth)*2-1; mouse.y=-(event.clientY/window.innerHeight)*2+1;
             raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(clickableObjects);
-
-            if (intersects.length > 0) {
-                const intersectedObject = intersects[0].object;
-                
-                if (intersectedObject.userData.type === 'computer') {
-                    openComputer();
-                    createClickSound();
-                } else if (intersectedObject.userData.type === 'tv') {
-                    openTV();
-                    createClickSound();
-                }
-            }
+            const intersects=raycaster.intersectObjects(clickableObjects);
+            if(intersects.length>0){const obj=intersects[0].object; if(obj.userData.type==='computer'){openComputer();createClickSound();}else if(obj.userData.type==='tv'){openTV();createClickSound();}}
         }
 
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        function onWindowResize() { camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight); }
 
-        // Gestion de l'ordinateur
-        function openComputer() {
-            document.getElementById('computerOverlay').classList.add('active');
-        }
-
-        function closeComputer() {
-            document.getElementById('computerOverlay').classList.remove('active');
-            document.querySelectorAll('.window').forEach(window => {
-                window.classList.remove('active');
-            });
-        }
-
-        // Gestion de la TV
-        function openTV() {
-            document.getElementById('tvOverlay').classList.add('active');
-        }
-
-        function closeTV() {
-            document.getElementById('tvOverlay').classList.remove('active');
-        }
+        function openComputer() { document.getElementById('computerOverlay').classList.add('active'); }
+        function closeComputer() { document.getElementById('computerOverlay').classList.remove('active'); document.querySelectorAll('.window').forEach(w=>w.classList.remove('active')); }
+        function openTV() { document.getElementById('tvOverlay').classList.add('active'); }
+        function closeTV() { document.getElementById('tvOverlay').classList.remove('active'); }
 
         function openApp(appName) {
             createClickSound();
-            let url = '';
-            switch(appName) {
-                case 'netflix':
-                    url = 'https://www.netflix.com';
-                    break;
-                case 'youtube':
-                    url = 'https://www.youtube.com';
-                    break;
-                case 'spotify':
-                    url = 'https://www.spotify.com';
-                    break;
-                case 'prime':
-                    url = 'https://www.primevideo.com';
-                    break;
-                case 'disney':
-                    url = 'https://www.disneyplus.com';
-                    break;
-                case 'games':
-                    url = 'https://play.google.com/store';
-                    break;
-            }
-            if (url) {
-                window.open(url, '_blank');
-            }
+            const urls = {netflix:'https://www.netflix.com',youtube:'https://www.youtube.com',spotify:'https://www.spotify.com',prime:'https://www.primevideo.com',disney:'https://www.disneyplus.com',games:'https://play.google.com/store'};
+            if(urls[appName]) window.open(urls[appName],'_blank');
         }
 
         function openWindow(windowName) {
             createClickSound();
-            
-            document.querySelectorAll('.window').forEach(window => {
-                window.classList.remove('active');
-            });
-
-            const targetWindow = document.getElementById(`window-${windowName}`);
-            if (targetWindow) {
-                targetWindow.classList.add('active');
-                
-                const randomX = Math.random() * 100 - 50;
-                const randomY = Math.random() * 50 - 25;
-                targetWindow.style.left = `${300 + randomX}px`;
-                targetWindow.style.top = `${100 + randomY}px`;
-            }
+            document.querySelectorAll('.window').forEach(w=>w.classList.remove('active'));
+            const tw=document.getElementById('window-'+windowName);
+            if(tw){tw.classList.add('active'); tw.style.left=`${300+Math.random()*100-50}px`; tw.style.top=`${100+Math.random()*50-25}px`;}
         }
 
         function closeWindow(windowName) {
             createClickSound();
-            const targetWindow = document.getElementById(`window-${windowName}`);
-            if (targetWindow) {
-                targetWindow.classList.remove('active');
-            }
+            const tw=document.getElementById('window-'+windowName);
+            if(tw) tw.classList.remove('active');
         }
 
         function animate() {
             requestAnimationFrame(animate);
+            cameraControls.rotationX+=(cameraControls.targetRotationX-cameraControls.rotationX)*0.08;
+            cameraControls.rotationY+=(cameraControls.targetRotationY-cameraControls.rotationY)*0.08;
+            cameraControls.distance+=(cameraControls.targetDistance-cameraControls.distance)*0.08;
+            if(autoRotateEnabled) cameraControls.targetRotationX+=0.005;
+            camera.position.x=Math.cos(cameraControls.rotationX)*cameraControls.distance*Math.cos(cameraControls.rotationY);
+            camera.position.y=Math.sin(cameraControls.rotationY)*cameraControls.distance+12;
+            camera.position.z=Math.sin(cameraControls.rotationX)*cameraControls.distance*Math.cos(cameraControls.rotationY)+20;
+            camera.lookAt(0,5,0);
 
-            // Animation caméra fluide
-            cameraControls.rotationX += (cameraControls.targetRotationX - cameraControls.rotationX) * 0.08;
-            cameraControls.rotationY += (cameraControls.targetRotationY - cameraControls.rotationY) * 0.08;
-            cameraControls.distance += (cameraControls.targetDistance - cameraControls.distance) * 0.08;
+            const time=Date.now()*0.0003;
+            if(chandelierMesh){chandelierMesh.rotation.y=time*0.5; chandelierMesh.children.forEach(c=>{if(c.material&&c.material.emissiveIntensity!==undefined)c.material.emissiveIntensity=0.1+Math.sin(time*3+c.position.x)*0.05;});}
+            if(computerMesh) computerMesh.material.emissiveIntensity=0.2+Math.sin(time*2)*0.1;
+            if(tvMesh) tvMesh.material.emissiveIntensity=0.15+Math.sin(time*1.5)*0.08;
 
-            // Rotation automatique si activée
-            if (autoRotateEnabled) {
-                cameraControls.targetRotationX += 0.005;
-            }
-
-            camera.position.x = Math.cos(cameraControls.rotationX) * cameraControls.distance * Math.cos(cameraControls.rotationY);
-            camera.position.y = Math.sin(cameraControls.rotationY) * cameraControls.distance + 12;
-            camera.position.z = Math.sin(cameraControls.rotationX) * cameraControls.distance * Math.cos(cameraControls.rotationY) + 20;
-
-            camera.lookAt(0, 5, 0);
-
-            // Animations élégantes avec le nouveau thème
-            const time = Date.now() * 0.0003;
-
-            // Rotation lente du lustre
-            if (chandelierMesh) {
-                chandelierMesh.rotation.y = time * 0.5;
-                
-                // Scintillement des cristaux
-                chandelierMesh.children.forEach(child => {
-                    if (child.material && child.material.emissiveIntensity !== undefined) {
-                        child.material.emissiveIntensity = 0.1 + Math.sin(time * 3 + child.position.x) * 0.05;
-                    }
-                });
-            }
-
-            // Pulsation de l'écran ordinateur
-            if (computerMesh) {
-                computerMesh.material.emissiveIntensity = 0.2 + Math.sin(time * 2) * 0.1;
-            }
-
-            // Effet de scintillement TV
-            if (tvMesh) {
-                tvMesh.material.emissiveIntensity = 0.15 + Math.sin(time * 1.5) * 0.08;
-            }
-
-         // Animation des flammes de cheminée UNIQUEMENT
-salon.children.forEach(child => {
-    if (child.isGroup) {
-        child.children.forEach(subChild => {
-            // Vérifier si c'est une flamme de cheminée (pas un livre)
-            if (subChild.material && subChild.material.emissive && 
-                subChild.material.emissiveIntensity !== undefined &&
-                subChild.geometry && subChild.geometry.type === 'ConeGeometry') {
-                // Animation seulement pour les flammes (géométrie en cône)
-                subChild.material.emissiveIntensity = 0.4 + Math.sin(time * 8 + subChild.position.x) * 0.2;
-                subChild.scale.y = 1 + Math.sin(time * 6 + subChild.position.z) * 0.1;
-            }
-        });
-    }
-});
+            salon.children.forEach(child=>{
+                if(child.isGroup){child.children.forEach(sc=>{if(sc.material&&sc.material.emissive&&sc.material.emissiveIntensity!==undefined&&sc.geometry&&sc.geometry.type==='ConeGeometry'){sc.material.emissiveIntensity=0.4+Math.sin(time*8+sc.position.x)*0.2; sc.scale.y=1+Math.sin(time*6+sc.position.z)*0.1;}});}
+            });
 
             renderer.render(scene, camera);
         }
 
-        // Gestion du glisser-déposer des fenêtres
         let draggedWindow = null;
         let dragOffset = { x: 0, y: 0 };
+        document.addEventListener('mousedown', e=>{if(e.target.classList.contains('window-header')){draggedWindow=e.target.closest('.window'); const r=draggedWindow.getBoundingClientRect(); dragOffset.x=e.clientX-r.left; dragOffset.y=e.clientY-r.top; e.preventDefault();}});
+        document.addEventListener('mousemove', e=>{if(draggedWindow){draggedWindow.style.left=`${e.clientX-dragOffset.x}px`; draggedWindow.style.top=`${e.clientY-dragOffset.y}px`; e.preventDefault();}});
+        document.addEventListener('mouseup', ()=>{draggedWindow=null;});
 
-        document.addEventListener('mousedown', (e) => {
-            if (e.target.classList.contains('window-header')) {
-                draggedWindow = e.target.closest('.window');
-                const rect = draggedWindow.getBoundingClientRect();
-                dragOffset.x = e.clientX - rect.left;
-                dragOffset.y = e.clientY - rect.top;
-                e.preventDefault();
+        document.addEventListener('keydown', event=>{
+            const co=document.getElementById('computerOverlay'); const tv=document.getElementById('tvOverlay');
+            if(co.classList.contains('active')&&event.key==='Escape') closeComputer();
+            if(tv.classList.contains('active')&&event.key==='Escape') closeTV();
+            if(!co.classList.contains('active')&&!tv.classList.contains('active')){
+                if(event.key==='r'||event.key==='R') resetCamera();
+                if(event.key==='c'||event.key==='C') focusComputer();
+                if(event.key==='t'||event.key==='T') focusTV();
+                if(event.key===' '){event.preventDefault(); autoRotate();}
             }
         });
 
-        document.addEventListener('mousemove', (e) => {
-            if (draggedWindow) {
-                draggedWindow.style.left = `${e.clientX - dragOffset.x}px`;
-                draggedWindow.style.top = `${e.clientY - dragOffset.y}px`;
-                e.preventDefault();
-            }
-        });
+        window.addEventListener('orientationchange', ()=>{setTimeout(()=>onWindowResize(),100);});
 
-        document.addEventListener('mouseup', () => {
-            draggedWindow = null;
-        });
-
-        // Navigation clavier améliorée
-        document.addEventListener('keydown', (event) => {
-            const computerOverlay = document.getElementById('computerOverlay');
-            const tvOverlay = document.getElementById('tvOverlay');
-
-            if (computerOverlay.classList.contains('active')) {
-                if (event.key === 'Escape') {
-                    closeComputer();
-                }
-            }
-
-            if (tvOverlay.classList.contains('active')) {
-                if (event.key === 'Escape') {
-                    closeTV();
-                }
-            }
-
-            // Raccourcis clavier pour la navigation
-            if (!computerOverlay.classList.contains('active') && !tvOverlay.classList.contains('active')) {
-                switch(event.key) {
-                    case 'r':
-                    case 'R':
-                        resetCamera();
-                        break;
-                    case 'c':
-                    case 'C':
-                        focusComputer();
-                        break;
-                    case 't':
-                    case 'T':
-                        focusTV();
-                        break;
-                    case ' ':
-                        event.preventDefault();
-                        autoRotate();
-                        break;
-                }
-            }
-        });
-
-        // Gestion de l'orientation mobile
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => {
-                onWindowResize();
-            }, 100);
-        });
-
-        // Amélioration des performances sur mobile
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            // Réduire la qualité des ombres sur mobile
-            renderer.shadowMap.type = THREE.BasicShadowMap;
-            
-            // Réduire le nombre d'objets pour les performances
-            scene.fog = new THREE.Fog(0x59372b, 20, 80);
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+            renderer.shadowMap.type=THREE.BasicShadowMap;
+            scene.fog=new THREE.Fog(0x59372b,20,80);
         }
     </script>
 </body>
