@@ -998,23 +998,6 @@
             createClickSound();
         }
 
-        function focusComputer() {
-            cameraControls.targetRotationX = Math.PI / 6;
-            cameraControls.targetRotationY = 0;
-            cameraControls.targetDistance = 15;
-            cameraControls.autoRotate = false;
-            autoRotateEnabled = false;
-            createClickSound();
-        }
-
-        function focusTV() {
-            cameraControls.targetRotationX = Math.PI;
-            cameraControls.targetRotationY = 0;
-            cameraControls.targetDistance = 18;
-            cameraControls.autoRotate = false;
-            autoRotateEnabled = false;
-            createClickSound();
-        }
 
         function autoRotate() {
             autoRotateEnabled = !autoRotateEnabled;
@@ -1652,8 +1635,6 @@
             if(tv.classList.contains('active')&&event.key==='Escape') closeTV();
             if(!co.classList.contains('active')&&!tv.classList.contains('active')){
                 if(event.key==='r'||event.key==='R') resetCamera();
-                if(event.key==='c'||event.key==='C') focusComputer();
-                if(event.key==='t'||event.key==='T') focusTV();
                 if(event.key===' '){event.preventDefault(); autoRotate();}
             }
         });
